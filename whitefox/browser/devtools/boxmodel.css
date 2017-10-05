@@ -35,14 +35,16 @@
 #computedview-container #boxmodel-info > section > span,
 .boxmodel-main > p > span,
 .boxmodel-main > p > input,
-.boxmodel-main             .boxmodel-legend,
+.boxmodel-main             .boxmodel-legend, /***/
+/* >>>>> *./      .boxmodel-main > .boxmodel-box, */
 .boxmodel-info > span,
 .boxmodel-info > section > span  {
-  font-size: 92%;
+  /* font-size: 92%; *****************************************************/
+  XXX-font-size: calc(1rem - 1px);
 }
 #computedview-container #boxmodel-container,
 div.boxmodel-container { /* The tag 'div' is so the value for 'max-width' here preceeds the value in a rule below */
-  max-width: 300px;
+  XXX-max-width: 300px;
 }
 
 .theme-sidebar {
@@ -54,6 +56,7 @@ div.boxmodel-container { /* The tag 'div' is so the value for 'max-width' here p
   overflow: auto;
 }
 
+#computed-container-focusable > #boxmodel-wrapper, /* Firefox 57 */
 #computedview-container-focusable > #boxmodel-wrapper { /* Firefox >= 50 */
   border-bottom-style: solid;
   border-bottom-width: 1px;
@@ -64,7 +67,7 @@ body.theme-sidebar.devtools-monospace, /* Added specificity so it supersedes rul
 #boxmodel-container,
 .boxmodel-container {
   /* The view will grow bigger as the window gets resized, until 375px. */
-  max-width: 375px; /* This is 400px in the default/classic theme --johnGraciliano */
+  XXX-max-width: 375px; /* This is 400px in the default/classic theme --johnGraciliano */
   margin: 0px auto;
   padding: 0;
   /* "Contain" the absolutely positioned #boxmodel-main element */
@@ -95,7 +98,7 @@ p#header{ /* Firefox <= 45 */
   padding-inline-start: 17px;
   
   font-weight: bold;
-  font-size: 1.1em;
+  font-size: 1.1rem;
 }
 
 #boxmodel-info,
@@ -127,9 +130,16 @@ span#element-size:-moz-dir(rtl) { /* Undo a rule in 'chrome://browser/content/de
 }
 
 
-#layout-geometry-editor,
-.layout-geometry-editor {
-  visibility: hidden;
+.boxmodel-position-group {
+  display: flex;
+  align-items: center;
+}
+
+@supports (border-color: -moz-use-text-color) { /* Before Firefox 52. (Perhaps this should be earlier, e.g., 48) */ {}
+  #layout-geometry-editor,
+  .layout-geometry-editor {
+    visibility: hidden;
+  }
 }
 
 #layout-geometry-editor::before,
@@ -143,18 +153,24 @@ span#element-size:-moz-dir(rtl) { /* Undo a rule in 'chrome://browser/content/de
 #boxmodel-main,
 .boxmodel-main {
   position: absolute;
+  position: relative;
   box-sizing: border-box;
   /* The regions are semi-transparent, so the white background is partly
      visible */
-  background-color: rgba(248,248,248,.75); /* This was white */
+  /* background-color: rgba(248,248,248,.75); / * This was white *./  *****************************************************************/
   color: var(--theme-selection-color); /* This color is used for the border and padding values */
   /* Make sure there is some space between the window's edges and the regions */
-  margin: 0 14px 4px 14px;
+  margin: 0 auto 4px; /* Changed from: 0 14px 4px 14px */
   width: calc(100% - 2 * 14px);
+  width: 100%;
+  max-width: 320px;
+  max-width: 360px;
+  min-width: -moz-max-content;
 }
 #computedview-container #boxmodel-main,
 .boxmodel-main { /* Firefox >= 50*/
-  position: relative;
+  XXX-position: relative;
+  XXX-max-width: 320px;
 }
 
 .margin,
@@ -169,9 +185,14 @@ span#element-size:-moz-dir(rtl) { /* Undo a rule in 'chrome://browser/content/de
 
 div#content,
 #boxmodel-content,
-.boxmodel-content,
+.boxmodel-paddings > .boxmodel-content,
 .boxmodel-contents {
+  box-sizing: border-box;
   height: calc(21px + 4px * var(--expand) - var(--condense));
+  /* font-size: 92%; /.* Match the font size for the values shown */
+  /* font-size: 92%; *****************************************************/
+  XXX-font-size: calc(1rem - 1px);
+  min-width: 17ch; /* Leave room for 15 visible characters and a space o each side, e.g., " 123.567×1234.67 " */
 }
 
 div#margins,
@@ -200,6 +221,9 @@ div.boxmodel-borders {
 #boxmodel-margins,
 .boxmodel-margins {
   outline: dotted 1px hsl(210,100%,75%);
+  box-sizing: border-box;
+  min-width: -moz-fit-content;
+  X--max-width: 320px;
 }
 
 /* Respond to window size change by changing the size of the regions */
@@ -211,6 +235,10 @@ div.boxmodel-borders {
 #boxmodel-margins,
 .boxmodel-margins {
   border-color: rgba(237, 255, 100, .8); /* #edff64 * 80% */
+  /* The following is mostly intended for lighter background with .theme-dark. */
+  /* It is especially important due to the semitransparent colors used for the box regions as "border-color". */
+  background-color: rgba(248,248,248,.75); /* This is affects all box regions. */
+  background-origin: padding-box;
 }
 
 #borders,
@@ -227,7 +255,7 @@ div.boxmodel-borders {
 
 #content,
 #boxmodel-content,
-.boxmodel-content,
+.boxmodel-paddings > .boxmodel-content,
 .boxmodel-contents {
   background-color: rgba(135, 206, 235, .8); /* #87ceeb * 80% */
 }
@@ -285,8 +313,8 @@ div.boxmodel-borders {
 
 .theme-firebug #boxmodel-main,
 .theme-firebug #boxmodel-content,
-.theme-firebug .boxmodel-main,
-.theme-firebug .boxmodel-content,
+/*  .theme-firebug .boxmodel-main,  *************************************************************/
+.theme-firebug .boxmodel-paddings > .boxmodel-content,
 .theme-firebug .boxmodel-contents {
   border: 1px solid transparent;
 }
@@ -298,12 +326,20 @@ div.boxmodel-borders {
   font-family: var(--proportional-font-family);
 }
 
+#boxmodel-main,
+#boxmodel-info,
+.boxmodel-main,
+.boxmodel-info {
+  font-size: calc(1rem - 1px);
+}
+
 .theme-firebug #boxmodel-main,
 .theme-firebug #boxmodel-info,
 .theme-firebug .boxmodel-main,
 .theme-firebug .boxmodel-info {
   color: var(--theme-body-color);
-  font-size: var(--theme-toolbar-font-size);
+  /* font-size: var(--theme-toolbar-font-size); *********************************************************/
+  font-size: 1rem;
 }
 
 /*******************************************************  REMOVE ?????????? ****************************************
@@ -392,6 +428,7 @@ p.padding.right,
 .boxmodel-padding.boxmodel-left,
 .boxmodel-padding.boxmodel-right {
   top:  calc(65px + 14px * var(--expand) - 2 * var(--condense));
+  top: calc(50% - 1em + 2px);
   line-height: initial;
 }
 
@@ -424,7 +461,10 @@ p.padding.right,
   margin: 1px 0 -1px;
 }
 :-moz-any(.boxmodel-width,.boxmodel-height) > span {
-  font-size: 92%; vertical-align: middle; pointer-events: auto;
+  /* font-size: 92%; *****************************************************/
+  XXX-font-size: calc(1rem - 1px);
+  vertical-align: middle;
+  pointer-events: auto;
 }
 
 
@@ -517,18 +557,69 @@ p.border.right,
    the regions smaller then */
 
 
+
+:-moz-any(#boxmodel-main,.boxmodel-main) > .boxmodel-legend { /* margin legend */
+  margin-inline-start: calc(5ch + 6px);
+}
+#boxmodel-margins,
+.boxmodel-main > .boxmodel-margins {
+  margin: 0 5ch;
+}
+:-moz-any(#boxmodel-margins,.boxmodel-margins) ~ .boxmodel-margin.boxmodel-left {left: 0px; left: 15px; left: calc(5ch);}
+:-moz-any(#boxmodel-margins,.boxmodel-margins) ~ .boxmodel-border.boxmodel-left {left: 21px; left: 36px; left: calc(21px + 5ch);}
+:-moz-any(#boxmodel-margins,.boxmodel-margins) ~ .boxmodel-padding.boxmodel-left {left: 41px; left: 56px; left: calc(41px + 5ch);}
+:-moz-any(#boxmodel-margins,.boxmodel-margins) ~ .boxmodel-margin.boxmodel-right {right: 0px; right: 15px; right: calc(5ch);}
+:-moz-any(#boxmodel-margins,.boxmodel-margins) ~ .boxmodel-border.boxmodel-right {right: 21px; right: 36px; right: calc(21px + 5ch);}
+:-moz-any(#boxmodel-margins,.boxmodel-margins) ~ .boxmodel-padding.boxmodel-right {right: 41px; right: 56px; right: calc(41px + 5ch);}
+
 /* Box Model Positioning: contains top, right, bottom, left */
 
+.boxmodel-box {
+  margin: 0 6ch;
+}
 .boxmodel-box:nth-last-child(+18) {
-  margin: 12px 15px;
+  margin: 12px calc(8ch + 2px);
 }
 
-.boxmodel-position ~ .boxmodel-margin.boxmodel-left {left: 0px; left: 15px;}
-.boxmodel-position ~ .boxmodel-border.boxmodel-left {left: 21px; left: 36px;}
-.boxmodel-position ~ .boxmodel-padding.boxmodel-left {left: 41px; left: 56px;}
-.boxmodel-position ~ .boxmodel-margin.boxmodel-right {right: 0px; right: 15px;}
-.boxmodel-position ~ .boxmodel-border.boxmodel-right {right: 21px; right: 36px;}
-.boxmodel-position ~ .boxmodel-padding.boxmodel-right {right: 41px; right: 56px;}
+.boxmodel-box ~ .boxmodel-margin.boxmodel-left {left: 0px; left: 15px; left: calc(6ch);}
+.boxmodel-box ~ .boxmodel-border.boxmodel-left {left: 21px; left: 36px; left: calc(21px + 6ch);}
+.boxmodel-box ~ .boxmodel-padding.boxmodel-left {left: 41px; left: 56px; left: calc(41px + 6ch);}
+.boxmodel-box ~ .boxmodel-margin.boxmodel-right {right: 0px; right: 15px; right: calc(6ch);}
+.boxmodel-box ~ .boxmodel-border.boxmodel-right {right: 21px; right: 36px; right: calc(21px + 6ch);}
+.boxmodel-box ~ .boxmodel-padding.boxmodel-right {right: 41px; right: 56px; right: calc(41px + 6ch);}
+
+
+
+
+/*******************************  TEST *****************************************************************************./
+
+.boxmodel-box {
+  margin: 0 5ch;
+}
+
+.boxmodel-box ~ .boxmodel-margin.boxmodel-left {left: calc(5ch);}
+.boxmodel-box ~ .boxmodel-border.boxmodel-left {left: calc(21px + 5ch);}
+.boxmodel-box ~ .boxmodel-padding.boxmodel-left {left: calc(41px + 5ch);}
+.boxmodel-box ~ .boxmodel-margin.boxmodel-right {right: calc(5ch);}
+.boxmodel-box ~ .boxmodel-border.boxmodel-right {right: calc(21px + 5ch);}
+.boxmodel-box ~ .boxmodel-padding.boxmodel-right {right: calc(41px + 5ch);}
+
+/.*******************************  END TEST ************************************************************************/
+
+
+
+
+
+
+
+
+
+.boxmodel-position ~ .boxmodel-margin.boxmodel-left {left: 0px; left: 15px; left: calc(8ch + 2px);}
+.boxmodel-position ~ .boxmodel-border.boxmodel-left {left: 21px; left: 36px; left: calc(21px + 8ch + 2px);}
+.boxmodel-position ~ .boxmodel-padding.boxmodel-left {left: 41px; left: 56px; left: calc(41px + 8ch + 2px);}
+.boxmodel-position ~ .boxmodel-margin.boxmodel-right {right: 0px; right: 15px; right: calc(8ch + 2px);}
+.boxmodel-position ~ .boxmodel-border.boxmodel-right {right: 21px; right: 36px; right: calc(21px + 8ch + 2px);}
+.boxmodel-position ~ .boxmodel-padding.boxmodel-right {right: 41px; right: 56px; right: calc(41px + 8ch + 2px);}
 
 .boxmodel-position {
   color: var(--theme-highlight-purple);
@@ -557,8 +648,10 @@ p.border.right,
 }
 
 .boxmodel-position.boxmodel-right {
-  right: -15px;
+  right: -15px; /* -14px; /* changed from -15px; to avoid overflow */
   width: 30px;
+  right: 0;
+  width: calc(8ch + 2px);
 }
 
 .boxmodel-position.boxmodel-bottom {
@@ -566,11 +659,13 @@ p.border.right,
 }
 
 .boxmodel-position.boxmodel-left {
-  left: -15px;
+  left: -15px; /* -14px; /* changed from -15px; to avoid overflow */
   width: 30px;
+  left: 0;
+  width: calc(8ch + 2px);
 }
 .boxmodel-position.boxmodel-left:not(.boxmodel-editing):not(.boxmodel-rotate) {
-  direction: rtl;
+  XXX-direction: rtl;
 }
 
 /* Legend, displayed inside regions */
@@ -584,7 +679,8 @@ span.legend,
 
 span.legend[data-box="margin"],
 .boxmodel-legend[data-box="margin"] {
-  color: #7b852c;
+  /* color: #7b852c; ***************************/
+  color: #5c6321;
 }
 span.legend[data-box="border"],
 .boxmodel-legend[data-box="border"] {
@@ -613,6 +709,14 @@ span.legend[data-box="padding"],
   border: 1px solid #ccc;
   padding: 0;
 }
+
+.boxmodel-content.boxmodel-editing >
+.styleinspector-propertyeditor {
+  vertical-align: middle;
+  pointer-events: auto;
+  margin-right: -1px;
+}
+
 
 /* Make sure the content size doesn't appear as editable like the other sizes */
 
@@ -652,23 +756,48 @@ body.inactive > #main > p,
 
 /* Additional rules for Firefox 54.0a1 and later */
 
+#boxmodel-header,
+.boxmodel-properties-header,
 ._header[class][class][class]{
   padding-top: 2px;
   padding-bottom: 2px;
-  font-size: 1.1em;
+  font: message-box; /* This resets the font family in case .devtools-monospace is an ancestor */
+  font-size: 1.1rem; /* This sets the font size as a factor from the font use in the ".theme-*" root */
+                     /* This avoid a problem when .devtools-monospace is ancestor and platform="linux" (:root IS NOT .devtools-monospace) */
   height: unset;
   width: unset;
-  font-weight: bold;
   background-image: none;
   background-color: transparent;
   border-bottom-width: 0;
+  display: block;
 }
-._header[class][class][class]:hover{
-  background-color: rgba(128, 148, 142, 0.16);
+#boxmodel-header {
+  display: flex;
+  -moz-user-select: none;
 }
-.theme-firebug ._header[class][class][class] {
+.theme-firebug #boxmodel-header,
+.theme-firebug .boxmodel-properties-header,
+.theme-firebug ._header[class][class] {
   font-family: var(--proportional-font-family);
+  font-weight: bold;
 }
+
+#boxmodel-header:hover,
+.boxmodel-properties-header:hover,
+._header[class][class][class]:hover{
+  background-color: #eaeaea; /* = var(--toolbar-tab-hover) + var(--theme-toolbar-background) */
+}
+.theme-dark #boxmodel-header:hover,
+.theme-dark .boxmodel-properties-header:hover,
+.theme-dark ._header[class][class]:hover{
+  background-color: #1e242a; /* = var(--toolbar-tab-hover-active) + var(--theme-toolbar-background) */
+}
+.theme-firebug #boxmodel-header:hover,
+.theme-firebug .boxmodel-properties-header:hover,
+.theme-firebug ._header[class][class]:hover{
+  background-color: #e2e7ec; /* = var(--toolbar-tab-hover) + .8*(.6*white + .4*var(--theme-toolbar-background)) */
+}
+
 
 ._header[class][class][class] > .arrow.theme-twisty {
   margin-bottom: 2px;
@@ -678,4 +807,128 @@ body.inactive > #main > p,
   margin-top: 5px;
   border-bottom-width: 0;
   font-size: inherit;
+}
+
+
+
+
+
+
+div.boxmodel-container {
+  XXX-max-width: unset;
+  XXX-padding-left: 15px;
+  XXX-padding-right: 15px;
+}
+.boxmodel-main {
+  XXX-max-width: 320px;
+  XXX-margin-left: auto;
+  XXX-margin-right: auto;
+}
+.boxmodel-info {
+  XXX-max-width: 400px;
+  XXX-margin-left: auto;
+  XXX-margin-right: auto;
+}
+.boxmodel-properties {
+  /* Undo the container's padding: */
+  XXX-margin-left: -15px;
+  XXX-margin-right: -15px;
+}
+.boxmodel-properties-header {
+  padding: 2px 5px;
+  padding-inline-start: 10px;
+  -moz-user-select: none;
+  cursor: pointer;
+}
+.boxmodel-properties-expander {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
+.boxmodel-properties-wrapper > .computed-property-view , /* TEST FOR FIREFOX 57 */
+.boxmodel-properties-wrapper > .property-view {
+  display: flex;
+  flex-wrap: wrap;
+  padding-inline-start: 25px;
+}
+
+
+
+.boxmodel-properties-wrapper > .computed-property-view  > .computed-property-name-container,
+.boxmodel-properties-wrapper > .property-view  > .property-name-container {
+  width: 194px;
+  width: 16ch;
+}
+
+
+
+
+.boxmodel-rotate.boxmodel-editing {
+  height: auto;
+  min-height: -moz-fit-content;
+}
+
+
+.boxmodel-properties-wrapper > .computed-property-view  > .computed-property-value-container,
+.boxmodel-properties-wrapper > .property-view  > .property-value-container {
+  overflow: visible;
+  flex-wrap: wrap;
+}
+
+.boxmodel-container .reference-element {
+  /****
+  margin-inline-start: 14px;
+  margin-block-start: 4px;
+  display: block;
+   ****/
+  display: block;
+  margin-inline-start: 10px;
+  white-space: nowrap;
+}
+
+/* Tag displayed next to DOM Node previews (used to display reference elements) */
+
+.boxmodel-container .reference-element-type {
+  /****
+  background: var(--theme-highlight-purple);
+  color: white;
+  padding: 1px 2px;
+  border-radius: 2px;
+  font-size: 9px;
+  margin-inline-end: 5px;
+  ***/
+  color: var(--theme-content-color2);
+  margin-inline-end: .5em;
+}
+
+/***
+.theme-dark .boxmodel-container .reference-element-type {
+  color: black;
+}
+ ***/
+/* Match the style editor and rules inspector in the firebug theme: */
+.theme-firebug .boxmodel-properties-wrapper > .computed-property-view > .computed-property-value-container > .reference-element > .objectBox-node,
+.theme-firebug .boxmodel-properties-wrapper > .property-view > .property-value-container > .reference-element > .objectBox-node {
+  font-family: var(--monospace-font-family);
+}
+:root[platform="linux"].theme-firebug
+                    .boxmodel-properties-wrapper > .computed-property-view > .computed-property-value-container > .reference-element > .objectBox-node,
+:root[platform="linux"].theme-firebug .boxmodel-properties-wrapper > .property-view > .property-value-container > .reference-element > .objectBox-node {
+  font-size: .8rem;
+}
+.theme-firebug .boxmodel-properties-wrapper > .computed-property-view > .computed-property-value-container > .reference-element > .objectBox-node > .tag-name,
+.theme-firebug .boxmodel-properties-wrapper > .computed-property-view > .computed-property-value-container > .reference-element > .objectBox-node > .attr-name,
+.theme-firebug .boxmodel-properties-wrapper > .property-view > .property-value-container > .reference-element > .objectBox-node > .tag-name,
+.theme-firebug .boxmodel-properties-wrapper > .property-view > .property-value-container > .reference-element > .objectBox-node > .attr-name {
+  color: black;
+  font-weight: bold;
+}
+
+/* Box Model Main - Offset Parent */
+
+.boxmodel-offset-parent {
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  color: var(--theme-highlight-purple);
 }

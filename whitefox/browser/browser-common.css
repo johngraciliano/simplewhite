@@ -219,17 +219,23 @@
   /* Please keep the menu text colors in this media block in sync with
    * devedition.css, minus the :not(:-moz-lwtheme) condition - see Bug 1165718.
    */
-  #main-window[tabsintitlebar]:not([inFullscreen]) #toolbar-menubar:not(:-moz-lwtheme),
-  #main-window[tabsintitlebar]:not([inFullscreen]) #TabsToolbar:not(:-moz-lwtheme) {
+  :root[tabsintitlebar]:not([inFullscreen]) #toolbar-menubar:not(:-moz-lwtheme),
+  :root[tabsintitlebar]:not([inFullscreen]) #TabsToolbar:not(:-moz-lwtheme) {
     color: CaptionText;
   }
-
-  #main-window[tabsintitlebar]:not([inFullscreen]) #toolbar-menubar:not(:-moz-lwtheme):-moz-window-inactive,
-  #main-window[tabsintitlebar]:not([inFullscreen]) #TabsToolbar:not(:-moz-lwtheme):-moz-window-inactive {
-    color: InactiveCaptionText;
+  :root[tabsintitlebar]:not([inFullscreen]) .titlebar-button:not(:-moz-lwtheme) { /* Used for Windows 10 */
+    fill: CaptionText;
   }
 
-  #main-window[tabsintitlebar] #main-menubar > menu:not(:-moz-lwtheme) {
+  :root[tabsintitlebar]:not([inFullscreen]) #toolbar-menubar:not(:-moz-lwtheme):-moz-window-inactive,
+  :root[tabsintitlebar]:not([inFullscreen]) #TabsToolbar:not(:-moz-lwtheme):-moz-window-inactive {
+    color: InactiveCaptionText;
+  }
+  :root[tabsintitlebar]:not([inFullscreen]) .titlebar-button:not(:-moz-lwtheme):-moz-window-inactive { /* Used for Windows 10 */
+    fill: InactiveCaptionText;
+  }
+
+  :root[tabsintitlebar] #main-menubar > menu:not(:-moz-lwtheme) {
     color: inherit;
   }
 }
@@ -1229,10 +1235,25 @@ toolbarbutton#pocket-button[cui-areatype="toolbar"][open] {
 }
 /*@media not all and (min-resolution: 1.1dppx) { *** this is for all resolutions ****/
 
+  toolbarpaletteitem[place="palette"] > * > #reload-button,
+  /* toolbarpaletteitem[place="palette"]  #bookmarks-menu-button, /**********************    TEMPORARY      ******************************************/
   toolbaritem[sdkstylewidget="true"] > toolbarbutton,
+  [cui-areatype="menu-panel"] > :-moz-any(#reload-button, #stop-button),
   :-moz-any(#back-button, #forward-button, #reload-button, #stop-button, #home-button, #print-button, #downloads-button, #bookmarks-menu-button, #new-tab-button, #new-window-button, #fullscreen-button, #sync-button, #feed-button, #tabview-button, #social-share-button, #open-file-button, #find-button, #developer-button, #preferences-button, #privatebrowsing-button, #save-page-button, #add-ons-button, #history-panelmenu, #nav-bar-overflow-button, #PanelUI-menu-button, #characterencoding-button, #email-link-button, #sidebar-button, #zoom-out-button, #zoom-reset-button, #zoom-in-button, #cut-button, #copy-button, #paste-button, #e10s-button, #panic-button, #web-apps-button, #webide-button, #loop-button)[cui-areatype="menu-panel"], toolbarbutton#pocket-button[cui-areatype="menu-panel"],
   toolbarpaletteitem[place="palette"] > :-moz-any(#back-button, #forward-button, #reload-button, #stop-button, #home-button, #print-button, #downloads-button, #bookmarks-menu-button, #new-tab-button, #new-window-button, #fullscreen-button, #sync-button, #feed-button, #tabview-button, #social-share-button, #open-file-button, #find-button, #developer-button, #preferences-button, #privatebrowsing-button, #save-page-button, #add-ons-button, #history-panelmenu, #nav-bar-overflow-button, #PanelUI-menu-button, #characterencoding-button, #email-link-button, #sidebar-button, #zoom-out-button, #zoom-reset-button, #zoom-in-button, #cut-button, #copy-button, #paste-button, #e10s-button, #panic-button, #web-apps-button, #webide-button, #loop-button), toolbarpaletteitem[place="palette"] > toolbarbutton#pocket-button {
     list-style-image: var(--menupanel-list-style-image);
+  }
+
+  #reload-button[cui-areatype="menu-panel"],
+  [cui-areatype="menu-panel"] > #reload-button,
+  toolbarpaletteitem[place="palette"] > * > #reload-button {
+    -moz-image-region: rect(0px, 64px, 32px, 32px);
+  }
+
+  #stop-button[cui-areatype="menu-panel"],
+  [cui-areatype="menu-panel"] > #stop-button,
+  toolbarpaletteitem[place="palette"] > * > #stop-button {
+    -moz-image-region: rect(0px, 96px, 32px, 64px);
   }
 
   #home-button[cui-areatype="menu-panel"],
@@ -1245,6 +1266,7 @@ toolbarbutton#pocket-button[cui-areatype="toolbar"][open] {
     list-style-image: url(chrome://browser/skin/library.svg);
   }
 
+  toolbarpaletteitem[place="palette"] > #bookmarks-menu-button[type=menu], /**********************    TEMPORARY      ******************************************/
   #bookmarks-menu-button[cui-areatype="menu-panel"],
   toolbarpaletteitem[place="palette"] > #bookmarks-menu-button {
     -moz-image-region: rect(0px, 192px, 32px, 160px);
@@ -1422,6 +1444,11 @@ toolbarbutton#pocket-button[cui-areatype="toolbar"][open] {
     -moz-image-region: rect(32px, 992px, 64px, 960px);
   }
 
+  #widget-overflow-fixed-list #pocket-button > .toolbarbutton-icon {
+    max-width: unset;
+  }
+
+  /******** What is the next rule for???????? --jG ****************************************/
   toolbaritem[sdkstylewidget="true"] > toolbarbutton {
     -moz-image-region: rect(0, 832px, 32px, 800px);
   }
@@ -1562,7 +1589,7 @@ toolbarbutton#pocket-button[cui-areatype="toolbar"][open] {
 }
 
 #appMenu-customize-button {
-  list-style-image: url(chrome://mozapps/skin/extensions/themeGeneric-16.png);
+  list-style-image: url(chrome://mozapps/skin/extensions/category-themes-16.svg);
 }
 
 #appMenu-find-button {
@@ -1642,6 +1669,11 @@ toolbarbutton#appMenu-library-pocket-button {
 #appMenu-library-history-button {
   list-style-image: url(chrome://browser/skin/Toolbar.png);
   -moz-image-region: rect(1px, 179px, 17px, 163px);
+}
+
+#appMenu-library-downloads-button {
+  list-style-image: url(chrome://browser/skin/Toolbar.png);
+  -moz-image-region: rect(1px, 197px, 17px, 181px);
 }
 
 #appMenu-library-remotetabs-button {
@@ -2743,6 +2775,9 @@ html|*.urlbar-input:-moz-lwtheme::-moz-placeholder,
 .urlbar-textbox-container {
   -moz-box-align: stretch;
 }
+.autocomplete-textbox-container.urlbar-textbox-container { /* Added for Firefox 57 */
+  -moz-box-align: center; /* The value was stretch; */
+}
 
 .urlbar-input-box {
   -moz-margin-start: 0;
@@ -2819,6 +2854,7 @@ html|*.urlbar-input:-moz-lwtheme::-moz-placeholder,
 }
 
 /* Page action button */
+#pageActionButton,
 #urlbar-page-action-button {
   -moz-appearance: none;
   border-style: none;
@@ -2830,38 +2866,46 @@ html|*.urlbar-input:-moz-lwtheme::-moz-placeholder,
   fill: currentColor;
 }
 
+#pageActionButton,
 #urlbar-page-action-button > .toolbarbutton-icon {
   width: 16px;
 }
 
+#pageActionButton:not(:hover),
 #urlbar-page-action-button:not(:hover) > .toolbarbutton-icon {
   opacity: .5;
 }
 
+#pageActionButton:hover,
 #urlbar-page-action-button:active > .toolbarbutton-icon {
   filter: brightness(0);
 }
 
+#pageAction-panel-bookmark,
 #page-action-bookmark-button {
   list-style-image: url("chrome://browser/skin/Toolbar.png");
   -moz-image-region: rect(1px, 143px, 17px, 127px);
 }
 
+#pageAction-panel-bookmark[starred],
 #page-action-bookmark-button[starred] {
   list-style-image: url("chrome://browser/skin/Toolbar.png");
   -moz-image-region: rect(1px, 161px, 17px, 145px);
 }
 
+#pageAction-panel-copyURL,
 #page-action-copy-url-button {
   list-style-image: url("chrome://browser/skin/Toolbar.png");
   -moz-image-region: rect(1px, 521px, 17px, 505px);
 }
 
+#pageAction-panel-emailLink,
 #page-action-email-link-button {
   list-style-image: url("chrome://browser/skin/Toolbar.png");
   -moz-image-region: rect(1px, 665px, 17px, 649px);
 }
 
+#pageAction-panel-sendToDevice,
 #page-action-send-to-device-button {
   list-style-image: url("chrome://browser/skin/Toolbar.png");
   -moz-image-region: rect(1px, 305px, 17px, 289px);
@@ -3897,6 +3941,7 @@ richlistitem[type~="action"][actiontype="switchtab"][selected="true"] > .ac-url-
 #urlbar-reload-button {
   list-style-image: url("chrome://browser/skin/reload-stop-go.svg#reload");
 }
+.urlbar-go-button,
 #urlbar-go-button {
   list-style-image: url("chrome://browser/skin/reload-stop-go.svg#go");
 }
@@ -3908,6 +3953,7 @@ richlistitem[type~="action"][actiontype="switchtab"][selected="true"] > .ac-url-
 #urlbar-reload-button:active {
   list-style-image: url("chrome://browser/skin/reload-stop-go.svg#reload-active");
 }
+.urlbar-go-button:active,
 #urlbar-go-button:active {
   list-style-image: url("chrome://browser/skin/reload-stop-go.svg#go-active");
 }
@@ -3915,6 +3961,7 @@ richlistitem[type~="action"][actiontype="switchtab"][selected="true"] > .ac-url-
 #urlbar-stop-button:active {
   list-style-image: url("chrome://browser/skin/reload-stop-go.svg#stop-active");
 }
+.urlbar-go-button:not(:hover):not(:active),
 #urlbar > #reload-button:not(:hover):not(:active),
 #urlbar > #stop-button:not(:hover):not(:active),
 #urlbar-reload-button:not(:hover):not(:active),
@@ -3922,6 +3969,7 @@ richlistitem[type~="action"][actiontype="switchtab"][selected="true"] > .ac-url-
 #urlbar-go-button:not(:hover):not(:active) {
   opacity: .6;
 }
+.urlbar-go-button:-moz-locale-dir(rtl) > .toolbarbutton-icon,
 #urlbar-reload-button:-moz-locale-dir(rtl) > .toolbarbutton-icon,
 #urlbar-go-button:-moz-locale-dir(rtl) > .toolbarbutton-icon {
   transform: scaleX(-1);
@@ -4274,16 +4322,19 @@ toolbarbutton > #sidebar-title {
   display: none;
 }
 
+.onboarding-close-btn, /* Firefox 57 */
 #onboarding-overlay-close-btn, /* Firefox 56 */
 #onboarding-notification-close-btn, /* Firefox 56 */
 #sidebar-close /* Firefox 55+ */ 
 {
   list-style-image: url("chrome://global/skin/icons/close.svg#normal");
 }
+.onboarding-close-btn:hover, /* Firefox 57 */
 #onboarding-notification-close-btn:hover,
 #sidebar-close:hover {
   list-style-image: url("chrome://global/skin/icons/close.svg#hover");
 }
+.onboarding-close-btn:hover:active, /* Firefox 57 */
 #onboarding-notification-close-btn:hover:active,
 #sidebar-close:hover:active {
   list-style-image: url("chrome://global/skin/icons/close.svg#active");
@@ -4366,6 +4417,10 @@ toolbarbutton > #sidebar-title {
 .tabs-newtab-button:hover {
   background-image: var(--tabbrowser-tab-hover-background-image);
 }
+#tabbrowser-tabs > .tabbrowser-arrowscrollbox > .tabs-newtab-button:hover  { /* For Firefox 57 */
+  background-image: var(--tabbrowser-tab-hover-background-image);
+  background-position: 1px 2px;
+}
 
 .tabbrowser-tab[selected="true"] {
   color: var(--tabbrowser-tab-selected-color);
@@ -4373,6 +4428,24 @@ toolbarbutton > #sidebar-title {
   position: relative;
   z-index: 2;
 }
+
+@supports (-webkit-mask:unset) { /* Firefox 54 and later [Or "@supports (display: flow-root)" for 53 and later ???] */ {}
+  /* Lightweight theme on tabs */
+  #tabbrowser-tabs:not([movingtab]) .tabbrowser-tab[selected="true"]:-moz-lwtheme {
+    background-attachment: scroll, fixed;
+    background-color: transparent;
+    background-size:  calc(100% + 4px) calc(100% + 2px), auto auto;
+    background-position:  -2px -2px, right top;
+    background-repeat:  no-repeat, no-repeat;
+    background-origin:  padding-box;
+    background-image: -moz-linear-gradient(rgba(250,250,250,.875), rgba(250,250,250,.875)), var(--lwt-header-image);  /* For  ":-moz-lwtheme-darktext" */
+  }
+  #tabbrowser-tabs:not([movingtab]) .tabbrowser-tab[selected="true"]:-moz-lwtheme-brighttext{
+    text-shadow: 1px 1px 1.5px black;
+    background-image:  -moz-linear-gradient(rgba(5,5,5,.875), rgba(5,5,5,.875)), var(--lwt-header-image);
+  }
+}
+
 
 .tabbrowser-tab[pinned][titlechanged]:not([selected="true"]) {
   position: relative;
@@ -4387,6 +4460,14 @@ toolbarbutton > #sidebar-title {
   right: 0;
   top: 0;
   margin-top: -1px;
+}
+
+.tab-background { /* Just for placement, this is not being used! */
+  margin: -3px -1px;
+}
+
+.tab-bottom-line {
+  opacity: 0; /* Hide completely the user content color in Firefox 57 */
 }
 
 .tab-content {
@@ -6887,6 +6968,7 @@ notification.pluginVulnerable .messageImage {
   min-height: 18px;
 }
 
+#downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child,
 #downloads-indicator-icon {
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar.png"), 0, 198, 18, 180);
   background-position: center;
@@ -6895,14 +6977,17 @@ notification.pluginVulnerable .messageImage {
   min-height: 18px;
 }
 
+toolbar[brighttext] #downloads-button:not([attention]) > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child,
 toolbar[brighttext] #downloads-button:not([attention]) > #downloads-indicator-anchor > #downloads-indicator-icon {
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar-inverted.png"), 0, 198, 18, 180);
 }
 
+#downloads-button[attention] > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child,
 #downloads-button[attention] > #downloads-indicator-anchor > #downloads-indicator-icon {
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar.png"), 18, 198, 36, 180);
 }
 
+toolbar[brighttext] #downloads-button[attention] > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child,
 toolbar[brighttext] #downloads-button[attention] > #downloads-indicator-anchor > #downloads-indicator-icon {
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar-inverted.png"), 18, 198, 36, 180);
 }
@@ -6923,6 +7008,7 @@ toolbar[brighttext] #downloads-button[attention] > #downloads-indicator-anchor >
 
 #downloads-button:not([counter]) > #downloads-indicator-anchor > #downloads-indicator-progress-area > #downloads-indicator-counter,
 #downloads-button[progress] > #downloads-indicator-anchor > box#downloads-indicator-icon:first-child:not(:last-child):empty, /* Firefox 56 */
+#downloads-button[progress] > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child:not(:empty),
 #downloads-button[progress] > #downloads-indicator-anchor > #downloads-indicator-icon:only-child:not(:empty) { /* Firefox 55 */
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar.png"), 0, 198, 11, 180);
   background-position: center top;
@@ -6932,24 +7018,28 @@ toolbar[brighttext] #downloads-button[attention] > #downloads-indicator-anchor >
 
 toolbar[brighttext] #downloads-button:not([counter]):not([attention]) > #downloads-indicator-anchor > #downloads-button-progress-area > #downloads-indicator-counter,
 toolbar[brighttext] #downloads-button[progress]:not([attention]) > #downloads-indicator-anchor > box#downloads-indicator-icon:first-child:not(:last-child):empty, /* Firefox 56 */
+toolbar[brighttext] #downloads-button[progress]:not([attention]) > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child:not(:empty),
 toolbar[brighttext] #downloads-button[progress]:not([attention]) > #downloads-indicator-anchor > #downloads-indicator-icon:only-child:not(:empty) { /* Firefox 55 */
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar-inverted.png"), 0, 198, 11, 180);
 }
 
 #downloads-button:not([counter])[attention] > #downloads-indicator-anchor > #downloads-indicator-progress-area > #downloads-indicator-counter,
 #downloads-button[progress][attention] > #downloads-indicator-anchor > box#downloads-indicator-icon:first-child:not(:last-child):empty, /* Firefox 56 */
+#downloads-button[progress][attention] > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child:not(:empty),
 #downloads-button[progress][attention] > #downloads-indicator-anchor > #downloads-indicator-icon:only-child:not(:empty) { /* Firefox 55 */
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar.png"), 18, 198, 29, 180);
 }
 
 toolbar[brighttext] #downloads-button:not([counter])[attention] > #downloads-indicator-anchor > #downloads-indicator-progress-area > #downloads-indicator-counter,
 toolbar[brighttext] #downloads-button[progress][attention] > #downloads-indicator-anchor > box#downloads-indicator-icon:first-child:not(:last-child):empty, /* Firefox 56 */
+toolbar[brighttext] #downloads-button[progress][attention] > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child:not(:empty),
 toolbar[brighttext] #downloads-button[progress][attention] > #downloads-indicator-anchor > #downloads-indicator-icon:only-child:not(:empty) { /* Firefox 55 */
   background-image: -moz-image-rect(url("chrome://browser/skin/Toolbar-inverted.png"), 18, 198, 29, 180);
 }
 
 /****  Start Firefox 55+ ********************************************************************************/
 #downloads-button[indicator]:not([progress]) > #downloads-indicator-anchor > #downloads-indicator-icon > #downloads-indicator-progress-icon,
+#downloads-button[indicator]:not([progress]) > #downloads-indicator-anchor > #downloads-indicator-progress-outer > #downloads-indicator-progress-inner,
 #downloads-button[indicator]:not([progress]) > #downloads-indicator-anchor > #downloads-indicator-icon + #downloads-indicator-progress-outer > #downloads-indicator-progress-inner {
   display: none;
 }
@@ -7074,6 +7164,7 @@ toolbar[brighttext] #downloads-button[progress][attention] > #downloads-indicato
 
 /*** Download notifications ***/
 
+#downloads-button[notification="start"] > #downloads-indicator-anchor > #downloads-indicator-progress-outer:only-child,
 #downloads-button[notification="start"] > #downloads-indicator-anchor > #downloads-indicator-icon
 {
   animation-name: downloadsIndicatorStartJump;
@@ -7698,7 +7789,8 @@ chatbox {
   outline-offset: -5px;
 }
 
-#main-window[customizing] .customization-target:not(#PanelUI-contents) {
+/* To the next rule ":not([photon-structure])" was added --johnGraciliano */
+#main-window[customizing]/*:not([photon-structure])*/ .customization-target:not(#PanelUI-contents) {
   min-width: 100px;
   padding-left: 10px;
   padding-right: 10px;
@@ -7725,7 +7817,8 @@ chatbox {
   border-bottom: 1px solid #e5e5e5;
 }
 
-#customization-panel-container {
+/* Added ":not([photon="true"]) > * >" --johnGraciliano */
+/* :not([photon="true"]) > * > */ #customization-panel-container {
   padding: 15px 25px 25px;
   background-image: linear-gradient(to bottom, #3e86ce, #3878ba);
 }
@@ -7812,7 +7905,8 @@ chatbox {
   }
 }
 
-#main-window[customize-entered] #customization-panel-container {
+/* Added ":not([photon-structure="true"])" --johnGraciliano */
+#main-window[customize-entered]/*:not([photon-structure="true"])*/ #customization-panel-container {
   background-image: url("chrome://browser/skin/customizableui/customizeMode-separatorHorizontal.png"),
                     url("chrome://browser/skin/customizableui/customizeMode-separatorVertical.png"),
                     url("chrome://browser/skin/customizableui/customizeMode-gridTexture.png"),
@@ -7822,6 +7916,16 @@ chatbox {
   background-repeat: no-repeat, no-repeat, repeat, repeat, no-repeat;
   background-size: auto 12px, 12px 100%, auto, auto, auto;
   background-attachment: scroll, scroll, fixed, fixed, scroll;
+}
+
+/* #customization-container%*[photon]*%[id] > * > #customization-panel-container */
+#customization-content-container[id] > #customization-panel-container { /* #customization-content-container implies Photon, [id] raises precedence --jG */
+  flex-shrink: 0;
+  padding-top: 0;
+  padding-bottom: 12px;
+  padding-inline-start: 12px;
+  padding-inline-end: 32px;
+  background-image: none;
 }
 
 toolbarpaletteitem[place="toolbar"] {
@@ -7885,6 +7989,25 @@ toolbarpaletteitem[place="toolbar"] {
   margin-bottom: 25px;
 }
 
+
+
+
+
+toolbarpaletteitem[place=palette] > toolbarspring {
+  width: 7em;
+  min-width: 7em;
+  outline: 1px solid GrayText;
+  outline-offset: -8px;
+  height: 37px;
+}
+
+toolbarpaletteitem[place=toolbar] > toolbarspring {
+  outline: 1px solid GrayText;
+  outline-offset: -2px;
+  margin-top: var(--toolbarbutton-vertical-outer-padding);
+  margin-bottom: var(--toolbarbutton-vertical-outer-padding);
+}
+
 #wrapper-edit-controls[place="palette"] > #edit-controls > toolbarbutton,
 #wrapper-edit-controls[place="palette"] > #edit-controls > separator,
 #wrapper-zoom-controls[place="palette"] > #zoom-controls > toolbarbutton,
@@ -7924,6 +8047,15 @@ toolbarpaletteitem[place="toolbar"] {
 
 #personal-bookmarks[cui-areatype="toolbar"]:not([overflowedItem=true]) > #bookmarks-toolbar-placeholder > .toolbarbutton-icon {
   -moz-margin-end: 5px;
+}
+
+/* For the photon structure, the following helps some buttons (e.g., search, edit  *
+ * controls) fill the vertical space like others in the customizing pallete.       */
+/* #customization-palette > * > .toolbarpaletteitem-box  **  (THIS SELECTOR IS NOT PHOTON SPECIFIC, THE NEXT SELECTOR *IS* SPECIFIC) */
+#customization-content-container > * /*=#customization-palette-container*/ 
+    > * /*=#customization-palette*/ > * /*=toolbarpaletteitem*/ > .toolbarpaletteitem-box {
+  height: 48px;
+  -moz-box-align: center;
 }
 
 #customization-palette > toolbarpaletteitem > label {
@@ -8026,6 +8158,9 @@ toolbarpaletteitem[place="toolbar"] {
   -moz-border-end: 1px solid hsla(210,4%,10%,.15);
 }
 
+
+
+
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -8104,6 +8239,79 @@ toolbarpaletteitem[place="toolbar"] {
   list-style-image: url("chrome://browser/skin/customizableui/panelarrow-customizeTip.png");
 }
 
+
+
+
+/*************  START PHOTON  *******************************************************************/
+
+/* General rules for the arrow (Darwin rules are elsewhere!) */
+/* Adapted from chrome://global/skin/panel.css :  */
+#customization-panelWrapper > .panel-arrowbox + .panel-arrowcontent {
+  border-radius: 4px;
+  /**
+  padding: 10px;
+   **/
+  color: -moz-FieldText;
+  background: #ffffff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.3);
+  margin: 4px;
+
+  /* From chrome://browser/content/browser.css : */
+  padding: 0;
+  overflow: hidden; 
+}
+@media (-moz-windows-default-theme) {
+  #customization-panelWrapper > .panel-arrowbox + .panel-arrowcontent {
+    border-color: rgba(0,0,0,.3);
+    box-shadow: 0 0 4px rgba(0,0,0,.3);
+    background-image: linear-gradient(white 1px, rgba(255,255,255,0) 15px); /* Top */
+  }
+}
+
+#customization-panelWrapper {
+  position: relative;
+}
+
+#customization-panelWrapper > .panel-arrowbox {
+  -moz-box-pack: end;
+  line-height: 0; /* Prevents problems in Firefox 56 with Photon enabled */
+  height: 5px; /* Needed for Firefox 56 with Photon enabled */
+}
+
+#customization-panelWrapper > .panel-arrowbox > .panel-arrow {
+  list-style-image: url("chrome://global/skin/arrow/panelarrow-vertical.svg");
+  position: relative;
+  margin-inline-end: 10px;
+  margin-bottom: -5px;
+  vertical-align: unset;
+}
+
+
+/* Suggestive decoration to add items to an empty overflow box */
+#customization-panelHolder > #widget-overflow-fixed-list:empty {
+  background-image: url("chrome://browser/skin/customizableui/empty-overflow-panel.png");
+  background-position: center top 10px;
+  background-size: 218px 134px;
+  background-repeat: no-repeat;
+}
+
+#customization-panelHolder > #widget-overflow-fixed-list:empty::after {
+  content: attr(emptylabel);
+  padding: 154px 10px 10px; /* 154 = 134 for the image, 10px space on either side. */
+  text-align: center;
+  display: block;
+}
+
+@media (min-resolution: 1.1dppx) {
+  #customization-panelHolder > #widget-overflow-fixed-list:empty {
+    background-image: url("chrome://browser/skin/customizableui/empty-overflow-panel@2x.png");
+  }
+}
+
+/*************   END PHOTON   *******************************************************************/
+
+
 /**
  * This next rule is a hack to disable subpixel anti-aliasing on all
  * labels during the customize mode transition. Subpixel anti-aliasing
@@ -8119,13 +8327,27 @@ toolbarpaletteitem[place="toolbar"] {
   background-attachment: fixed;
 }
 
-/*#main-window[customization-lwtheme] > #tab-view-deck:-moz-lwtheme {  ***DOUBLE CHECK WHY WAS THIS REMOVED ON SIMPLE WHITE -johnGraciliano ***********************************************************%
+/* Customizing with Light Weight themes (This was in a comment! --johnGraciliano) */
+#main-window[customization-lwtheme] > #tab-view-deck:-moz-lwtheme {
   background-repeat: no-repeat;
   background-position: right top;
   background-attachment: fixed;
-  /* The image will get set from CustomizeMode.jsm *%
+  /* The image will get set from CustomizeMode.jsm */
   background-image: none;
   background-color: transparent;
+}
+@supports (-webkit-mask:unset) { /* Firefox 54+ (Maybe this should include Firefox 53 (WHICH WAS NOT TESTED!) -johnGraciliano) */ {}
+  #main-window[customization-lwtheme] > #tab-view-deck:-moz-lwtheme {
+    background-image: -moz-image-rect(var(--lwt-header-image), 0, 100%,
+                        var(--toolbox-rect-height), 0),
+                      linear-gradient(to bottom,
+                        var(--lwt-accent-color) calc(var(--toolbox-rect-height-with-unit) - 1px),
+                        rgba(0,0,0,0.25) calc(var(--toolbox-rect-height-with-unit) - 1px),
+                        rgba(0,0,0,0.25) calc(var(--toolbox-rect-height-with-unit) + 1px),
+                        rgba(255,255,255,0.5) calc(var(--toolbox-rect-height-with-unit) + 1px),
+                        rgba(255,255,255,0.5) calc(var(--toolbox-rect-height-with-unit) + 2px),
+                        transparent calc(var(--toolbox-rect-height-with-unit) + 2px));
+  }
 }
 
 #main-window[customization-lwtheme]:-moz-lwtheme {
@@ -8133,7 +8355,7 @@ toolbarpaletteitem[place="toolbar"] {
   background-repeat: repeat;
   background-attachment: fixed;
   background-position: left top;
-}*/ /* Here ends a section of unused code I found bound by comment delimmeters --johnGraciliano */
+}
 
 #main-window[customize-entered] #browser-bottombox,
 #main-window[customize-entered] #customization-container {
@@ -8171,11 +8393,59 @@ toolbarpaletteitem[place="toolbar"] {
   pointer-events: none;
 }
 
+.accessibility-indicator {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  margin-right: 8px;
+
+  background-image: none;
+  -moz-user-focus: normal;
+  /* Clear default button styling */
+  margin-top: unset;
+  margin-bottom: unset;
+  color: unset;
+  text-shadow: unset;
+
+  list-style-image: url("chrome://global/skin/icons/information-16.svg"); /* This should change */
+  min-width: unset;
+  margin: 0;
+  border-style: none;
+  padding-top: 2px;
+  -moz-appearance: none;
+  background-color: transparent;
+  filter: brightness(.4);
+  opacity: .5;
+  display: none;
+}
+.accessibility-indicator:-moz-lwtheme-brighttext {
+  filter: brightness(1.8);
+}
+
+
+.accessibility-indicator:-moz-any(:hover, :focus, :-moz-focusring) {
+  opacity: .7;
+  outline: 0;
+}
+
+.accessibility-indicator:-moz-any(:active) {
+  opacity: 1;
+  outline: 0;
+}
+
+/*****
+:root:not([accessibilitymode]) .accessibility-indicator,
+:root:not([privatebrowsingmode=temporary]) .private-browsing-indicator {
+  display: none;
+}
+ *****/
+
 #private-browsing-indicator-titlebar {
   display: block;
   position: absolute;
 }
 
+#main-window[privatebrowsingmode=temporary][tabsintitlebar] #titlebar-buttonbox-container > .private-browsing-indicator,
 #main-window[privatebrowsingmode=temporary][tabsintitlebar] #private-browsing-indicator-titlebar > .private-browsing-indicator {
   display: block;
 }
@@ -8183,6 +8453,25 @@ toolbarpaletteitem[place="toolbar"] {
 #main-window[privatebrowsingmode=temporary]:-moz-any([inFullscreen],:not([tabsintitlebar])) #TabsToolbar > .private-browsing-indicator {
   display: -moz-box;
 }
+
+#main-window[accessibilitymode][tabsintitlebar] #titlebar-buttonbox-container > .accessibility-indicator,
+#main-window[accessibilitymode][tabsintitlebar] #titlebar-secondary-buttonbox > .accessibility-indicator {
+  display: block;
+}
+
+#main-window[accessibilitymode]:-moz-any([inFullscreen],:not([tabsintitlebar])) #TabsToolbar > .accessibility-indicator {
+  display: -moz-box;
+}
+
+/****
+:root[accessibilitymode][tabsintitlebar]:not([inFullscreen]) > #tab-view-deck > #browser-panel > #navigator-toolbox > #TabsToolbar > .accessibility-indicator,
+:root[privatebrowsingmode=temporary][tabsintitlebar]:not([inFullscreen]) > #tab-view-deck > #browser-panel > #navigator-toolbox > #TabsToolbar > .private-browsing-indicator,
+:root[accessibilitymode]:not([tabsintitlebar]) > #titlebar > #titlebar-content > #titlebar-secondary-buttonbox > .accessibility-indicator,
+:root[privatebrowsingmode=temporary]:not([tabsintitlebar]) > #titlebar > #titlebar-content > #titlebar-secondary-buttonbox > .private-browsing-indicator {
+  display: none;
+}
+ ****/
+
 
 #TabsToolbar > .private-browsing-indicator {
   background: url("chrome://browser/skin/privatebrowsing-mask-48x32.svg#tabstrip") no-repeat center -3px;
@@ -8194,6 +8483,7 @@ toolbarpaletteitem[place="toolbar"] {
  * mode, since the tabstrip "mimics" the titlebar in that case with its own
  * min/max/close window buttons.
  */
+#titlebar-buttonbox-container > .private-browsing-indicator,
 #private-browsing-indicator-titlebar > .private-browsing-indicator,
 #main-window[inFullscreen] #TabsToolbar > .private-browsing-indicator {
   background: url("chrome://browser/skin/privatebrowsing-mask-40x20.svg#titlebar") no-repeat center 0px;
@@ -8213,6 +8503,7 @@ toolbarpaletteitem[place="toolbar"] {
   /* We're intentionally using the titlebar asset here for fullscreen mode.
    * See bug 1008183.
    */
+  #titlebar-buttonbox-container > .private-browsing-indicator,
   #private-browsing-indicator-titlebar > .private-browsing-indicator,
   #main-window[inFullscreen] #TabsToolbar > .private-browsing-indicator {
     background-image: url("chrome://browser/skin/privatebrowsing-mask-40x20.svg#titlebar-XPVista7");
@@ -8221,14 +8512,17 @@ toolbarpaletteitem[place="toolbar"] {
 
 @media (-moz-os-version: windows-xp) {
   @media not all and (-moz-windows-classic) {
+    #titlebar-buttonbox-container > .private-browsing-indicator,
     #private-browsing-indicator-titlebar > .private-browsing-indicator {
       background-image: url("chrome://browser/skin/privatebrowsing-mask-48x32.svg#titlebar-XPVista7-tall");
       height: 28px;
     }
 
+    #main-window[sizemode="maximized"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
     #main-window[sizemode="maximized"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
       top: -5px;
     }
+    #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
     #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
       top: -1px;
     }
@@ -8241,6 +8535,7 @@ toolbarpaletteitem[place="toolbar"] {
    * the bottom of the indicator would get cut off by the bounds of the
    * private-browsing-indicator element.
    */
+  #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
   #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
     top: 4px;
   }
@@ -8249,9 +8544,11 @@ toolbarpaletteitem[place="toolbar"] {
 @media (-moz-os-version: windows-vista),
        (-moz-os-version: windows-win7) {
   @media (-moz-windows-glass) {
+    #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
     #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
       top: 1px;
     }
+    #main-window[sizemode="maximized"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
     #main-window[sizemode="maximized"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
       top: -1px;
     }
@@ -8263,6 +8560,7 @@ toolbarpaletteitem[place="toolbar"] {
    */
   @media (-moz-windows-default-theme) {
     @media not all and (-moz-windows-compositor) {
+      #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
       #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
         background-image: url("chrome://browser/skin/privatebrowsing-mask-48x32.svg#titlebar-XPVista7-tall");
         height: 28px;
@@ -8770,13 +9068,46 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
       @media not all and (-moz-os-version: windows-win8) {
         @media (-moz-windows-default-theme) {
           #main-window {
-            background-color: #F0F0F0; /* As per Lootyhoof. It was hsl(0, 0%, 78%).
+            background-color: #F0F0F0; /* = hsl(0, 0%, 94.1%) ...As per Lootyhoof. It was hsl(0, 0%, 78%).
                                           It may well be #f6f6f6 but I dunno --johnGraciliano */
+          }
+
+          @media (-moz-windows-accent-color-in-titlebar: 0) {
+            :root[tabsintitlebar]:not(:-moz-lwtheme) {
+              background-color: hsl(235,33%,19%);
+            }
+            :root[tabsintitlebar] #toolbar-menubar:not(:-moz-lwtheme),
+            :root[tabsintitlebar] #TabsToolbar:not(:-moz-lwtheme) {
+              color: hsl(240,9%,98%);
+            }
+            :root[tabsintitlebar] .titlebar-button:not(:-moz-lwtheme) {
+              fill: hsl(240,9%,98%);
+            }
+          }
+
+          @media (-moz-windows-accent-color-in-titlebar) {
+            :root[tabsintitlebar]:not(:-moz-window-inactive):not(:-moz-lwtheme) {
+              background-color: -moz-win-accentcolor;
+            }
+            :root[tabsintitlebar] #toolbar-menubar:not(:-moz-window-inactive):not(:-moz-lwtheme),
+            :root[tabsintitlebar] #TabsToolbar:not(:-moz-window-inactive):not(:-moz-lwtheme) {
+              color: -moz-win-accentcolortext;
+            }
+            :root[tabsintitlebar] .titlebar-button:not(:-moz-window-inactive):not(:-moz-lwtheme) {
+              fill: -moz-win-accentcolortext;
+            }
+          }
+
+          :root[tabsintitlebar] .tab-label:-moz-window-inactive {
+            /* Calculated to match the opacity change of Windows Explorer
+               titlebar text change for inactive windows. */
+            opacity: .6;
           }
         }
 
-        @media not all and (-moz-windows-default-theme) {
-          #main-window {
+        @media not all and (-moz-windows-default-theme),  /* The old test */
+               (-moz-windows-default-theme: 0) /* The test in Firefox 54+ */ {
+          :root { /* Note: ":root" replaces "#main-window" */
             background-color: transparent;
           }
         }
@@ -8804,6 +9135,7 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
         .titlebar-button > .toolbarbutton-icon {
           width: 12px;
           height: 12px;
+          filter: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg"><filter id="fill"><feComposite in="FillPaint" in2="SourceGraphic" operator="in"/></filter></svg>#fill');
         }
 
         #titlebar-min {
@@ -8821,35 +9153,42 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
         #titlebar-close {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#close);
         }
+
+        /** This is done differently **
         #titlebar-close:hover {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#close-white);
         }
+         ******************************/
 
-        :-moz-lwtheme-brighttext#titlebar-min {
+        .titlebar-button > .toolbarbutton-icon:-moz-lwtheme {
+          filter: unset;
+        }
+
+        #titlebar-min:-moz-lwtheme-brighttext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#minimize-themes);
         }
-        :-moz-lwtheme-brighttext#titlebar-max {
+        #titlebar-max:-moz-lwtheme-brighttext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#maximize-themes);
         }
-        #main-window[sizemode="maximized"] :-moz-lwtheme-brighttext#titlebar-max {
+        #main-window[sizemode="maximized"] #titlebar-max:-moz-lwtheme-brighttext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#restore-themes);
         }
-        :-moz-lwtheme#titlebar-close:hover,  /* Bright Close on Hover for both bright and dark text --johnGraciliano */
-        :-moz-lwtheme-brighttext#titlebar-close {
+        #titlebar-close:-moz-lwtheme:hover,  /* Bright Close on Hover for both bright and dark text --johnGraciliano */
+        #titlebar-close:-moz-lwtheme-brighttext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#close-themes);
         }
 
-        :-moz-lwtheme-darktext#titlebar-min {
+        #titlebar-min:-moz-lwtheme-darktext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#minimize-darktext);
         }
-        :-moz-lwtheme-darktext#titlebar-max {
+        #titlebar-max:-moz-lwtheme-darktext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#maximize-darktext);
         }
-        #main-window[sizemode="maximized"] :-moz-lwtheme-darktext#titlebar-max {
+        #main-window[sizemode="maximized"] #titlebar-max:-moz-lwtheme-darktext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#restore-darktext);
         }
         /* :-moz-lwtheme-brighttext#titlebar-close:hover, */
-        :-moz-lwtheme-darktext#titlebar-close {
+        #titlebar-close:-moz-lwtheme-darktext {
           list-style-image: url(chrome://browser/skin/caption-buttons.svg#close-darktext);
         }
 
@@ -8902,11 +9241,16 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
 
         @media (-moz-windows-default-theme) {
           .titlebar-button:hover {
-            background-color: hsla(0, 0%, 0%, .12);
+            background-color: hsla(0,0%,0%,.12);
           }
-
           .titlebar-button:hover:active {
-            background-color: hsla(0, 0%, 0%, .22);
+            background-color: hsla(0,0%,0%,.22);
+          }
+          .titlebar-button:-moz-lwtheme-brighttext:hover {
+            background-color: hsla(0,0%,100%,.12);
+          }
+          .titlebar-button:-moz-lwtheme-brighttext:hover:active {
+            background-color: hsla(0,0%,100%,.22);
           }
 
           .titlebar-button:not(:hover) > .toolbarbutton-icon:-moz-window-inactive {
@@ -8914,6 +9258,7 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
           }
 
           #titlebar-close:hover {
+            fill: white;
             background-color: hsl(355, 86%, 49%);
           }
 
@@ -8921,12 +9266,18 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
             background-color: hsl(355, 82%, 69%);
           }
         }
-        @media not all and (-moz-windows-default-theme) {
+        @media not all and (-moz-windows-default-theme),
+               (-moz-windows-default-theme: 0) {
           .titlebar-button {
             background-color: -moz-field;
+            /* fill: ButtonText; */
           }
           .titlebar-button:hover {
             background-color: Highlight;
+            /* fill: HighlightText; */
+          }
+          .titlebar-button > .toolbarbutton-icon {
+            filter: unset;
           }
 
           #titlebar-min {
@@ -9026,9 +9377,12 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
     }
   }
 
-  #main-window[darkwindowframe="true"] #toolbar-menubar:not(:-moz-lwtheme):not(:-moz-window-inactive),
-  #main-window[darkwindowframe="true"] #TabsToolbar:not(:-moz-lwtheme):not(:-moz-window-inactive) {
+  :root[darkwindowframe="true"] #toolbar-menubar:not(:-moz-lwtheme):not(:-moz-window-inactive),
+  :root[darkwindowframe="true"] #TabsToolbar:not(:-moz-lwtheme):not(:-moz-window-inactive) {
     color: white;
+  }
+  :root[darkwindowframe="true"] .titlebar-button:not(:-moz-lwtheme):not(:-moz-window-inactive) {
+    fill: white;
   }
 
   #toolbar-menubar:not(:-moz-lwtheme) {
@@ -9194,6 +9548,31 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
 }
 /*} ****  for every OS in SimpleWhite ********/
 
+
+/***************** START ADDED SEPT 13 2017 ************************************************************/
+.browser-extension-panel > .panel-arrowcontainer > .panel-arrowcontent {
+  padding: 0;
+  overflow: hidden;
+}
+
+@media (-moz-os-version: windows-win7) {
+  .cui-widget-panelview[id^=PanelUI-webext-] {
+    border-radius: 4px;
+  }
+}
+
+.webextension-popup-browser,
+.webextension-popup-stack {
+  border-radius: inherit;
+}
+/***************** END ADDED SEPT 13 2017 **************************************************************/
+
+
+
+
+
+
+
 /**** EXTRA CODE FROM SIMPLE WHITE --johnGraciliano ********/
 
 /* Win8 and beyond. */
@@ -9247,6 +9626,7 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
   /* We're intentionally using the titlebar asset here for fullscreen mode.
    * See bug 1008183.
    */
+  #titlebar-buttonbox-container > .private-browsing-indicator,
   #private-browsing-indicator-titlebar > .private-browsing-indicator,
   #main-window[inFullscreen] #TabsToolbar > .private-browsing-indicator {
     background-image: url("chrome://browser/skin/privatebrowsing-mask-40x20.svg#titlebar-XPVista7");
@@ -9254,9 +9634,11 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
 }
 
 @media (-moz-windows-glass) {
+  #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
   #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
     top: 1px;
   }
+  #main-window[sizemode="maximized"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
   #main-window[sizemode="maximized"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
     top: -1px;
   }
@@ -9268,6 +9650,7 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
  */
 @media (-moz-windows-default-theme) {
   @media not all and (-moz-windows-compositor) {
+    #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > .private-browsing-indicator,
     #main-window[sizemode="normal"] > #titlebar > #titlebar-content > #titlebar-buttonbox-container > #private-browsing-indicator-titlebar > .private-browsing-indicator {
       background-image: url("chrome://browser/skin/privatebrowsing-mask-48x32.svg#titlebar-XPVista7-tall");
       height: 28px;
@@ -9334,13 +9717,6 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
 #theFoxOnlyBetter-slimChrome-toolbars-after,
 #theFoxOnlyBetter-slimChrome-container #nav-bar > * {
   background: rgba(250,250,250,1) !important;
-}
-
-/* All that follows is from the default in 44.0a2 and 45.0a1.  I am not sure of its use yet...  --johnGraciliano */
-
-.browser-extension-panel > .panel-arrowcontainer > .panel-arrowcontent {
-  padding: 0;
-  overflow: hidden;
 }
 
 /* User Context UI browser styles */
@@ -9413,6 +9789,21 @@ menugroup > .menuitem-iconic[disabled="true"] > .menu-iconic-left {
   --container-tab-color: rgb(238, 81, 149);
 }
 
+
+@supports (-webkit-mask:unset) {  /* Lightweight theme on tabs  (Firefox 54 and later) */
+  /* Change test to (display: flow-root) for Firefox 53 and later (if necessary!) */ {}
+  #tabbrowser-tabs:not([movingtab]) .tabbrowser-tab[usercontextid][selected="true"]:-moz-lwtheme {
+    background-image: var(--container-gradient), var(--tabbrowser-tab-selected-background-image), var(--lwt-header-image);
+    background-attachment: scroll, scroll, fixed;
+    background-size: auto 2px, calc(100% - 2px) calc(100% - 2px), auto auto;
+    background-position:  1px 2px, 1px 2px, right top;
+    background-origin:  border-box, border-box, padding-box;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+  }
+}
+
+
+
 /***  END TAB STYLES FOR CONTAINER TABS ***********************************************************************************************/
 
 
@@ -9443,7 +9834,7 @@ toolbarpaletteitem[place="palette"] > #containers-panelmenu[widget-type="view"] 
 
 /* URL Bar Decoration */
 
-@supports not (background-position-x: left) { /* Firefox < 49 */
+@supports not (background-position-x: left) { /* Firefox < 49 */ {}
   #userContext-icons:not([usercontextid]) {
     display: none;
   }
@@ -9506,7 +9897,7 @@ toolbarpaletteitem[place="palette"] > #containers-panelmenu[widget-type="view"] 
 }
 
 
-@supports (background-position-x: left) { /* Firefox >= 49 */
+@supports (background-position-x: left) { /* Firefox >= 49 */ {}
   #userContext-label {
     -moz-box-align: end;
     margin-inline-start: 2px;
@@ -9553,6 +9944,13 @@ toolbarpaletteitem[place="palette"] > #containers-panelmenu[widget-type="view"] 
   filter: invert(1.0);
 }
 
+
+#TabsToolbar[brighttext] :-moz-lwtheme-brighttext.tabs-newtab-button > .toolbarbutton-icon {
+  filter: none;
+}
+
+
+
 toolbar[brighttext] toolbarbutton:not(.toolbarbutton-1) > dropmarker {
   filter: invert(1.0);
 }
@@ -9562,5 +9960,148 @@ toolbar[brighttext] toolbarbutton:not(.toolbarbutton-1) > dropmarker {
 
 
 
+
+
+@supports (text-justify: auto) { /* Only Firefox 55 and later */ {}
+  /* These rules are to temporarily fix placement in Firefox 57 */
+  /* They show no ill effect on Firefox 55 or 56 */
+  #PopupAutoCompleteRichResult .autocomplete-richlistitem > spacer[anonid="type-icon-spacer"] {
+     display: none;
+  }
+
+  #PopupAutoCompleteRichResult .autocomplete-richlistitem > .ac-type-icon {
+    display: none;
+  }
+}
+
+
+
+
+/***************************************
+  THIS WAS JUST TO TEST FIREFOX BEHAVIOR
+
+#sync-button {
+  fill: HighlightText;
+  background-color: Highlight;
+          background-color: -moz-field;
+          fill: InactiveCaptionText;
+}
+#sync-button > .toolbarbutton-icon {
+          filter: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg"><filter id="fill"><feComposite in="FillPaint" in2="SourceGraphic" operator="in"/></filter></svg>#fill');
+}
+
+ *******************************************************/
+
+
+
+
+
+
+
+
+/* The following was taken from the default and may have no value here: */
+
+:root {
+  --toolbarbutton-inner-padding: 3px;
+}
+
+/* Larger buttons in touch mode */
+:root[uidensity=touch] {
+  --toolbarbutton-inner-padding: 9px;
+}
+@media (-moz-os-version: windows-win10) {
+  :root {
+    /* let toolbar buttons match the location and search bar's minimum height */
+    --toolbarbutton-inner-padding: 5px;
+  }
+}
+
+
+/* What follows is used for the customization with Photon */
+
+/* :root[customize-entered="true"] #customization-container[photon="true"] #customization-panelHolder */
+:root[customize-entered="true"] #customization-content-container #customization-panelHolder {
+  width: calc(22.35em + 26px);
+  overflow-y: hidden; /* This was auto */
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* #customization-container[photon="true"] */ #customization-panelHolder[id][id] > #widget-overflow-fixed-list {
+  overflow: visible;
+  padding-bottom: .5em;
+  padding-left: 0;
+  padding-right: 0;
+
+
+  width: calc(22.35em + 26px);
+  max-width: calc(22.35em + 26px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  align-items: center;
+  max-width: calc(22.35em + 26px);
+}
+
+#customization-spacer {
+  display: none;
+}
+
+
+/* Photon *********************************/
+#customization-panelHolder {
+  position: relative;
+}
+#customization-panelHolder > #widget-overflow-fixed-list:not(:empty) {
+  position: static;
+}
+/* :root[customizing-movingItem] This prefix would make the outline show when mooving an item, the next one is to alwasy show it. */
+:root[customize-entered] #customization-panelHolder > #widget-overflow-fixed-list:not(:empty)::before {
+  outline-color: rgb(102,102,102);
+}  
+/* End Photon *****************************/
+
+
+
+
+
+/* For non-Photon */
+#customization-panelHolder > * /*#PanelUI-mainView*/ > #PanelUI-contents-scroller {
+  outline: 1px dashed transparent;
+  outline-offset: -2px;
+  transition: outline-color 250ms linear;
+}
+:root[customize-entered] #customization-panelHolder > * /*#PanelUI-mainView*/ > #PanelUI-contents-scroller {
+  outline-color: rgb(102,102,102);
+}  
+/* End For non-Photon */
+
+
+
+
+/* Undo a rule in "...ostarget/global/general/toolbarbutton.css" */
+:root[customizing] toolbarbutton[disabled="true"] {
+  color: inherit;
+}
+
+
+
+
+
+/********* THE FOLLOWING SHOULD GO INTO panelUI.css (MAYBE) ****************************************************************/
+
+
+/* Allow box layout to take over when the view exceeds the available space. */
+#PanelUI-mainView:not([exceeding]) > #PanelUI-contents-scroller {
+  display: flex;
+}
 
 

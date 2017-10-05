@@ -1,0 +1,17 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ 
+/* This file overrides "chrome://devtools/skin/tooltips.css" */
+
+@import url("chrome://devtools/content/shared/widgets/color-widget.css");
+@import url("chrome://devtools/content/shared/widgets/cubic-bezier.css");
+@import url("chrome://devtools/content/shared/widgets/filter-widget.css");
+@import url("chrome://devtools/content/shared/widgets/mdn-docs.css");
+@import url("chrome://devtools/content/shared/widgets/spectrum.css");
+@import url("chrome://browser/skin/devtools/tooltips.css"); /* This old style path name avoids a self reference */
+
+  /* Revert a rule in filter-widget.css *./
+  input{
+    width: unset;
+  } /.**********************************************************************************/

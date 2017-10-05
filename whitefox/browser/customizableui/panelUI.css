@@ -16,10 +16,31 @@
   --panel-ui-exit-subview-gutter-width: 38px;
 }
 
+
+
+[id][id]#customization-panelHolder > #widget-overflow-fixed-list:empty {
+  background-image: linear-gradient(hsla(0,0%,100%,.67),hsla(0,0%,100%,.67)), url("chrome://browser/skin/customizableui/empty-overflow-panel.png");
+  margin: .5em 15px;
+  width: calc(22.35em - 4px);
+  position: relative;
+  overflow: visible;
+}
+#customization-panelHolder > #widget-overflow-fixed-list:empty::after {
+  margin: calc(2px - .5em) -13px calc(-4px - .5em);
+  min-width: calc(100% + 4px);/*Make sure this element fills the whole width in case there is no "emptylabel" attribute (Firefox 55) */
+  outline: 1px dashed transparent;
+  outline-offset: 0px;
+  transition: outline-color 250ms linear;
+}
+:root[customize-entered] #customization-panelHolder > #widget-overflow-fixed-list:empty::after {
+  outline-color: rgb(102,102,102);
+}
+
 #PanelUI-popup #PanelUI-contents:empty {
   height: 128px;
 }
 
+#customization-panelHolder > #widget-overflow-fixed-list:empty::before,
 #PanelUI-popup #PanelUI-contents:empty::before {
   content: "";
   background-image: url(chrome://browser/skin/customizableui/whimsy.png);
@@ -32,29 +53,45 @@
   animation: whimsyMoveX 3.05s linear 0s infinite alternate,
              whimsyMoveY 3.4s linear 0s infinite alternate;
 }
+#customization-panelHolder > #widget-overflow-fixed-list:empty::before {
+  pointer-events: initial;
+  outline: unset;
+  outline-offset: unset;
+  animation: whimsyMoveX 3.05s linear 0s infinite alternate,
+             whimsyMoveYalt 3.4s linear 0s infinite alternate;
+}
 
+#customization-panelHolder > #widget-overflow-fixed-list:not(:hover):empty::before,
 #PanelUI-popup #PanelUI-contents:not(:hover):empty::before {
   filter: grayscale(100%);
 }
 
+#customization-panelHolder > #widget-overflow-fixed-list:active:empty::before {
+  animation: whimsyMoveX 3.05s linear 0s infinite alternate,
+             whimsyMoveYalt 3.4s linear 0s infinite alternate,
+             whimsyRotate 1s linear 0s infinite normal;
+}
 #PanelUI-popup #PanelUI-contents:active:empty::before {
   animation: whimsyMoveX 3.05s linear 0s infinite alternate,
              whimsyMoveY 3.4s linear 0s infinite alternate,
              whimsyRotate 1s linear 0s infinite normal;
 }
 
+#customization-panelHolder > #widget-overflow-fixed-list:-moz-locale-dir(rtl):empty::before,
 #PanelUI-popup #PanelUI-contents:-moz-locale-dir(rtl):empty::before {
   animation: whimsyMoveXRTL 3.05s linear 0s infinite alternate,
              whimsyMoveY 3.4s linear 0s infinite alternate;
 }
 
+#customization-panelHolder > #widget-overflow-fixed-list:-moz-locale-dir(rtl):active:empty::before,
 #PanelUI-popup #PanelUI-contents:-moz-locale-dir(rtl):active:empty::before {
   animation: whimsyMoveXRTL 3.05s linear 0s infinite alternate,
              whimsyMoveY 3.4s linear 0s infinite alternate,
              whimsyRotate 1s linear 0s infinite normal;
 }
 
-@media (min-resolution: 2dppx) {
+@media (min-resolution: 1.2dppx) {
+  #customization-panelHolder > #widget-overflow-fixed-list:empty::before,
   #PanelUI-popup #PanelUI-contents:empty::before {
     background-image: url(chrome://browser/skin/customizableui/whimsy@2x.png);
   }
@@ -68,6 +105,11 @@
 @keyframes whimsyMoveXRTL {
   /* These values are adjusted for the padding on the panel. */
   from { margin-right: -15px; } to { margin-right: calc(100% - 49px); }
+}
+
+@keyframes whimsyMoveYalt {
+  /* These values are adjusted for the padding and height of the panel. */
+  from { margin-top: -.5em; } to { margin-top: calc(154px - 64px - .5em); }
 }
 
 @keyframes whimsyMoveY {
@@ -196,6 +238,11 @@ panelmultiview[nosubviews=true] > .panel-viewcontainer > .panel-viewstack > .pan
   -moz-box-flex: 1;
 }
 
+panelview {
+  -moz-box-orient: vertical;
+  -moz-box-flex: 1;
+}
+
 .panel-subview-body {
   overflow-y: auto;
   overflow-x: hidden;
@@ -217,7 +264,8 @@ panelmultiview[nosubviews=true] > .panel-viewcontainer > .panel-viewstack > .pan
 .subviewbutton.panel-subview-footer {
   box-sizing: border-box;
   min-height: 41px;
-  padding: 11px 12px;
+  padding: 11px 9px; /* The horizontal padding was 12px on each side (it should had been 11px!), but the content width has to */
+                     /* match that for .subviewbutton, whose padding was changed from 6px to 4px (+1px border + 4px margin!)  */
 }
 
 .panel-subview-header {
@@ -264,67 +312,93 @@ photonpanelmultiview .panel-subview-header /* Firefox 55 */ {
   padding: 0;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text,
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-multiline-text {
   line-height: 1.2;
   max-height: 2.4em;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined):not([auto-hyphens="off"]) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined):not([auto-hyphens="off"]) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined):not([auto-hyphens="off"]) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined):not([auto-hyphens="off"]) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not([auto-hyphens="off"]) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not([auto-hyphens="off"]) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined):not([auto-hyphens="off"]) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined):not([auto-hyphens="off"]) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1:not([auto-hyphens="off"]) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text,
 .panelUI-grid .toolbarbutton-1:not([auto-hyphens="off"]) > .toolbarbutton-multiline-text {
   -moz-hyphens: auto;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list:not([customize-transitioning]) > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list:not([customize-transitioning]) >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list:not([customize-transitioning]) > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list:not([customize-transitioning]) >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list:not([customize-transitioning]) > * > .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list:not([customize-transitioning]) >     .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list:not([customize-transitioning]) > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list:not([customize-transitioning]) >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
 .panelUI-grid:not([customize-transitioning]) .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text,
 .panelUI-grid:not([customize-transitioning]) .toolbarbutton-1 > .toolbarbutton-multiline-text {
   position: absolute;
   clip: rect(-0.1em, auto, 2.6em, auto);
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX */
+.panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-text,
+.panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text,
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-text,
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-multiline-text {
   text-align: center;
   /* Need to override toolkit theming which sets margin: 0 !important; */
   margin: 2px 0 0 !important;
 }
-#main-window:not([customizing]) #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text /* Firefox 56 + SimpleWhiteX */ {
+
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text /* Photon + SimpleWhiteX */ {
   padding-inline-start: 0; /* To override the setting to .5em done elsewhere */
 }
 
-
-#main-window:not([customizing]) #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
+/* This was corrected moving the selectors to a different rule ****
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX *./
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX *./
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text {
   text-align: center;
   margin: -1px 0 0;
 }
+*****************/
+
+
+/* Switch to multiline text (force wrap) for the custom buttons fixed in the overflow panel in Photon. */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text,
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-text,
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-text,
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-text {
+  display: none;
+}
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text,
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-multiline-text,
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text,
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text {
+  display: -moz-box; /* block */
+}
+
 
 #wrapper-edit-controls:-moz-any([place="palette"],[place="panel"]) > #edit-controls,
 #wrapper-zoom-controls:-moz-any([place="palette"],[place="panel"]) > #zoom-controls {
   margin-inline-start: 0;
 }
 
+/*** This rule is merged with another that follows ***
 #PanelUI-contents {
   max-width: 22.35em;
 }
-
+ *****************************************************/
+ 
 #BMB_bookmarksPopup,
 .panel-mainview:not([panelid="PanelUI-popup"]) {
   max-width: 30em;
@@ -344,7 +418,7 @@ photonpanelmultiview .panel-subview-header /* Firefox 55 */ {
 }
 
 panelview:not([mainview]) .toolbarbutton-text,
-.cui-widget-panel toolbarbutton:not([wrap]) > .toolbarbutton-text { /* ":not([wrap])" added new in Firefox 55 */
+.cui-widget-panel toolbarbutton/*:not([wrap])*/ > .toolbarbutton-text { /* ":not([wrap])" added new in Firefox 55 */
   text-align: start;
   display: -moz-box;
 }
@@ -358,36 +432,14 @@ panelview:not([mainview]) .toolbarbutton-text,
 /* Start Rules from Firefox 55 */
 /* START photonpanelview adjustments */
 
-/* #customizationui-widget-panel > .panel-arrowcontainer > .panel-arrowcontent, /* This Too! (Library)  --johnGraciliano This causes problems */
-/* #page-action-panel > .panel-arrowcontainer > .panel-arrowcontent, /* This Too!  --johnGraciliano This also causes problems */
 #appMenu-popup > .panel-arrowcontainer > .panel-arrowcontent {
   padding: 0;
-  /* border-radius: 0;   ** I removed this because it does not apply for Simple White X ***/
-  
-  /* The following is not needed!!!!
-  border-radius: 4px; /* This was added here for SimpleWhite ! !  !    (it is probably superfluous) */
 }
 
 photonpanelmultiview panelview {
-  /* background: var(--arrowpanel-background); */
   background-color: var(--panel-arrowcontent-background, #fff);
-  /* padding: 6px 0; */
-  /*
-  margin-top: -4px;
-  margin-bottom: -4px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-   */
-/***
-  padding: 0;
- ***/
 }
 
-/*** The rule in this comment is replaced by the one that follows it. ***
-#appMenu-popup panelview {
-  min-width: 22.35em;
-}
- ***/
 #appMenu-popup panelview,
 photonpanelmultiview#customizationui-widget-multiview panelview:not([extension]) {
   min-width: 22.35em;
@@ -408,12 +460,6 @@ photonpanelmultiview panelview#PanelUI-history {
 }
 /***/
 
-REMOVED photonpanelmultiview .panel-subview-body REMOVED {
-  /*XXXmikedeboer this flex is unnecessary, so I unset it for our case. It might
-                  break other panels, though, so I refrain from removing it above. */
-  -moz-box-flex: unset;
-}
-
 /* END photonpanelview adjustments */
 /* End   Rules from Firefox 55 */
 
@@ -427,24 +473,51 @@ REMOVED photonpanelmultiview .panel-subview-body REMOVED {
   padding-bottom: 0;
 }
 
-#widget-overflow-fixed-list, /* Firefox 56 + SimpleWhiteX */
+#widget-overflow-fixed-list:not([hidden="true"]):not(:empty), /* Selector for Photon */
 #PanelUI-contents {
   display: block;
   flex: 1 0 auto;
   margin-left: auto;
   margin-right: auto;
   padding: .5em 0;
+  box-sizing: content-box; /* Ensure width/max-width is for the content (border and padding are discounted) --johnGraciliano */
+  width: 22.35em;
   max-width: 22.35em;
 }
 
 #PanelUI-contents-scroller {
   overflow-y: auto;
   overflow-x: hidden;
+  /**********************
   width: 22.35em;
   padding-left: 5px;
   padding-right: 5px;
+   **********************/
+  width: 23.35em; /* = 22.35em (content) + 1em (padding). This is replaced through inline style by the code to include the scrollbar width! --johnGraciliano */
   flex: auto;
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
+
+#widget-overflow-scroller {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(22.35em + 24px); /* 24px for padding and/or scrollbar */
+  /* -moz-box-flex: 1; /* Needed to properly show the scrollbar ** (with "display: block") */
+  min-height: 1px; /* Needed to properly show the scrollbar */
+  max-height: 30em;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+
+
+
+
+
 
 .toolbaritem-combined-buttons:-moz-any(:not([cui-areatype="toolbar"]), [overflowedItem=true]) > toolbarbutton > .toolbarbutton-icon {
   min-width: 0;
@@ -452,8 +525,8 @@ REMOVED photonpanelmultiview .panel-subview-body REMOVED {
   margin: 0;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined), /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined), /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not(.toolbarbutton-combined), /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not(.toolbarbutton-combined), /* Photon + SimpleWhiteX */
 toolbaritem[cui-areatype="menu-panel"][sdkstylewidget="true"]:not(.panel-wide-item),
 .panelUI-grid .toolbarbutton-1,
 .panel-customization-placeholder-child {
@@ -489,8 +562,8 @@ toolbarpaletteitem:-moz-any([place="palette"], [place="panel"]) > toolbaritem[sd
   -moz-box-orient: vertical;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button, /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button {
   -moz-appearance: none;
   -moz-box-orient: vertical;
@@ -499,18 +572,20 @@ toolbarpaletteitem:-moz-any([place="palette"], [place="panel"]) > toolbaritem[sd
   border: 0;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Firefox 56 + SimpleWhiteX */
+/* These rule was merged with a better one above (adds center!) ***
+panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-text, /* Photon + SimpleWhiteX *./
+panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-text, /* Photon + SimpleWhiteX *./
+panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX *./
+panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text, /* Photon + SimpleWhiteX *./
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-text,
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-multiline-text {
-  margin-top: 2px; /* Hack needed to get the label of type=menu-button aligned with other buttons */
+  margin-top: 2px; /* Hack needed to get the label of type=menu-button aligned with other buttons *./
 }
+ ******************************************************************************/
 
 .panel-customization-placeholder-child {
   margin: 6px 0 0;
-  padding: 2px 6px;
+  padding: 2px 4px;
   border: 1px solid transparent;
 }
 
@@ -524,34 +599,38 @@ toolbarpaletteitem:-moz-any([place="palette"], [place="panel"]) > toolbaritem[sd
   background-position: left 3px top 16px;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menu-dropmarker, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menu-dropmarker, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1 > .toolbarbutton-menu-dropmarker, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1 > .toolbarbutton-menu-dropmarker, /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menu-dropmarker {
   display: none;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-dropmarker, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-dropmarker, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1 > .toolbarbutton-menubutton-dropmarker, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1 > .toolbarbutton-menubutton-dropmarker, /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-dropmarker {
   -moz-box-align: center;
   width: 16px;
   margin-inline-start: -16px;
-  height: 51px;
-  margin-bottom: 2.2em;
-  padding: 0;
+  height: 42px; /* (This is (2px) more than the vertical space used by the image (with margin). The previous value was, incorrectly, 51px) */
+  margin-bottom: calc(2.2em + 7px); /* To fill a vertical space of 49px + 2.2em.  (The previous value was 2.2em.) */
+  padding: 2px 0 0; /* This will lower the image a tiny bit */
 }
 
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not([buttonover]):not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) > .toolbarbutton-menubutton-dropmarker, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not([buttonover]):not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) > .toolbarbutton-menubutton-dropmarker, /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1:not([buttonover]):not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) > .toolbarbutton-menubutton-dropmarker {  /* Firefox 55 changed ":hover" for ":-moz-any(:hover,:focus)" */
   background-color: hsla(210,4%,10%,.1) !important;
   border-radius: 0 0 0 2px;
 }
 
+panel#widget-overflow #widget-overflow-fixed-list > * > .toolbarbutton-1:not([buttonover]):not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) > .toolbarbutton-menubutton-dropmarker:-moz-locale-dir(rtl), /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >     .toolbarbutton-1:not([buttonover]):not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) > .toolbarbutton-menubutton-dropmarker:-moz-locale-dir(rtl), /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1:not([buttonover]):not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) > .toolbarbutton-menubutton-dropmarker:-moz-locale-dir(rtl) {  /* Firefox 55 changed ":hover" for ":-moz-any(:hover,:focus)" */
   border-radius: 0 0 2px 0;
 }
 
 #main-window:not([customizing]) .panel-combined-button[disabled] > .toolbarbutton-icon {
-  opacity: .5;
+  opacity: .4; /* This was .5 --jG */
 }
 
 toolbaritem[cui-areatype="menu-panel"][sdkstylewidget="true"]:not(.panel-wide-item) {
@@ -568,14 +647,14 @@ toolbaritem[cui-areatype="menu-panel"][sdkstylewidget="true"] > iframe {
   margin: 4px auto;
 }
 
-panelmultiview[viewtype="subview"] > .panel-viewcontainer > .panel-viewstack > .panel-mainview >  #widget-overflow-mainView, /* Firefox 56 + SimpleWhiteX --johnGraciliano */
+panelmultiview[viewtype="subview"] > .panel-viewcontainer > .panel-viewstack > .panel-mainview >  #widget-overflow-mainView, /* Photon + SimpleWhiteX --johnGraciliano */
 #PanelUI-multiView[viewtype="subview"] > .panel-viewcontainer > .panel-viewstack > .panel-mainview >  #PanelUI-mainView {
   background-color: hsla(210,4%,10%,.1);
 }
 
-panelmultiview[viewtype="subview"] #widget-overflow-mainView > #widget-overflow-scroller > #widget-overflow-fixed-list > .panel-wide-item, /* Firefox 56 + SimpleWhiteX --johnGraciliano */
-panelmultiview[viewtype="subview"] #widget-overflow-mainView > #widget-overflow-scroller > #widget-overflow-fixed-list > toolbarbutton:not([panel-multiview-anchor="true"]), /* Firefox 56 + SimpleWhiteX --johnGraciliano */
-/* panelmultimiew[viewtype="subview"] #widget-overflow-mainView > #widget-overflow-scroller > #widget-overflow-fixed-list > .toolbarbutton-1:not([panel-multiview-anchor="true"]), /* Firefox 56 + SimpleWhiteX --johnGraciliano */
+panelmultiview[viewtype="subview"] #widget-overflow-mainView > #widget-overflow-scroller > #widget-overflow-fixed-list > .panel-wide-item, /* Photon + SimpleWhiteX */
+panelmultiview[viewtype="subview"] #widget-overflow-mainView > #widget-overflow-scroller > #widget-overflow-fixed-list > toolbarbutton:not([panel-multiview-anchor="true"]), /* Photon + SimpleWhiteX */
+/* panelmultimiew[viewtype="subview"] #widget-overflow-mainView > #widget-overflow-scroller > #widget-overflow-fixed-list > .toolbarbutton-1:not([panel-multiview-anchor="true"]), /* Photon + SimpleWhiteX */
 #PanelUI-multiView[viewtype="subview"] #PanelUI-mainView > #PanelUI-contents-scroller > #PanelUI-contents > .panel-wide-item,
 #PanelUI-multiView[viewtype="subview"] #PanelUI-mainView > #PanelUI-contents-scroller > #PanelUI-contents > .toolbarbutton-1:not([panel-multiview-anchor="true"]),
 
@@ -619,10 +698,10 @@ toolbaritem[cui-areatype="menu-panel"][sdkstylewidget="true"]:not(.panel-wide-it
   text-align: center;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-icon, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button > .toolbarbutton-icon, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-icon, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-badge-stack, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-icon, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-icon, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list        .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-icon, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list        .toolbarbutton-1 > .toolbarbutton-badge-stack, /* Photon + SimpleWhiteX */
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-menubutton-button > .toolbarbutton-icon,
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-icon,
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-badge-stack,
@@ -636,24 +715,26 @@ toolbaritem[cui-areatype="menu-panel"][sdkstylewidget="true"]:not(.panel-wide-it
   height: 32px;
   min-width: 32px;
   min-height: 32px;
-  /* Explanation for the below formula (A / B - C)
+  /* Explanation for the below formula ((A - B) / C)
      A
        Each button is (22.35em / 3 - 0.1px) wide
      B
-       Each button has two margins.
-     C (46px / 2 = 23px)
        The button icon is 32 pixels wide.
-       The button has 12px of horizontal padding (6 on each side).
-       The button has 2px of horizontal border (1 on each side).
-       Total width of button's icon + button padding should therefore be 46px,
-       which means each horizontal margin should be the half the button's width - (46/2) px.
+       The button has 4 pixels padding on both sides.
+       The button has a 1 pixel border on both sides.
+       So, the space used by the button's content (the icon), 
+       padding, and border is:  
+          32px + 2*4px + 2*1px = 42px
+     C
+       The space left is splitted equally to both margins.
   */
-  margin: 4px calc((22.35em / 3 - 0.1px) / 2 - 23px);
+  margin: 4px calc(((22.35em / 3 - 0.1px)  -  42px) / 2);
 }
 
 /* above we treat the container as the icon for the margins, that is so the
 /* badge itself is positioned correctly. Here we make sure that the icon itself
 /* has the minimum size we want, but no padding/margin. */
+panel#widget-overflow #widget-overflow-fixed-list .toolbarbutton-1 > .toolbarbutton-badge-stack > .toolbarbutton-icon,
 .panelUI-grid .toolbarbutton-1 > .toolbarbutton-badge-stack > .toolbarbutton-icon,
 .customization-palette .toolbarbutton-1 > .toolbarbutton-badge-stack > .toolbarbutton-icon {
   width: 32px;
@@ -1314,8 +1395,8 @@ toolbarpaletteitem[place="palette"] > toolbaritem > toolbarbutton {
   display: none;
 }
 
-#main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button, /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button, /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button, /* Photon + SimpleWhiteX */
+panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button, /* Photon + SimpleWhiteX */
 panelview .toolbarbutton-1,
 .subviewbutton,
 /*** Tbe selector in this comment is replaced by the one that follows it. ***
@@ -1326,7 +1407,6 @@ panelview .toolbarbutton-1,
 .share-provider-button,
 .toolbaritem-combined-buttons:-moz-any(:not([cui-areatype="toolbar"]), [overflowedItem=true]) > toolbarbutton {
   -moz-appearance: none;
-  padding: 0 6px;
   padding: 0 4px;
   background-color: hsla(210,4%,10%,0);
   border-radius: 2px;
@@ -1350,9 +1430,9 @@ panelview .toolbarbutton-1,
 .subviewbutton.panel-subview-footer > .menu-text {
   -moz-appearance: none;
   margin-inline-start: 0px !important;
-  padding-inline-start: 6px;
+  padding-inline-start: 6px !important; /* !important to overcome a rule for .menu-text in chrome://ostarget{general}/skin/global/menu.css */
   padding-inline-end: 6px;
-  -moz-box-flex: 0;
+/*  -moz-box-flex: 0;  ******************************************/
   text-align: center;
 }
 
@@ -1365,9 +1445,24 @@ panelview .toolbarbutton-1,
   padding: 0;
 }
 
+/** I removed the next rule because it offsets the centered text. --johnGraciliano: **%
 .subviewbutton.panel-subview-footer > .menu-accel-container {
   padding-inline-start: 6px;
 }
+ **/
+
+/* The next rule removes the space take by an empty .menu-accel-container to center the .toolbarbutton-text correctly. */
+
+/* .panel-subview-footer */
+.subviewbutton.panel-subview-footer:not([acceltext]):not(.menuitem-iconic)  > .menu-accel-container
+ {
+  display: none;
+}
+/* Notes:
+ *  1.  The clause ":not([acceltext]):not(.menuitem-iconic)" may be too general and this may only be proper for ".openintabs-menuitem"
+ *  2.  The rule "menuitem:not([acceltext]) > .menu-accel-container {display:none;}". But the .menu-accel-container also takes
+ *      space that balances the space for the icon at the start of the line.
+ */
 
 .subviewbutton:not(.panel-subview-footer) {
   margin: 0;
@@ -1446,7 +1541,7 @@ photonpanelmultiview .PanelUI-subView .subviewbutton:not(.panel-subview-footer) 
   margin-left: 4px;
   margin-right: 4px;
 }
-photonpanelmultiview .PanelUI-subView .subviewbutton[label] > .toolbarbutton-icon,
+photonpanelmultiview .PanelUI-subView .subviewbutton[label]:not(.panel-subview-footer) > .toolbarbutton-icon,
 photonpanelmultiview .PanelUI-subView .subviewbutton.subviewbutton-iconic > .toolbarbutton-icon {
   width: 16px;
   height: 16px;
@@ -1492,13 +1587,15 @@ photonpanelmultiview #appMenu-edit-controls > label {
 #appMenu-fxa-icon:not(:hover):not(:active) {
   border-color: transparent;
 }
-photonpanelmultiview .toolbaritem-combined-buttons:not(#negative) {
+
+/**** PHOTON **** THESE ARE RESTRICTED HERE TO THE MAIN MENU AT THIS MOMENT ****/
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#negative) {
   border-width: 0px;
 }
-photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container) {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#appMenu-fxa-container) {
   padding: 0 4px;
 }
-photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > toolbarbutton {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > toolbarbutton {
   border-radius: 0;
   border-width: 1px;
   border-inline-end-width: 0;
@@ -1512,32 +1609,33 @@ photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container) >
   border-image-slice: 1 0 1 0; /* This may need to change for LTR locales */
   background-clip: padding-box;
 }
-photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > label + toolbarbutton {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > label + toolbarbutton {
   border-image-slice: 1 0 1 0; /* This may need to change for LTR locales */
 }
-photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > toolbarbutton:-moz-any(:last-child, #appMenu-zoomEnlarge-button) {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > toolbarbutton:-moz-any(:last-child, #appMenu-zoomEnlarge-button) {
   border-inline-end-width: 1px;
 }
-photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > toolbarbutton + toolbarbutton {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#appMenu-fxa-container) > toolbarbutton + toolbarbutton {
   border-image-slice: 1 0 1 1; /* This may need to change for LTR locales */
 }
-photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container):hover > toolbarbutton:not([disabled="true"]) + toolbarbutton {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#appMenu-fxa-container):hover > toolbarbutton:not([disabled="true"]) + toolbarbutton {
   border-image-source: none;
   border-inline-start-color: hsla(210,4%,10%,.18);
 }
-photonpanelmultiview .toolbaritem-combined-buttons > toolbarbutton:not([disabled="true"])#appMenu-fullscreen-button:hover,
-photonpanelmultiview .toolbaritem-combined-buttons:not(#appMenu-fxa-container):hover > toolbarbutton:not([disabled="true"]):not(#appMenu-fullscreen-button) {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons > toolbarbutton:not([disabled="true"])#appMenu-fullscreen-button:hover,
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons:not(#appMenu-fxa-container):hover > toolbarbutton:not([disabled="true"]):not(#appMenu-fullscreen-button) {
   border-image-source: none;
   border-color: hsla(210,4%,10%,.18);
 }
 
-photonpanelmultiview .toolbaritem-combined-buttons > toolbarbutton:not(#appMenu-zoomReset-button) > .toolbarbutton-text {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons > toolbarbutton:not(#appMenu-zoomReset-button) > .toolbarbutton-text {
   display: none;
 }
-photonpanelmultiview .toolbaritem-combined-buttons > toolbarbutton#appMenu-zoomReset-button > .toolbarbutton-text {
+photonpanelmultiview   .PanelUI-subView   .toolbaritem-combined-buttons > toolbarbutton#appMenu-zoomReset-button > .toolbarbutton-text {
   padding: 0;
   text-align: center;
 }
+/****/
 
 /******************************************************************************************/
 
@@ -1745,6 +1843,7 @@ menuitem.panel-subview-footer:not([disabled])[_moz-menuactive]:active,
   padding-left: 6px;
 }
 
+#widget-overflow-fixed-separator, /* = #widget-overflow-mainView > .panel-subview-body > toolbarseparator */
 #sidebarMenu-popup toolbarseparator,
 .PanelUI-subView menuseparator,
 .PanelUI-subView toolbarseparator,
@@ -1756,6 +1855,10 @@ menuitem.panel-subview-footer:not([disabled])[_moz-menuactive]:active,
   margin: 6px 0;
   margin: 4px 0;
   padding: 0;
+}
+#widget-overflow-fixed-separator {
+  width: 100%; /* Extra (required here) */
+  margin-top: 0; margin-bottom: 0; /* The vertical margin is not needed here */
 }
 
 #sidebarMenu-popup toolbarseparator,
@@ -1788,9 +1891,9 @@ menuitem.panel-subview-footer:not([disabled])[_moz-menuactive]:active,
 /* End   Firefox 55 */
 
 .subviewbutton > .menu-accel-container {
-  -moz-box-pack: start;
-  margin-inline-start: 10px;
-  margin-inline-end: auto;
+  -moz-box-pack: end;       /*** The value was 'start' but 'end' makes a proper alignment! --johnGraciliano ***/
+  margin-inline-start: 0px; /*** This was 10px, but having margin-inline-end:auto" seem to make that meaningliess --jG ***/
+  margin-inline-end: 0px;   /*** This was auto, yet 0 is what makes sense, since it should shift to the end --jG ***/
   color: GrayText;
 }
 
@@ -1916,8 +2019,9 @@ toolbarpaletteitem[haswideitem][place="panel"] + toolbarpaletteitem[haswideitem]
   padding: .5em;
   margin: 0;
   -moz-box-flex: 1;
-  min-width: calc((22.35em / 3 - 0.1px));
-  max-width: calc((22.35em / 3 - 0.1px));
+  /* - 4px accounts for the borders in .toolbaritem-combined-buttons and the two separators */
+  min-width: calc((22.35em - 4px) / 3);
+  max-width: calc((22.35em - 4px) / 3);
   /* We'd prefer to use height: auto here but it leads to layout bugs in the panel. Cope:
      1.2em for line height + 2 * .5em padding + margin on the label (2 * 2px) */
   height: calc(2.2em + 4px);
@@ -1925,16 +2029,8 @@ toolbarpaletteitem[haswideitem][place="panel"] + toolbarpaletteitem[haswideitem]
   -moz-box-orient: horizontal;
 }
 
-#edit-controls:-moz-any(:not([cui-areatype="toolbar"]), [overflowedItem=true]) > #copy-button,
-#zoom-controls:-moz-any(:not([cui-areatype="toolbar"]), [overflowedItem=true]) > #zoom-reset-button {
-  /* reduce the width with 2px for this button to compensate for two separators
-     of 1px. */
-  min-width: calc((22.35em / 3 - 0.1px) - 2px);
-  max-width: calc((22.35em / 3 - 0.1px) - 2px);
-}
-
 #main-window:not([customizing]) .toolbaritem-combined-buttons:-moz-any(:not([cui-areatype="toolbar"]), [overflowedItem=true]) > toolbarbutton[disabled] > .toolbarbutton-icon {
-  opacity: .25;
+  opacity: .4; /* This was .25 --johnGraciliano   p.s. This rule may use a simpler selector because it is only needed for the photon main menu. */
 }
 
 #zoom-controls[cui-areatype="toolbar"] > #zoom-reset-button > .toolbarbutton-text {
@@ -1977,36 +2073,99 @@ toolbarpaletteitem[haswideitem][place="panel"] + toolbarpaletteitem[haswideitem]
   padding: 0;
 }
 
-.cui-widget-panelview,
-#widget-overflow-scroller {
+#widget-overflow > .panel-subview-body {
+  display: flex;
+  overflow: visible;
+}
+
+.cui-widget-panelview {
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-#widget-overflow-mainView { /* Firefox 56 + SimpleWhiteX */
-  padding-left: 6px;
-  padding-right: 6px;
-}
-
 #widget-overflow-scroller {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(22.35em + 24px); /* 24px for padding and/or scrollbar */
+  /* -moz-box-flex: 1; /* Needed to properly show the scrollbar ** (with "display: block") */
+  min-height: 1px; /* Needed to properly show the scrollbar */
   max-height: 30em;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  
-  display: block; /* Firefox 56 + SimpleWhiteX */
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 #widget-overflow-list {
+  display: block;
+  box-sizing: content-box; /* Added to ensure proper sense of the next line! --johnGraciliano */
   width: 22.35em;
+  /***
   padding-left: 10px;
   padding-right: 10px;
+   ***/
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
+
+#widget-overflow-list:empty {
+  display: none; /* It takes no space --johnGraciliano */
+}
+
+panelview#widget-overflow-mainView {
+  min-width: calc(22.35em + 24px);
+  /* background-color: rgba(255,245,245);  ** This was part of a test */
+  /* max-height: 30em; ** This results in problems at this moment. */
+}
+
+/*
+panelview#widget-overflow-mainView vbox.panel-subview-body
+ */
+#widget-overflow-mainView > .panel-subview-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(22.35em + 24px);
+  -moz-box-flex: 1;
+  min-height: 1px;
+
+  padding: 0 !important;
+  margin: 1px 0;
+}
+
+toolbarbutton#overflowMenu-customize-button {
+  margin-top: 0; /* The other margins are fixed below! */
+}
+
+/* The next two rules are for other views that may show in this panel (e.g., bookmars) */
+photonpanelmultiview[mainViewId="widget-overflow-mainView"] .panel-subview-body {
+  /* The following rules are !important to override inline styles added by mozilla's code */
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+photonpanelmultiview[mainViewId="widget-overflow-mainView"] .subviewbutton.panel-subview-footer {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  /* background-color: transparent !important; ** This was part of a test */
+}
+/* No rule for the enclosing panelview: **./
+photonpanelmultiview[mainViewId="widget-overflow-mainView"] panelview {
+  border: 2px solid black;  %* This would be just for testing *%
+}
+ /.**/
+
 
 toolbaritem[overflowedItem=true],
 /*** Tbe selector in this comment is replaced by the one that follows it. ***
 .widget-overflow-list .toolbarbutton-1
  ***/
-.widget-overflow-list .toolbarbutton-1:not([panel-multiview-anchor="true"]) {
+.widget-overflow-list .toolbarbutton-1:not([panel-multiview-anchor="true"]):not(.toolbarbutton-combined) {
   width: 100%;
   max-width: 22.35em;
   min-height: 36px;
@@ -2043,8 +2202,8 @@ toolbaritem[overflowedItem=true],
   background-size: 1px 18px;
   box-shadow: 0 0 0 1px hsla(0,0%,100%,.2);
 }
-#main-window:not([customizing]) .widget-overflow-list#widget-overflow-fixed-list > * > .toolbarbutton-1 > .toolbarbutton-menubutton-button::after,  /* Firefox 56 + SimpleWhiteX */
-#main-window:not([customizing]) .widget-overflow-list#widget-overflow-fixed-list >     .toolbarbutton-1 > .toolbarbutton-menubutton-button::after { /* Firefox 56 + SimpleWhiteX */
+panel#widget-overflow .widget-overflow-list#widget-overflow-fixed-list > * > .toolbarbutton-1 > .toolbarbutton-menubutton-button::after,  /* Photon + SimpleWhiteX */
+panel#widget-overflow .widget-overflow-list#widget-overflow-fixed-list >     .toolbarbutton-1 > .toolbarbutton-menubutton-button::after { /* Photon + SimpleWhiteX */
   content: none; /* Remove this node! */
 }
 
@@ -2596,21 +2755,100 @@ photonpanelmultiview #panelMenu_pocket {
   display: none;
 }
 
+
+
+
+
+
+/**/
+
+.subviewbutton.download {
+  -moz-box-align: start;
+  min-height: 48px;
+  min-height: 45px;
+}
+
+.subviewbutton.download > .toolbarbutton-icon,
+.subviewbutton.download > .toolbarbutton-text > label {
+  margin: 3px 0 0;
+}
+.subviewbutton.download > .toolbarbutton-text {
+  margin: 0;
+  padding-top: 0; /* Otherwise padding: 3px 0 */
+}
+.subviewbutton.download > .toolbarbutton-icon {
+  margin: 4px 5px 0 0;
+}
+.subviewbutton.download > .toolbarbutton-text > label {
+}
+
+.subviewbutton.download > .toolbarbutton-text > label:-moz-any([value=""],:not([value])) {
+  display: none;
+}
+
+.subviewbutton.download > .toolbarbutton-text > .status-text {
+  color: GrayText;
+  font-size: .9em;
+}
+
+.subviewbutton.download > .action-button {
+  -moz-appearance: none; /* To avoid native Windows hover styling */
+  /***
+  -moz-context-properties: fill;
+  fill: currentColor;
+  list-style-image: url("chrome://browser/skin/folder.svg");
+   ***/
+
+  list-style-image: url("chrome://browser/skin/downloads/buttons.svg");
+  /** -moz-image-region: rect(22px, 18px, 38px, 2px); **/
+  -moz-image-region: rect(22px, 38px, 38px, 22px); /* default = [openLabel] */
+
+  /* Measurement to vertically center this button: 1 line of text minus half of 4px top margin. */
+  /* margin: calc(1em - 2px) 0 0; */
+  margin: 9px 0 0;
+  padding: 4px;
+  border-width: 0;
+}
+
+.subviewbutton.download:not([openLabel]):not([retryLabel]) > .action-button {
+  display: none;
+}
+
+.subviewbutton.download[openLabel] > .action-button:not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) {
+  -moz-image-region: rect(22px, 58px, 38px, 42px);
+}
+
+.subviewbutton.download[openLabel] > .action-button:not([disabled]):-moz-any([open],:hover:active) {
+  -moz-image-region: rect(22px, 78px, 38px, 62px);
+}
+
+
+.subviewbutton.download[retryLabel] > .action-button {
+  /** -moz-image-region: rect(42px, 18px, 58px, 2px); **/
+  -moz-image-region: rect(42px, 38px, 58px, 22px);
+
+}
+
+.subviewbutton.download[retryLabel] > .action-button:not(:-moz-any([disabled],[open],:active)):-moz-any(:hover,:focus) {
+  /** background-color: var(--arrowpanel-dimmed-further); **/
+  -moz-image-region: rect(42px, 58px, 58px, 42px);
+}
+
+.subviewbutton.download[retryLabel] > .action-button:not([disabled]):-moz-any([open],:hover:active) {
+  /** background-color: var(--arrowpanel-dimmed-even-further); **/
+  -moz-image-region: rect(42px, 78px, 58px, 62px);
+}
+
+
+
+
+
+
+
 /* END photon adjustments */
 
-
-/***********
-#appMenu-new-window-button {
-  list-style-image: url(chrome://browser/skin/menu-icons/new-window.svg);
-}
-
-#appMenu-private-window-button {
-  list-style-image: url(chrome://browser/skin/menu-icons/private-window.svg);
-}
-/*** End New in Firefox 55 ***********************************************************/
-
 .panel-subviews {
-  background-color: -moz-field;
+  background-color: var(--panel-arrowcontent-background, -moz-field); /* #fff */
 }
 
 #PanelUI-contents #zoom-out-btn {
@@ -2682,6 +2920,10 @@ menuitem[type="checkbox"].subviewbutton {
   border: 0;
   margin-inline-start: 3px;
 }
+panel#widget-overflow .widget-overflow-list#widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button, /* Photon + SimpleWhiteX */
+panel#widget-overflow .widget-overflow-list#widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button{ /* Photon + SimpleWhiteX */
+  margin-inline-start: 0; /* No margin for now --johnGraciliano */
+}
 
 .widget-overflow-list .toolbarbutton-1 > .toolbarbutton-menubutton-dropmarker {
   padding: 0 2px;
@@ -2691,6 +2933,9 @@ menuitem[type="checkbox"].subviewbutton {
 
 .widget-overflow-list .toolbarbutton-1 > .toolbarbutton-menubutton-dropmarker > .dropmarker-icon {
   padding: 0 6px;
+}
+panel#widget-overflow .widget-overflow-list#widget-overflow-fixed-list .toolbarbutton-1 > .toolbarbutton-menubutton-dropmarker > .dropmarker-icon {
+  padding: 0; /* No padding for now --johnGraciliano */
 }
 
 .subviewbutton > .toolbarbutton-text {
@@ -2738,8 +2983,8 @@ menu.subviewbutton > .menu-right:-moz-locale-dir(rtl) {
 @media not all and (-moz-os-version: windows-xp) {
   @media not all and (-moz-os-version: windows-vista) {
     @media not all and (-moz-os-version: windows-win7) {
-      #main-window:not([customizing]) #widget-overflow-fixed-list > * >  .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button, /* Firefox 56 + SimpleWhiteX */
-      #main-window:not([customizing]) #widget-overflow-fixed-list >      .toolbarbutton-1:not(.toolbarbutton-combined) > .toolbarbutton-menubutton-button, /* Firefox 56 + SimpleWhiteX */
+      panel#widget-overflow #widget-overflow-fixed-list > * >  .toolbarbutton-1 > .toolbarbutton-menubutton-button, /* Photon + SimpleWhiteX */
+      panel#widget-overflow #widget-overflow-fixed-list >      .toolbarbutton-1 > .toolbarbutton-menubutton-button, /* Photon + SimpleWhiteX */
       panelview .toolbarbutton-1,
       .subviewbutton,
       .widget-overflow-list .toolbarbutton-1,
@@ -2852,37 +3097,23 @@ menu.subviewbutton > .menu-right:-moz-locale-dir(rtl) {
   }
 }
 
-/* Start Firefox 56 *  /
-/* START photon adjustments *  /
-
-photonpanelmultiview .subviewbutton > .toolbarbutton-text,
-photonpanelmultiview .subviewbutton > .toolbarbutton-icon,
-photonpanelmultiview .panel-banner-item > .toolbarbutton-multiline-text {
-  padding: 0;
-  margin: 0;
-}
-
-/* END photon adjustments *  /
-/* End   Firefox 56 */
 
 
 
-/*
-#main-window[customizing] .customization-target:not(#PanelUI-contents) {
-#customization-container[photon] > #customization-content-container {
- */
-
+/*****  TO BE REMOVED!!!!  *******************************************************************************
 #customization-container[photon] > * > #customization-panel-container {flex-shrink: 0;}
-#customization-container[photon] > * > * > #customization-panelWrapper {height: 100%;}
-#customization-container[photon] > * > * > * > * > #customization-panelHolder {display: block;}
-#customization-container[photon] > * > * > * > * > * > #widget-overflow-fixed-list {box-sizing: content-box; min-height: calc(100% - 12px); padding: 6px 5px;}
+ *********************************************************************************************************/
 
-#widget-overflow-fixed-list > toolbarpaletteitem {
-  min-width: 23em;
+
+
+
+#customization-panelHolder > #widget-overflow-fixed-list > toolbarpaletteitem {
+  min-width: 22.35em; /* Changed from 23em --johnGraciliano */
   border-width: 0px;
   border-style: solid;
   border-color: transparent;
   transition: border-width 150ms linear;
+  width: 22.35em; /* Just Added */
 }
 #widget-overflow-fixed-list > toolbarpaletteitem[dragover=before] {
   border-block-start-width: 36px;
@@ -2896,6 +3127,8 @@ photonpanelmultiview[mainViewId="PanelUI-containers"]#customizationui-widget-mul
   padding-top: 4px;
   /* padding-bottom: 0px; ******************************/
 }
+
+
 
 
 
@@ -2928,31 +3161,6 @@ photonpanelmultiview[mainViewId="PanelUI-containers"]#customizationui-widget-mul
 }
 
 
-
-
-
-
-
-/*
-#customizationui-widget-panel > .panel-arrowcontainer > .panel-arrowcontent {
-  padding-top: 1px;
-  padding-bottom: 0;
-}
-
-#customizationui-widget-panel > .panel-arrowcontainer > .panel-arrowcontent > #customizationui-widget-multiview > .panel-viewcontainer > 
-.panel-viewstack > .panel-mainview > .PanelUI-subView.cui-widget-panelview > .panel-subview-body,
-#customizationui-widget-panel .panel-viewcontainer > .panel-viewstack > .panel-mainview > .PanelUI-subView.cui-widget-panelview > .panel-subview-body,
-.panel-arrowcontent > #customizationui-widget-multiview > .panel-viewcontainer > .panel-viewstack > .panel-mainview > .PanelUI-subView.cui-widget-panelview > .panel-subview-body {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#customizationui-widget-panel > .panel-arrowcontainer > .panel-arrowcontent 
-.panel-subview-body + .panel-subview-footer.subviewbutton {
-  margin-top: 0;
-}
-*/
-
 #customizationui-widget-multiview > .panel-viewcontainer > .panel-viewstack > .panel-mainview > #PanelUI-history.PanelUI-subView.cui-widget-panelview {
   overflow: visible;
 }
@@ -2963,3 +3171,27 @@ photonpanelmultiview[mainViewId="PanelUI-containers"]#customizationui-widget-mul
   padding-top: 2px;
   padding-bottom: 4px;
 }
+
+
+
+
+
+/**  THIS FOR DIAGNOSE AND TEST OF A CURRENT PROBLEM --jG:
+
+#appMenu-mainView {
+  background-color: #fdd;
+}
+
+.panel-viewstack:not([transitioning]) #appMenu-mainView[current="true"] ~ .PanelUI-subView[style*="will-change: transform;"] {
+  transform: translateX(22.35em);
+}
+.panel-viewstack:not([transitioning]) #appMenu-mainView[current="true"] ~ .PanelUI-subView {
+  opacity: 0;
+  display: none;
+}
+#appMenu-mainView[current] ~ .PanelUI-subView {
+  opacity: 0;
+  display: none;
+}
+
+ **/

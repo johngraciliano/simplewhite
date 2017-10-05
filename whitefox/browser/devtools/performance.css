@@ -1268,8 +1268,18 @@ description.opt-icon::before {
   margin: 0;
   -moz-margin-end: 1px;
   margin-inline-end: 1px;
+  /**/
+  -moz-padding-start: 6px;
+  padding-inline-start: 6px;
+  /**/
   padding-bottom: 2px;
 }
+/** This is with .theme-dark & .theme-light **
+.theme-firebug #performance-toolbar-controls-detail-views > .devtools-toolbarbutton::before {
+  content: none;
+  display: none;
+}
+ **/
 
 .theme-firebug #performance-toolbar-controls-detail-views > .devtools-toolbarbutton:not(:hover):not([checked=true]):first-child,
 .theme-firebug #performance-toolbar-controls-detail-views > .devtools-toolbarbutton:not(:hover):not([checked=true]) + .devtools-toolbarbutton:not(:hover):not([checked=true]) {
@@ -1340,8 +1350,9 @@ description.opt-icon::before {
   -moz-padding-start: 1px;
 }
 
-:-moz-any(.theme-dark,.theme-light):not(.theme-firebug) #performance-toolbar-controls-detail-views > .devtools-toolbarbutton::before {
+/*:-moz-any(.theme-dark,.theme-light):not(.theme-firebug)*/ #performance-toolbar-controls-detail-views > .devtools-toolbarbutton::before {
   display: none;
+  content: "";
 }
 :-moz-any(.theme-dark,.theme-light):not(.theme-firebug) #performance-toolbar-controls-detail-views > .devtools-toolbarbutton:not([hidden="true"]) {
   position: relative;

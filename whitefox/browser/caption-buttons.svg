@@ -3,10 +3,11 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <style>
-    g:not(:target) {
+    g {
       display: none;
     }
-    use:target > g {
+    g:target:not(:empty),
+    :empty:target + g {
       display: initial;
     }
 
@@ -14,24 +15,23 @@
       stroke: ButtonText;
       stroke-width: 0.9px;
       fill: none;
-    }
-    g:not([id|="close"]) {
       shape-rendering: crispEdges;
     }
-    g[id|="close"] {
+    [id|="close"] {
       shape-rendering: geometricPrecision;
     }
-
-    .highcontrast {
-      stroke-width: 1.9px;
-    }
-    .highcontrast-hover > g {
-      stroke: HighlightText;
-    }
-    .white > g {
+    :target[id$=white] + g {
       stroke: #fff;
     }
-    .themes {
+
+    [id$=highcontrast] {
+      stroke-width: 1.9px;
+    }
+    :target[id$=hover] + g {
+      stroke: HighlightText;
+    }
+
+    [id$=themes] {
       stroke: #fff;
       stroke-width: 1.9px;
     }
@@ -47,99 +47,74 @@
       opacity: .275;
       shape-rendering: geometricPrecision;
     }
-    .darktext {
-      stroke: #000;
-      stroke-width: 1.9px;
-    }
-    .outer-strokeDT {
-      stroke: #fff;
-      stroke-width: 3.5;
-      opacity: .275;
-      shape-rendering: geometricPrecision;
-    }
-    .outer-thinstrokeDT {
-      stroke: #fff;
-      stroke-width: 2;
-      opacity: .275;
-      shape-rendering: geometricPrecision;
-    }
     .restore-background-window {
       stroke-width: .9;
     }
+    :target[id$=darktext] + g {
+      stroke: #000;
+    }
+    :target[id$=darktext] + g > [class^=outer] {
+      stroke: #fff;
+    }
   </style>
+
+  <g id="close-white"/>
   <g id="close">
     <path d="M1,1 l 10,10 M1,11 l 10,-10"/>
   </g>
+  <g id="maximize-white"/>
   <g id="maximize">
     <rect x="1.5" y="1.5" width="9" height="9"/>
   </g>
+  <g id="minimize-white"/>
   <g id="minimize">
     <line x1="1" y1="5.5" x2="11" y2="5.5"/>
   </g>
+  <g id="restore-white"/>
   <g id="restore">
     <rect x="1.5" y="3.5" width="7" height="7"/>
     <polyline points="3.5,3.5 3.5,1.5 10.5,1.5 10.5,8.5 8.5,8.5"/>
   </g>
 
-  <use id="close-white" class="white" xlink:href="#close"/>
-  <use id="maximize-white" class="white" xlink:href="#maximize"/>
-  <use id="minimize-white" class="white" xlink:href="#minimize"/>
-  <use id="restore-white" class="white" xlink:href="#restore"/>
-
+  <g id="close-highcontrast-hover"/>
   <g id="close-highcontrast" class="highcontrast">
     <path d="M1,1 l 10,10 M1,11 l 10,-10"/>
   </g>
+  <g id="maximize-highcontrast-hover"/>
   <g id="maximize-highcontrast" class="highcontrast">
     <rect x="2" y="2" width="8" height="8"/>
   </g>
+  <g id="minimize-highcontrast-hover"/>
   <g id="minimize-highcontrast" class="highcontrast">
     <line x1="1" y1="6" x2="11" y2="6"/>
   </g>
+  <g id="restore-highcontrast-hover"/>
   <g id="restore-highcontrast" class="highcontrast">
     <rect x="2" y="4" width="6" height="6"/>
     <polyline points="3.5,1.5 10.5,1.5 10.5,8.5" class="restore-background-window"/>
   </g>
 
-  <use id="close-highcontrast-hover" class="highcontrast-hover" xlink:href="#close-highcontrast"/>
-  <use id="maximize-highcontrast-hover" class="highcontrast-hover" xlink:href="#maximize-highcontrast"/>
-  <use id="minimize-highcontrast-hover" class="highcontrast-hover" xlink:href="#minimize-highcontrast"/>
-  <use id="restore-highcontrast-hover" class="highcontrast-hover" xlink:href="#restore-highcontrast"/>
-
-  <g id="close-themes" class="themes">
+  <g id="close-darktext"/>
+  <g id="close-themes">
     <path d="M.4343,.4343 l 11.1314,11.1314 M.4343,11.5657 l 11.1314,-11.1314" class="outer-stroke" />
     <path d="M1,1 l 10,10 M1,11 l 10,-10"/>
   </g>
-  <g id="maximize-themes" class="themes">
+  <g id="maximize-darktext"/>
+  <g id="maximize-themes">
     <rect x="2" y="2" width="8" height="8" class="outer-stroke"/>
     <rect x="2" y="2" width="8" height="8"/>
   </g>
-  <g id="minimize-themes" class="themes">
+  <g id="minimize-darktext"/>
+  <g id="minimize-themes">
     <line x1=".2" y1="6" x2="11.8" y2="6" class="outer-stroke"/>
     <line x1="1" y1="6" x2="11" y2="6"/>
   </g>
-  <g id="restore-themes" class="themes">
+  <g id="restore-darktext"/>
+  <g id="restore-themes">
     <rect x="2" y="4" width="6" height="6" class="outer-stroke"/>
     <polyline points="2.7,1.25 10.75,1.25 10.75,9.3" class="outer-thinstroke"/>
     <rect x="2" y="4" width="6" height="6"/>
     <polyline points="3.5,1.5 10.5,1.5 10.5,8.5" class="restore-background-window"/>
   </g>
 
-  <g id="close-darktext" class="darktext">
-    <path d="M.4343,.4343 l 11.1314,11.1314 M.4343,11.5657 l 11.1314,-11.1314" class="outer-strokeDT" />
-    <path d="M1,1 l 10,10 M1,11 l 10,-10"/>
-  </g>
-  <g id="maximize-darktext" class="darktext">
-    <rect x="2" y="2" width="8" height="8" class="outer-strokeDT"/>
-    <rect x="2" y="2" width="8" height="8"/>
-  </g>
-  <g id="minimize-darktext" class="darktext">
-    <line x1=".2" y1="6" x2="11.8" y2="6" class="outer-strokeDT"/>
-    <line x1="1" y1="6" x2="11" y2="6"/>
-  </g>
-  <g id="restore-darktext" class="darktext">
-    <rect x="2" y="4" width="6" height="6" class="outer-strokeDT"/>
-    <polyline points="2.7,1.25 10.75,1.25 10.75,9.3" class="outer-thinstrokeDT"/>
-    <rect x="2" y="4" width="6" height="6"/>
-    <polyline points="3.5,1.5 10.5,1.5 10.5,8.5" class="restore-background-window"/>
-  </g>
 </svg>

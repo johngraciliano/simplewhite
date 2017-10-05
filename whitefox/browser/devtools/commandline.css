@@ -113,6 +113,7 @@
 .gcli-help-synopsis:before {
   color: var(--gcli-input-color);
   -moz-padding-end: 2px;
+  padding-inline-end: 2px;
 }
 
 .gcli-help-arrow {
@@ -133,12 +134,35 @@
   margin: 10px 0 6px;
 }
 
+/*** This section was added for Firefox 57 ***/
 .gcli-menu-template {
-  width: auto;
+  margin: 0 auto;
+  width: calc(100% - 2px);
+  white-space: nowrap;
+  display: flex;
 }
+
+.gcli-menu-names {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.gcli-menu-descs {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.gcli-menu-name,
+.gcli-menu-desc {
+  white-space: nowrap;
+}
+/*** End of section added for Firefox 57 *****/
 
 .gcli-menu-name {
   -moz-padding-start: 8px;
+  -moz-padding-end: 10px;
+  padding-inline-start: 8px;
+  padding-inline-end: 10px;
 }
 
 .gcli-menu-descs {
@@ -147,6 +171,9 @@
 
 .gcli-menu-desc {
   -moz-padding-end: 8px;
+  padding-inline-end: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: var(--gcli-input-color);
 }
 
@@ -168,6 +195,7 @@
   font-size: 80%;
   text-align: end;
   -moz-padding-end: 8px;
+  padding-inline-end: 8px;
 }
 
 .gcli-addon-disabled {

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+
 /* Tooltip specific theme variables */
 
 .theme-dark {
@@ -317,7 +318,7 @@
   min-width: 16px;
   max-width: 16px;
   flex: 0;
-  background-image: url("chrome://devtools/skin/images/firebug/tool-debugger-paused.svg");
+  background-image: url("images/firebug/tool-debugger-paused.svg");
   background-position: 2px center;
   background-repeat: no-repeat;
   -moz-margin-start: 3px;

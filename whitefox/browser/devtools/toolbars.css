@@ -71,20 +71,29 @@ button#toolbox-dock-bottom-minimize, /* button#toolbox-dock-bottom-minimize shou
 .devtools-button {
   -moz-appearance: none;
   background: transparent;
+  min-width: 78px;
   min-height: 18px;
-  text-shadow: none;
   border: none;
   border-radius: 0;
   color: var(--theme-body-color);
   transition: background 0.05s ease-in-out;
-}
-
-.devtools-menulist,
-.devtools-toolbarbutton {
   -moz-box-align: center;
-  min-width: 78px;
+  -moz-box-pack: center; /* added --jG */
+  /* text-align: center; ** I think this line should also be added, but I am unclear about ".devtools-menulist" --jG */
+  text-shadow: none;
   padding: 1px;
   margin: 2px 1px;
+
+  /* Button text should not wrap on multiple lines */
+  white-space: nowrap;
+}
+/* HTML buttons */
+button#toolbox-dock-bottom-minimize, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano */
+.devtools-button {
+  min-width: 32px;
+  min-height: unset;
+  /* The icon is absolutely positioned in the button using ::before */
+  /* position: relative; * was absolutely positioned! */
 }
 
 button#toolbox-dock-bottom-minimize:-moz-focusring, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano */
@@ -95,25 +104,51 @@ button#toolbox-dock-bottom-minimize:-moz-focusring, /* button#toolbox-dock-botto
   outline-offset: -1px;
 }
 
-button#toolbox-dock-bottom-minimize::before, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano */
+/***
+button#toolbox-dock-bottom-minimize::before, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano *./
 .devtools-toolbarbutton:not([label]) > .toolbarbutton-icon,
 .devtools-button::before {
   width: 16px;
   height: 16px;
   transition: opacity 0.05s ease-in-out;
 }
+ ***/
 
-/* HTML buttons */
-button#toolbox-dock-bottom-minimize, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano */
-.devtools-button {
-  margin: 2px 1px;
-  padding: 1px;
-  min-width: 32px;
-  /* The icon is absolutely positioned in the button using ::before */
-  position: relative;
+.devtools-button:empty {
+  line-height: 0; /* This ensures the content height fits tight to the ::before box so it gets aligned properly */
 }
 
 button#toolbox-dock-bottom-minimize::before, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano */
+.devtools-toolbarbutton:not([label]) > .toolbarbutton-icon,
+.devtools-button:empty::before {
+  width: 16px;
+  height: 16px;
+  /* margin: 0 3px; */
+  margin: 0;
+  transition: opacity 0.05s ease-in-out;
+
+  /* For text-as-image usage, match the SVG color */
+  color: #0b0b0b;
+  direction: ltr;
+  font-size: 11px;
+}
+button#toolbox-dock-bottom-minimize::before, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano */
+.devtools-button:empty::before {
+  content: "";
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+.theme-firebug .devtools-button:empty::before {
+  margin: 0;
+}
+button#toolbox-dock-bottom-minimize {
+  line-height: 0;
+}
+
+/***
+button#toolbox-dock-bottom-minimize::before, /* button#toolbox-dock-bottom-minimize should have class .devtools-button --johnGraciliano *./
 .devtools-button::before {
   content: "";
   display: block;
@@ -125,6 +160,7 @@ button#toolbox-dock-bottom-minimize::before, /* button#toolbox-dock-bottom-minim
   background-repeat: no-repeat;
   transition: opacity 0.05s ease-in-out;
 }
+ ***/
 
 /* Standalone buttons */
 .devtools-button[standalone],
@@ -182,6 +218,13 @@ button#toolbox-dock-bottom-minimize, /* button#toolbox-dock-bottom-minimize shou
 #toolbox-buttons-start {
   display: flex;
   flex: 0;
+}
+
+#toolbox-option-container,
+#toolbox-controls,
+#toolbox-dock-buttons {
+  display: flex;
+  align-items: stretch;
 }
 
 /* Invert toolbox button icons in Firebug theme. */
@@ -526,6 +569,8 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
 .devtools-filterinput:-moz-dir(rtl) {
   background-position: calc(100% - 8px) center;
 }
+.devtools-searchinput:-moz-locale-dir(rtl),
+.devtools-filterinput:-moz-locale-dir(rtl),
 .devtools-searchinput:dir(rtl),
 .devtools-filterinput:dir(rtl) {
   background-position: calc(100% - 8px) center;
@@ -583,6 +628,7 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
   font-style: italic;
 }
 
+.devtools-filterinput::placeholder, /* In DOM tool */
 #preview-text-input.devtools-textinput::placeholder,
 .devtools-searchinput.devtools-rule-searchbox::placeholder,
 .devtools-filterinput.devtools-rule-searchbox::placeholder {
@@ -617,11 +663,12 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
   background-color: transparent;
 }
 
-.devtools-searchinput-clear:-moz-locale-dir(rtl) ,
+.devtools-searchinput-clear:-moz-locale-dir(rtl),
 .devtools-searchinput-clear:-moz-dir(rtl) {
   right: unset;
   left: 7px;
 }
+.devtools-searchinput-clear:-moz-locale-dir(rtl),
 .devtools-searchinput-clear:dir(rtl) {
   right: unset;
   left: 7px;
@@ -737,6 +784,8 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
   overflow: hidden;
 }
 
+ /************************************************************************
+
 .devtools-sidebar-alltabs {
   -moz-appearance: none;
   height: 24px;
@@ -762,6 +811,13 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
   display: none;
 }
 
+ *************************************************************************/
+
+/****************************************************************************************/
+/****************************************************************************************/
+
+
+
 .devtools-sidebar-tabs tabs > .tabs-right,
 .devtools-sidebar-tabs tabs > .tabs-left {
   display: none;
@@ -782,25 +838,31 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
   -moz-box-flex: 1;
   border-width: 0;
   -moz-border-start-width: 1px;
+  border-inline-start-width: 1px;
   border-style: solid;
   border-radius: 0;
+  border-image-source: linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
+  border-image-slice: 1;
   position: static;
   text-shadow: none;
 }
 
-.tabs-menu-item,
-.devtools-sidebar-tabs tabs > tab {
+.tabs-menu-item {
   border-image-source: linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
   border-image-slice: 1;
+  border-style: solid;
+  border-width: 0;
+  -moz-border-start-width: 1px;
+  border-inline-start-width: 1px;
 }
 
 .tabs-menu-item:hover,
 .tabs-menu-item:hover + .tabs-menu-item,
 .tabs-menu-item.is-active,
 .tabs-menu-item.is-active + .tabs-menu-item,
-.devtools-sidebar-tabs tabs > tab[selected] + [hidden="true"] + tab,
-.devtools-sidebar-tabs tabs > tab[selected],
-.devtools-sidebar-tabs tabs > tab[selected] + tab {
+.devtools-sidebar-tabs tabs > tab:-moz-any(:hover,[selected]) + [hidden="true"] + tab,
+.devtools-sidebar-tabs tabs > tab:-moz-any(:hover,[selected]),
+.devtools-sidebar-tabs tabs > tab:-moz-any(:hover,[selected]) + tab {
   border-image-source: linear-gradient(var(--theme-splitter-color), var(--theme-splitter-color));
 /*  border-image-slice: 1;  ************************************************************************* REMOVE THIS?????? ***********************/
 }
@@ -811,31 +873,39 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
   border-image-source: none;
   border-radius: 4px 4px 0 0;
   border-color: transparent;
-  border-width: 1px 1px 0;
+  /* border-style: solid; */
+  border-width: 1px; /* The bottom border prevents sharp bottom corners (for hi dpp) --johnGraciliano */
 }
 .theme-firebug .tabs .tabs-menu-item:not(.is-active):hover {
   border-color: #c8c8c8;
   border-bottom-color: transparent;
 }
-.theme-firebug .tabs .tabs-menu-item:not(.is-active)[class]:hover:active {
+.theme-firebug[class] .tabs .tabs-menu-item:not(.is-active):hover:active {
   background-color: var(--toolbar-tab-hover-active);
 }
-.theme-firebug .tabs li.tabs-menu-item.is-active[class] {
+.theme-firebug[class] .tabs li.tabs-menu-item.is-active {
   border-color: var(--theme-splitter-color);
   background-color: #f7fbfe; /* rgb(247, 251, 254) */
   border-bottom-color: #f7fbfe;
 }
 
 /*.theme-firebug .tabs .tabs-menu-item.is-active:hover:active a */
-.theme-firebug .tabs li.tabs-menu-item[class][class] > a {
+.theme-firebug[class][class] .tabs li.tabs-menu-item > a {
   border-width: 0;
-  border-radius: unset;
-  background: transparent;
+  /* border-radius: unset; ** Removed --johnGraciliano */
+  background-color: transparent; /* This was "background: ..." --johnGraciliano */
 }
 .theme-firebug .tabs li.tabs-menu-item > a {
   color: #565656;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding: 2px 1px 0;
+  margin: 3px 3px 0;
+  box-sizing: border-box;
+  height: 19px;
+}
+.theme-firebug[class][class] .tabs li.tabs-menu-item.is-active > a { /* Copied from resource://devtools/client/shared/components/tabs/tabs.css */
+  background-color: var(--theme-toolbar-tab-selected-background);
+  border-style: none;
+  color: var(--theme-body-color);
 }
 
 
@@ -930,13 +1000,14 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
 }
 
 .devtools-sidebar-tabs tabs > tab:hover {
-  background: rgba(0, 0, 0, 0.12);
+  background-color: var(--toolbar-tab-hover); /* This was "background: rgba(0, 0, 0, 0.12);" --johnGraciliano */
 }
 
 .devtools-sidebar-tabs tabs > tab:hover:active {
-  background: rgba(0, 0, 0, 0.2);
+  background-color: var(--toolbar-tab-hover-active); /* Was "background: rgba(0, 0, 0, 0.2);" --johnGraciliano */
 }
 
+[class][class][class].tabs-menu-item.is-active,
 .devtools-sidebar-tabs tabs > tab[selected],
 .devtools-sidebar-tabs tabs > tab[selected]:hover:active {
   color: var(--theme-selection-color);
@@ -947,11 +1018,6 @@ button#toolbox-dock-bottom-minimize:hover::before, /* button#toolbox-dock-bottom
  * Rules that apply to the global toolbox like command buttons,
  * devtools tabs, docking buttons, etc. */
 
-div#toolbox-controls, /* Firefox 53+ */
-div#toolbox-dock-buttons /* Firefox 53+ */ {
-  display: flex;
-}
-
 #toolbox-controls > button,
 #toolbox-dock-buttons > button,
 #toolbox-controls > toolbarbutton,
@@ -961,6 +1027,7 @@ div#toolbox-dock-buttons /* Firefox 53+ */ {
   margin: 0 4px;
   min-width: 16px;
   width: 16px;
+  padding: 0;
 }
 
 #toolbox-controls > toolbarbutton > .toolbarbutton-text,
@@ -970,8 +1037,9 @@ div#toolbox-dock-buttons /* Firefox 53+ */ {
 }
 
 /* Save space in Firebug theme */
-.theme-firebug #toolbox-controls button,
-.theme-firebug #toolbox-controls toolbarbutton {
+.theme-firebug #toolbox-close,
+.theme-firebug #toolbox-dock-buttons > button,
+.theme-firebug #toolbox-dock-buttons > toolbarbutton {
   margin-inline-start: 0;
   margin-inline-end: 0;
   min-width: 13px;
@@ -988,6 +1056,12 @@ div#toolbox-dock-buttons /* Firefox 53+ */ {
   background-size: 16px 16px;
   background-position: 0 center;
   background-repeat: no-repeat;
+}
+
+/* This is only for the button. (Only those use the ::before.)  The old toolbarbutton may be included in the future --jG */
+button#toolbox-close::before,
+#toolbox-dock-buttons > button::before {
+  margin: 0;
 }
 
 #toolbox-dock-bottom::before,
@@ -1035,7 +1109,7 @@ div#toolbox-dock-buttons /* Firefox 53+ */ {
 #toolbox-dock-bottom-minimize::before,
 #toolbox-dock-bottom-minimize > image {
   background-image: url(images/dock-bottom-minimize.svg);
-  background-size: 16px;
+  background-size: 16px; /** This line is or will become unnecessary (TO BE REMOVED!!!!)  --jG **/
 }
 
 #toolbox-dock-bottom-minimize.minimized::before,
@@ -1071,11 +1145,10 @@ div#toolbox-dock-buttons /* Firefox 53+ */ {
 
 .devtools-separator {
   margin: 0 2px;
-  width: 2px;
-  background-image: linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
-  background-size: 1px 100%;
-  background-repeat: no-repeat;
-  background-position: 0, 1px, 2px;
+  border-style: solid;
+  border-width: 0 0 0 1px;
+  border-image-source:  linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
+  border-image-slice: 1;
 }
 
 #toolbox-buttons:empty + .devtools-separator,
@@ -1083,8 +1156,9 @@ div#toolbox-dock-buttons /* Firefox 53+ */ {
   visibility: hidden;
 }
 
+#toolbox-option-container + .devtools-separator,
 #toolbox-controls-separator {
-  margin: 0;
+  display: none;
 }
 
 /* Command buttons */
@@ -1097,11 +1171,13 @@ div#toolbox-dock-buttons /* Firefox 53+ */ {
   width: 32px;           /* For toolbarbutton on FF < 49 -- In FF49 this is not set (below)  --johnGraciliano */
   position: relative;
 }
-button.command-button{ /* For FF49 */
+/***
+button.command-button{ /* For FF49 *./
   width: initial;
   padding-left: 0;
   padding-right: 0;
 }
+ ***/
 
 .command-button.devtools-button::before,
 .command-button::before {
@@ -1118,31 +1194,28 @@ button.command-button{ /* For FF49 */
 }
 
 .command-button > image {
-  -moz-appearance: none;
+  display: none;
+}
+.command-button::before {
+  content: "";
+  display: inline-block;
   width: 16px;
   height: 16px;
   background-size: cover;
   background-position: 0 center;
   background-repeat: no-repeat;
+  vertical-align: middle;
   opacity: 0.7;
 }
-.command-button.devtools-button:hover:not(:active):not([checked=true]):not([open=true]):not(.checked):not(.open)::before, /* Extended to Firefox 53+ */
-.command-button:hover::before,
-.command-button:hover > image {
+.command-button:hover::before {
   opacity: 0.85;
 }
-.command-button:hover:active::before,
-.command-button[checked=true]::before,
-.command-button[open=true]::before,
-.command-button.checked::before, /* Firefox 53+ */
-/* .command-button.open::before, ** Firefox 53+ Not needed */
-.command-button:hover:active > image,
-.command-button[checked=true] > image,
-.command-button[open=true] > image {
-  opacity: 1;
-}
-.command-button[checked=true] > image {
+.command-button:-moz-any([checked=true],[open=true],.checked)::before {
   filter: url(images/filters.svg#checked-icon-state) !important;
+  opacity: .85;
+}
+.command-button:hover:-moz-any(:active,[checked=true],[open=true],.checked)::before {
+  opacity: 1;
 }
 
 :root.theme-firebug .command-button {
@@ -1150,11 +1223,12 @@ button.command-button{ /* For FF49 */
   padding-right: 4px;
   padding-left: 3px;
   margin: 2px 1px;
+  width: 25px;
+  min-width: 25px;
 }
 
-:root.theme-firebug .command-button:not(#command-button-frames) {
-  width: auto;
-  min-width: 25px;
+.theme-firebug #command-button-frames {
+  min-width: 32px;
 }
 
 :root.theme-firebug .command-button:hover {
@@ -1172,9 +1246,7 @@ button.command-button{ /* For FF49 */
   background-image: linear-gradient(rgba(0, 0, 0, 0.2), transparent);
 }
 
-:root.theme-firebug .command-button:not(:active)[open],
-:root.theme-firebug .command-button:not(:active)[checked],
-:root.theme-firebug .command-button:not(:active).checked /* Firefox 53+ */ {
+:root.theme-firebug .command-button:not(:active):-moz-any([open],[checked],.checked) /* Firefox 53+ */ {
   background: rgba(255,255,255,.5) linear-gradient(rgba(0, 0, 0, 0.1), transparent) no-repeat;
   border-color: rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset, 0 0 1px rgba(0, 0, 0, 0.1) inset;
@@ -1182,89 +1254,86 @@ button.command-button{ /* For FF49 */
 
 /* Toolbox buttons images */
 
-#command-button-paintflashing::before,
-#command-button-paintflashing > .toolbarbutton-icon {
+#command-button-paintflashing::before {
   background-image: url(images/command-paintflashing.svg);
 }
 
-#command-button-screenshot::before,
-#command-button-screenshot > .toolbarbutton-icon {
+#command-button-screenshot::before {
   background-image: url(images/command-screenshot.svg);
 }
 
-#command-button-responsive::before,
-#command-button-responsive > .toolbarbutton-icon {
+#command-button-responsive::before {
   background-image: url(images/command-responsivemode.svg);
 }
 
-#command-button-tilt > .toolbarbutton-icon {
+#command-button-tilt::before /* Pre Firefox 52 */ {
   background-image: url(images/command-tilt.svg);
 }
 
-#command-button-scratchpad::before,
-#command-button-scratchpad > .toolbarbutton-icon {
+#command-button-scratchpad::before {
   background-image: url(images/command-scratchpad.svg);
 }
 
-#command-button-pick::before,
-#command-button-pick > .toolbarbutton-icon {
+#command-button-pick::before {
   background-image: url(images/command-pick.svg);
 }
 
-#command-button-frames::before,
-#command-button-frames > .toolbarbutton-icon {
+#command-button-frames {
+  padding-left: 0; padding-right: 0;
+}
+
+#command-button-frames::before {
   width: 26px;
   background-image: url(images/command-frames.svg), url(images/dropmarkerLight.svg);
   background-size: auto;
   background-repeat:  no-repeat, no-repeat;
   background-position:  left center, right center;
+  margin-left: 3px;  margin-right: 3px;
 }
 
+/***
 #command-button-frames::before {
   margin-left: -13px;
+}
+ ***/
+
+.theme-firebug #command-button-frames::before {
+  margin-left: 2px;  margin-right: 2px;
 }
 
 #command-button-frames > .toolbarbutton-menu-dropmarker {
   display: none;
 }
 
-#command-button-splitconsole::before,
-#command-button-splitconsole > .toolbarbutton-icon {
+#command-button-splitconsole::before {
   background-image: url(images/command-console.svg);
 }
 
-#command-button-noautohide::before,
-#command-button-noautohide > .toolbarbutton-icon {
+#command-button-noautohide::before {
   background-image: url(images/command-noautohide.svg);
 }
 
-#command-button-eyedropper::before,
-#command-button-eyedropper > .toolbarbutton-icon {
+#command-button-eyedropper::before {
   background-image: url(images/command-eyedropper.svg);
 }
 
-#command-button-rulers::before,
-#command-button-rulers > .toolbarbutton-icon {
+#command-button-rulers::before {
   background-image: url(images/command-rulers.svg);
 }
 
-#command-button-measure::before,
-#command-button-measure > .toolbarbutton-icon {
+#command-button-measure::before {
   background-image: url(images/command-measure.svg);
 }
 
-.theme-firebug #command-button-paintflashing::before,
-.theme-firebug #command-button-paintflashing > .toolbarbutton-icon {
+.theme-firebug #command-button-paintflashing::before {
   background-image: url(images/firebug/command-paintflashing.svg);
 }
 
-.theme-firebug #command-button-screenshot::before,
-.theme-firebug #command-button-screenshot > .toolbarbutton-icon {
+.theme-firebug #command-button-screenshot::before {
   background-image: url(images/firebug/command-screenshot.svg);
 }
 
-.theme-firebug #command-button-responsive::before,
-.theme-firebug #command-button-responsive > .toolbarbutton-icon {
+.theme-firebug #command-button-responsive::before {
   background-image: url(images/firebug/command-responsivemode.svg);
 }
 
@@ -1274,43 +1343,35 @@ button.command-button{ /* For FF49 */
 }
 %***********************/
 
-.theme-firebug #command-button-scratchpad::before,
-.theme-firebug #command-button-scratchpad > .toolbarbutton-icon {
+.theme-firebug #command-button-scratchpad::before {
   background-image: url(images/firebug/command-scratchpad.svg);
 }
 
-.theme-firebug #command-button-pick::before,
-.theme-firebug #command-button-pick > .toolbarbutton-icon {
+.theme-firebug #command-button-pick::before {
   background-image: url(images/firebug/command-pick.svg);
 }
 
-.theme-firebug #command-button-frames::before,
-.theme-firebug #command-button-frames > .toolbarbutton-icon {
+.theme-firebug #command-button-frames::before {
   background-image: url(images/firebug/command-frames.svg), url(images/firebug/dropmarkerLight.svg);
 }
 
-.theme-firebug #command-button-splitconsole::before,
-.theme-firebug #command-button-splitconsole > .toolbarbutton-icon {
+.theme-firebug #command-button-splitconsole::before {
   background-image: url(images/firebug/command-console.svg);
 }
 
-.theme-firebug #command-button-noautohide::before,
-.theme-firebug #command-button-noautohide > .toolbarbutton-icon {
+.theme-firebug #command-button-noautohide::before {
   background-image: url(images/firebug/command-noautohide.svg);
 }
 
-.theme-firebug #command-button-eyedropper::before,
-.theme-firebug #command-button-eyedropper > .toolbarbutton-icon {
+.theme-firebug #command-button-eyedropper::before {
   background-image: url(images/firebug/command-eyedropper.svg);
 }
 
-.theme-firebug #command-button-rulers::before,
-.theme-firebug #command-button-rulers > .toolbarbutton-icon {
+.theme-firebug #command-button-rulers::before {
   background-image: url(images/firebug/command-rulers.svg);
 }
 
-.theme-firebug #command-button-measure::before,
-.theme-firebug #command-button-measure > .toolbarbutton-icon {
+.theme-firebug #command-button-measure::before {
   background-image: url(images/firebug/command-measure.svg);
 }
 
@@ -1361,17 +1422,20 @@ div.devtools-tabbar { /* Firefox 53+ */
   display: flex;  /* This allows the .devtools-tab(s) to shrink (without this setting the value is -moz-box) --johnGraciliano */
 }
 
-.theme-firebug #toolbox-tabs > .devtools-tab {
+.theme-firebug radio.devtools-tab {
   box-sizing: content-box;
   text-align: center;
   min-width: 38px;  /* Allow a tiny bit more text to be seen (two characters or more plus ellipsis from each label). --johnGraciliano */
   min-height: 22px;  /* Needed to limit this after setting 'box-sizing: content-box' (24px is too large) --johnGraciliano */
 }
-.theme-firebug .toolbox-tabs > .devtools-tab /* Firefox 53+ */ {
+.theme-firebug button.devtools-tab /* Firefox 53+ */ {
   box-sizing: border-box;
   text-align: center;
   min-width: 40px;  /* Allow a tiny bit more text to be seen (two characters or more plus ellipsis from each label). --johnGraciliano */
   min-height: 24px;  /* Needed to limit this after setting 'box-sizing: content-box' (24px is too large) --johnGraciliano */
+}
+.theme-firebug #toolbox-tab-options.devtools-tab {
+  min-width: unset;
 }
 
 .theme-firebug #toolbox-tabs > #toolbox-tab-dom { /* The DOM tab will remain keep a fixed size, smaller than the other labels. --johnGraciliano */
@@ -1519,6 +1583,7 @@ button.devtools-tab-icon-only { /* Firefox 53+ */ /* tag 'button' is needed for 
   background-color: var(--toolbar-tab-hover-active);
 }
 
+/* This default case is for .theme-firebug! --johnGraciliano */
 .devtools-tab:not([selected])[highlighted],
 .devtools-tab:not(.selected).highlighted /* Firefox 53+ */ {
   box-shadow: 0 2px 0 var(--theme-highlight-green) inset;
@@ -1628,59 +1693,46 @@ button.devtools-tab-icon-only { /* Firefox 53+ */ /* tag 'button' is needed for 
   opacity: 1;
 }
 
-.devtools-tabbar .devtools-tab[selected],
-.devtools-tabbar .devtools-tab[selected]:hover:active,
-.devtools-tabbar .devtools-tab.selected, /* Firefox 53+ */
-.devtools-tabbar .devtools-tab.selected:hover:active /* Firefox 53+ */ {
+.devtools-tab[selected],
+.devtools-tab[selected]:hover:active,
+.devtools-tab.selected, /* Firefox 53+ */
+.devtools-tab.selected:hover:active /* Firefox 53+ */ {
   color: var(--theme-selection-color);
   background-color: var(--theme-selection-background);
 }
 
-.theme-dark .devtools-tabbar .devtools-tab[selected],
-.theme-dark .devtools-tabbar .devtools-tab.selected /* Firefox 53+ */ {
+.theme-dark .devtools-tab[selected],
+.theme-dark .devtools-tab.selected /* Firefox 53+ */ {
   box-shadow: 0 2px 0 rgba(215, 241, 255, 0.35) inset, /* The shadow in this line was "0 2px 0 #d7f1ff inset," --johnGraciliano */
               0 8px 3px -5px rgba(43, 130, 191, 0.25) inset, /* The shadow in this line was "0 8px 3px -5px #2b82bf inset," --johnGraciliano */
               0 -2px 0 rgba(0,0,0,.2) inset;
 }
-.theme-light:not(.theme-firebug) .devtools-tabbar .devtools-tab[selected],
-.theme-light:not(.theme-firebug) .devtools-tabbar .devtools-tab.selected /* Firefox 53+ */ {
+.theme-light:not(.theme-firebug) .devtools-tab[selected],
+.theme-light:not(.theme-firebug) .devtools-tab.selected /* Firefox 53+ */ {
   box-shadow: 0 2px 0 rgba(215, 241, 255, 0.2) inset,
               0 8px 3px -5px rgba(43, 130, 191, 0.2) inset,
               0 -2px 0 rgba(0,0,0,.073) inset;
 }
 
-.theme-dark .devtools-tabbar #toolbox-tab-options.selected /* Firefox 53+ */ {
-  box-shadow: 0 2px 0 rgba(215, 241, 255, 0.35) inset, /* The shadow in this line was "0 2px 0 #d7f1ff inset," --johnGraciliano */
-              0 8px 3px -5px rgba(43, 130, 191, 0.25) inset, /* The shadow in this line was "0 8px 3px -5px #2b82bf inset," --johnGraciliano */
-              0 -2px 0 rgba(0,0,0,.2) inset,
-              1px 0 0 var(--theme-splitter-color);
-              border-inline-start-color: var(--theme-splitter-color); /** ????? **/
-}
-.theme-light:not(.theme-firebug) #toolbox-tab-options.selected /* Firefox 53+ */ {
-  box-shadow: 0 2px 0 rgba(215, 241, 255, 0.2) inset,
-              0 8px 3px -5px rgba(43, 130, 191, 0.2) inset,
-              0 -2px 0 rgba(0,0,0,.073) inset,
-              1px 0 0 var(--theme-splitter-color);
-              border-inline-start-color: var(--theme-splitter-color); /** ????? **/
-}
-
-#toolbox-tabs .devtools-tab {
+.devtools-tab {
   background-clip: padding-box;
 }
 
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) #toolbox-tabs .devtools-tab,
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab /* Firefox 53+ */ {
+radio.devtools-tab,
+button.devtools-tab /* Firefox 53+ */ {
   border-image-source: linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
   border-image-slice: 1;
 }
 
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) #toolbox-tabs .devtools-tab:-moz-any([selected],[highlighted]),
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) #toolbox-tabs .devtools-tab:-moz-any([selected],[highlighted]) + .devtools-tab,
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:-moz-any(.selected,.highlighted), /* Firefox 53+ */
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:-moz-any(.selected,.highlighted) + .devtools-tab /* Firefox 53+ */ {
+radio.devtools-tab:-moz-any([selected],[highlighted]),
+radio.devtools-tab:-moz-any([selected],[highlighted]) + .devtools-tab,
+button.devtools-tab:-moz-any(.selected,.highlighted), /* Firefox 53+ */
+button.devtools-tab:-moz-any(.selected,.highlighted) + .devtools-tab /* Firefox 53+ */ {
   border-image-source: linear-gradient(var(--theme-splitter-color), var(--theme-splitter-color));
 }
 
+
+/*****
 :-moz-any(.theme-light,.theme-dark):not(.theme-firebug) #toolbox-tabs .devtools-tab:last-child:not(:-moz-any([selected],[hightlighted])) {
   -moz-padding-end: 1px;
   background-image:  linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
@@ -1688,7 +1740,7 @@ button.devtools-tab-icon-only { /* Firefox 53+ */ /* tag 'button' is needed for 
   background-repeat: no-repeat;
   background-position: right 0;
 }
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:last-child:not(:-moz-any(.selected,.hightlighted)) /* Firefox 53+ */ {
+:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:last-child:not(:-moz-any(.selected,.hightlighted)) /* Firefox 53+ *./ {
   -moz-padding-end: 11px;
   -moz-padding-end: 7px;
   background-image:  linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
@@ -1697,13 +1749,86 @@ button.devtools-tab-icon-only { /* Firefox 53+ */ /* tag 'button' is needed for 
   background-position: right 0;
 }
 :-moz-any(.theme-light,.theme-dark):not(.theme-firebug) #toolbox-tabs .devtools-tab:last-child:not(:-moz-any([selected],[hightlighted])):-moz-locale-dir(rtl),
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:last-child:not(:-moz-any(.selected,.hightlighted)):-moz-locale-dir(rtl) /* Firefox 53+ */ {
+:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:last-child:not(:-moz-any(.selected,.hightlighted)):-moz-locale-dir(rtl) /* Firefox 53+ *./ {
   background-position: left 0;
 }
 :-moz-any(.theme-light,.theme-dark):not(.theme-firebug) #toolbox-tabs .devtools-tab:last-child:-moz-any([selected],[hightlighted]),
-:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:last-child:-moz-any(.selected,.hightlighted) /* Firefox 53+ */ {
+:-moz-any(.theme-light,.theme-dark):not(.theme-firebug) .toolbox-tabs .devtools-tab:last-child:-moz-any(.selected,.hightlighted) /* Firefox 53+ *./ {
   -moz-border-end-width: 1px;
 }
+ *****/
+
+/* The next two rules do not apply for #toolbox-tab-options.  That is corrected later on. */
+:root:not(.theme-firebug) radio.devtools-tab:last-child {
+  -moz-padding-end: 1px;
+  padding-inline-end: 1px;
+  background-clip: content-box;
+}
+:root:not(.theme-firebug) button.devtools-tab:last-child /* Firefox 53+ */ {
+  -moz-padding-end: 7px;
+  padding-inline-end: 7px;
+  background-clip: content-box;
+  position: relative; 
+}
+
+/* The padding region is covered exactly by the ::after element. */
+radio.devtools-tab:last-child::after {
+  display: inline-block;
+  content: '';
+  box-sizing: border-box;
+  width: 1px;
+  height: 24px;
+  -moz-box-flex: 0;
+  -moz-margin-end: -1px;
+  margin-inline-end: -1px;
+  border-width: 0;
+  border-style: solid;
+  -moz-border-end-width: 1px;
+  border-image-source: linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
+  border-image-slice: 1;
+  background-color: inherit;
+  background-clip: inherit;
+}
+button.devtools-tab:last-child::after /* Firefox 53+ */ {
+  display: inline-block;
+  content: '';
+  box-sizing: border-box;
+  width: 7px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  border-width: 0;
+  border-style: solid;
+  -moz-border-end-width: 1px;
+  border-image-source: linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
+  border-image-slice: 1;
+  background-color: inherit;
+  background-clip: content-box;
+}
+button.devtools-tab:last-child:-moz-locale-dir(rtl)::after /* Firefox 53+ */ {
+  right: unset;
+  left: 0;
+}
+/* The ::after element does not apply for #toolbox-tab-options nor in .theme-firebug */
+.theme-firebug .devtools-tab:last-child::after,
+#toolbox-tab-options.devtools-tab:last-child::after {
+  display: none;
+  content: none;
+}
+
+/* The next rule is for .theme-dark & .theme-light, and is redundant for .theme-firebug */
+radio.devtools-tab:last-child:-moz-any([selected],[highlighted])[class][class],
+button.devtools-tab:last-child:-moz-any(.selected,.hightlighted)[class][class] {
+  background-clip: padding-box;
+}
+
+radio.devtools-tab:last-child:-moz-any([selected],[highlighted])::after,
+button.devtools-tab:last-child:-moz-any(.selected,.hightlighted)::after {
+  border-image-source: linear-gradient(var(--theme-splitter-color), var(--theme-splitter-color));
+  background-color: transparent;
+}
+
 
 radio.devtools-tab:not([highlighted]) > .highlighted-icon, /* Added tag 'radio' to exclude Firefox 53+ */
 .devtools-tab[selected] > .highlighted-icon,
@@ -1718,24 +1843,33 @@ button.devtools-tab:not(.highlighted) > .highlighted-icon, /* Firefox 53+ */ /* 
 
 /* The options tab is special - it doesn't have the same parent
    as the other tabs (toolbox-option-container vs toolbox-tabs) */
-/***
-#toolbox-option-container .devtools-tab:not([selected]),
-#toolbox-option-container .devtools-tab:not(.selected) ** Firefox 53+ */
-#toolbox-option-container .devtools-tab:not([selected]):not(.selected) /* Firefox 53+ */ {
-  background-color: transparent;
+#toolbox-tab-options {
+  -moz-padding-end: 0;
+  padding-inline-end: 0;
+  background-clip: padding-box;
+
+  -moz-border-end-width: 1px;
+  border-inline-end-width: 1px;
 }
-#toolbox-option-container .devtools-tab {
-  border-color: transparent;
-  border-width: 0;
-  -moz-padding-start: 1px;
-}
-#toolbox-tab-options > image {
+#toolbox-tab-options > image,
+#toolbox-tab-options > img {
   margin: 0 8px;
 }
-#toolbox-option-container img /* Firefox 53+ */ {
-  margin-inline-end: 6px;
-  margin-inline-start: 6px;
+
+#toolbox-option-container {
+  -moz-margin-start: 1px;
+  -moz-margin-end: 4px;
+  margin-inline-start: 1px;
+  margin-inline-end: 4px;
 }
+
+.theme-firebug #toolbox-option-container {
+  -moz-margin-start: 0;
+  margin-inline-start: 0;
+}
+
+
+
 
 /* Invert the colors of certain dark theme images for displaying
  * inside of the light theme.
@@ -1745,7 +1879,7 @@ button.devtools-tab:not(.highlighted) > .highlighted-icon, /* Firefox 53+ */ /* 
 .theme-light:not(.theme-firebug) .devtools-tab[icon-invertable][selected] > .default-icon, /********  ????  ***********/
 .theme-light:not(.theme-firebug) .devtools-tab.icon-invertable.selected > .default-icon, /* Firefox 53+ */
 .theme-dark #toolbox-dock-buttons > toolbarbutton > .toolbarbutton-icon,
-.theme-dark .command-button-invertable > .toolbarbutton-icon,
+.theme-dark .command-button-invertable::before, /* The "::before" clause substitutes former "> .toolbarbutton-icon" --jG */
 .theme-dark .devtools-closebutton > .toolbarbutton-icon,
 .theme-dark .devtools-toolbarbutton > image,
 .theme-dark button#toolbox-dock-bottom-minimize::before, /*button#toolbox-dock-bottom-minimize should have class .devtools-button */
@@ -1914,8 +2048,8 @@ button.devtools-tab:not(.highlighted) > .highlighted-icon, /* Firefox 53+ */ /* 
 :root:not(.theme-firebug) .menu-filter-button + .devtools-separator {
   display: inline-block;
   background: transparent;
-  width: 2px;
-  margin: 0; /* To align this box with the buttons */
+  width: initial; /* This was width: 2px; *******************************************************************************************************/
+  /* margin: 0; /* To align this box with the buttons */
 }
 
 :root:not(.theme-firebug) :-moz-any(.webconsole-filterbar-secondary,[id=requests-menu-filter-buttons],[id=requests-list-filter-buttons],.requests-list-filter-buttons) > .devtools-button, /* Firefox 54.0a1 (2017.02.17) */
@@ -1978,4 +2112,234 @@ button.devtools-tab:not(.highlighted) > .highlighted-icon, /* Firefox 53+ */ /* 
 :root:not(.theme-firebug) .menu-filter-button:not(:active).checked.debug, /* Conosole tool */
 :root:not(.theme-firebug) .menu-filter-button:not(:active).checked:last-of-type {
   box-shadow: none;
+}
+
+
+
+.toolbox-tabs-wrapper {
+  margin-inline-end: .8em; /* Make a small gap before the .toolbox-buttons */
+}
+
+.theme-firebug .toolbox-tabs-wrapper > .toolbox-tabs:not(:last-child) {
+  mask-image: linear-gradient(to left, transparent, black 14px); /* This spans under the ".all-tools-menu" button */
+}
+
+.devtools-sidebar-alltabs {
+  -moz-appearance: none;
+}
+ 
+.devtools-sidebar-alltabs,
+.all-tabs-menu {
+  position: absolute;
+  top: 0;
+  offset-inline-end: 0;
+  box-sizing: border-box;
+  width: 13px;
+  height: 100%;
+
+  margin: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: var(--theme-splitter-color);
+  -moz-border-start-width: 1px;
+  border-inline-start-width: 1px;
+  border-image-slice: 1;
+  padding: 0;
+  
+  background-color: var(--theme-tab-toolbar-background);
+}
+.devtools-sidebar-alltabs {
+  box-sizing: border-box;
+  height: 24px; /* As .devtools-sidebar-tabs .tabs --johnGraciliano */
+  border-bottom-width: 1px;
+}
+.tabs .all-tabs-menu {
+  background-image: none; /* Deffer from resource://devtools/client/shared/components/tabs/tabs.css (in FF52ESR) --johnGraciliano */
+}
+
+.all-tools-menu {
+  width: 14px;
+  border-inline-end-width: 1px;
+
+  background-color: var(--theme-tab-toolbar-background);
+}
+.devtools-sidebar-alltabs > .toolbarbutton-icon,
+.devtools-sidebar-alltabs > .toolbarbutton-text,
+.devtools-sidebar-alltabs > .toolbarbutton-menu-dropmarker {
+  display: none;
+}
+.devtools-sidebar-alltabs::after,
+.all-tabs-menu::after
+/* , .all-tools-menu::after */ {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-image: url("images/dropmarkerLight.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: .7;
+}
+.devtools-sidebar-alltabs::after{
+  height: 23px;
+  min-width: 10px;
+}
+
+.devtools-sidebar-alltabs:hover::after,
+.all-tabs-menu:hover::after
+/* , .all-tools-menu:hover::after */ {
+  opacity: .85;
+}
+.devtools-sidebar-alltabs:active::after,
+.all-tabs-menu:active::after
+/* , .all-tools-menu:active::after */ {
+  opacity: 1;
+}
+.theme-dark .devtools-sidebar-alltabs::after,
+.theme-dark .all-tabs-menu::after
+/* , .theme-dark .all-tools-menu::after */ {
+  filter: invert(1);
+}
+.theme-firebug .devtools-sidebar-alltabs::after,
+.theme-firebug .all-tabs-menu::after {
+  background-image: url("images/firebug/dropmarkerLight.svg");
+  background-position: center calc(50% + 2px);
+}
+
+.theme-firebug toolbarbutton.devtools-sidebar-alltabs,
+.theme-firebug :-moz-any(button,div).all-tabs-menu {
+  height: calc(100% - 3px);
+  border-bottom-width: 1px;
+  border-radius: 0 0 0 4px;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+}
+.theme-firebug toolbarbutton.devtools-sidebar-alltabs:-moz-locale-dir(rtl),
+.theme-firebug :-moz-any(button,div).all-tabs-menu:-moz-locale-dir(rtl) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 4px;
+}
+.theme-firebug :-moz-any(button,div).all-tools-menu {
+  /* height: calc(100% - 3px); */
+  border-radius: 0 0 4px 4px;
+  background-image: linear-gradient(rgba(253, 253, 253, 0.2), rgba(253, 253, 253, 0));
+  box-shadow: 0px 0px 1.5px rgba(255, 255, 255, 0.7) inset;
+}
+
+.theme-firebug toolbarbutton.devtools-sidebar-alltabs:hover,
+.theme-firebug :-moz-any(button,div).all-tabs-menu:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6) inset, 0 0 1px rgba(255, 255, 255, 0.6) inset, 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.theme-firebug toolbarbutton.devtools-sidebar-alltabs:hover:active,
+.theme-firebug :-moz-any(button,div).all-tabs-menu:hover:active {
+  border-color: rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), transparent);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1) inset, 0 0 1px rgba(0, 0, 0, 0.1) inset, 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+
+/* The next rules will permit showing the .devtools-sidebar-alltabs in with the firebug theme in Firefox 48 */
+/* The change the way the bottom border (and background) is shown to allow hiding the overflow properly */
+.theme-firebug tabbox.devtools-sidebar-tabs > stack > tabs {
+  border-bottom-width: 0px;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 1px;
+}
+.theme-firebug tabbox.devtools-sidebar-tabs > stack > tabs::before {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  border-bottom: 1px solid var(--theme-splitter-color);
+  z-index: -1;
+  /* display: block */
+  /* The following was added to re-draw the background and avoid any mismatch */
+  top: 0px;
+  background-color: var(--theme-toolbar-background);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+}
+
+
+/* THE FOLLOWING TWO RULES ARE JUST FOR TESTING */
+#inspector-splitter-box div.controlled {
+  min-width: 150px !important; /* !important to override the programmed value --johnGraciliano */
+}
+div[id]#inspector-sidebar-container { /* Added '[id]' to override 'chrome://devtools/content/inspector/inspector.css' of Firefox 50 --johnGraciliano */
+  min-width: 150px; /* This is 300px in the default theme of Firefox 51.  It is 400px in Firefox 50.  --johnGraciliano */
+}
+
+
+
+
+/************************************************************************************/
+
+/* This separator (form Firefox 57) is not used in Simple White X --johnGraciliano */
+#toolbox-buttons-start > .devtools-separator {
+  display: none;
+}
+
+/* This removes an unspecified item in the tools tabs that simply takes space in Firefox 57 --johnGraciliano */
+.devtools-tab > :not(:-moz-any(spacer,image,label,img,[class$=label])) {
+  display:none !important;
+}
+
+
+
+
+/********************************************************************************/
+/* Firefox 55 @3dpp */
+:root:not(.theme-firebug) .tabs > .tabs-navigation > .tabs-menu {
+  height: 100%;
+}
+:root:not(.theme-firebug) .tabs-menu > .tabs-menu-item.is-active {
+  height: initial; /* Override ".tabs tabs-menu-item.is-active" from resource://devtools/client/shared/components/tabs/tabbar.css (in FF55) */
+}
+
+
+/*******************************************************************/
+
+/* Leave a little space before the first tool tab in firebug when the pick button is hidden */
+.theme-firebug [id]#command-button-pick[hidden=true] { /* Older Firefox */
+  display: block;
+  box-sizing: border-box;
+  min-width: 4px;
+  width: 4px;
+  margin: 0px;
+  padding: 0px;
+  visibility: hidden;
+  pointer-events: none;
+}
+.theme-firebug .toolbox-tabs-wrapper:first-child { /* Newer Firefox */
+  margin-inline-start: 4px;
+}
+
+
+/* For the Scratchpad Tool */
+[id]#sp-toolbar {
+  border-bottom: 1px solid var(--theme-splitter-color);
+}
+#scratchpad-notificationbox > #statusbar-line-col {
+  border-top-width: 1px;
+  border-bottom-width: 0;
+}
+
+
+
+/* A fix for Firefox 57: */
+.theme-firebug .tabs .tabs-menu-item > a {
+  font-size: 11px;
+}
+
+
+
+
+/* The next is for page `about:stylish-edit` from the *Stylish* extension */
+#stylish-edit #errors.theme-toolbar {
+  height: auto !important;
+  border-top: 1px solid var(--theme-splitter-color);
+  color: var(--theme-highlight-red);
 }

@@ -38,6 +38,27 @@ label.table-widget-column-header{
   min-width: 250px;
 }
 
+#storage-toolbar .add-button::before {
+  background-image: url(images/add.svg);
+  -moz-user-focus: normal;
+}
+.theme-firebug #storage-toolbar .add-button::before {
+  background-image: url(images/firebug/add.svg);
+}
+
+#storage-toolbar .refresh-button::before {
+  background-image: url(images/reload.svg);
+  -moz-user-focus: normal;
+}
+.theme-firebug #storage-toolbar .refresh-button::before {
+  background-image: url(images/firebug/rerun.svg);
+}
+
+#storage-toolbar .devtools-button hbox,
+#storage-toolbar .sidebar-toggle[hidden] {
+  display: none;
+}
+
 /* Responsive sidebar */
 @media (max-width: 700px) {
   #storage-tree {

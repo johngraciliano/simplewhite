@@ -7,25 +7,30 @@
      height="21"
      viewBox="0 0 21 21">
   <style>
-    use:not(:target) {
-      display: none;
-    }
-    use {
-      fill: #424e5a;
-    }
-    use[id$="-inverted"] {
-      fill: #fff;
-      stroke: #0095dd;
+    path {
+      fill: context-fill;
+      stroke: context-stroke;
       stroke-width: 0.5;
     }
-    use[id$="-native"] {
+    #check:target ~ path {
+      fill: #424e5a;
+      stroke: initial;
+      stroke-width: initial;
+    }
+    #check-inverted:target ~ path {
+      fill: #fff;
+      stroke: #0095dd;
+    }
+    #check-native:target ~ path {
       fill: -moz-dialogText;
+      stroke: initial;
+      stroke-width: initial;
     }
   </style>
-  <defs style="display: none;">
-    <path id="check-shape" d="M 9.39,16.5 16.28,6 14.77,4.5 9.37,12.7 6.28,9.2 4.7,10.7 z"/>
-  </defs>
-  <use id="check" xlink:href="#check-shape"/>
-  <use id="check-inverted" xlink:href="#check-shape"/>
-  <use id="check-native" xlink:href="#check-shape"/>
+
+  <g id="check"/>
+  <g id="check-inverted"/>
+  <g id="check-native"/>
+  <path id="check-shape" d="M 9.39,16.5 16.28,6 14.77,4.5 9.37,12.7 6.28,9.2 4.7,10.7 z"/>
+
 </svg>

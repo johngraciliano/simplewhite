@@ -197,6 +197,7 @@ body {
 #timeline-toolbar .devtools-button {
   margin: 0;
   padding: 0;
+  border-style: solid; /* toolbars.css sets to none for .devtools-button */
 }
 
 #timeline-toolbar .devtools-button,
@@ -881,26 +882,24 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    background-color: rgba(255, 255, 255, 0.5);
     width: -moz-fit-content; /* To avoid oversize --johnGraciliano */
     max-width: 50%;
     padding-left: 2px;
     padding-right: 2px;
     line-height: calc(1em + 2px);
-    border-radius: 2px;
-  }
-  .theme-dark .animation-timeline .animation > * > .name > div {
-    background-color: rgba(24,19,32,.4); /* var(--theme-sidebar-background) 40% */
+    text-shadow: 0 1px 2px var(--theme-body-background), 0 -1px 2px var(--theme-body-background),
+                 1px 0 2px var(--theme-body-background), -1px 0 2px var(--theme-body-background),
+                 0 0 4px var(--theme-body-background);
   }
 
 
   @supports (text-justify: auto)  { /*  Constrain to Firefox 55 or later */ {}
-    .animation-timeline .animation .name svg {
+    .animation-timeline .animation > * > .name > svg {
       height: 100%;
       width: calc(100% - 20px);
     }
 
-    .animation-timeline .animation .name text {
+    .animation-timeline .animation > * > .name > svg > text {
       fill: var(--theme-focus-outline-color);
       stroke: var(--theme-body-background);
       stroke-width: 4;
@@ -933,23 +932,19 @@ body {
     filter: none;
   }
 
-  .animation-timeline .fast-track > * > .name > div::after {
+  .animation-timeline .fast-track > * > .name::before {
     /* Extra background for the fast-track background image --johnGraciliano */
     content: "";
     display: block;
     position: absolute;
-    top: 1px;
-    right: 0;
     top: 2px;
     right: 1px;
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,.5);
+    background-color: var(--theme-body-background);
+    opacity: .4;
     z-index: 1;
-  }
-  .theme-dark .animation-timeline .fast-track > * > .name > div::after {
-    background-color: rgba(24,19,32,.4); /* var(--theme-sidebar-background) 40% */
   }
 }
 
@@ -1284,6 +1279,26 @@ body {
     stroke: none;
     height: 100%;
   }
+
+  /* Start New in Firefox 58 ********/
+  .keyframes svg .hint {
+    stroke-opacity: 0;
+    stroke-linecap: round;
+    stroke-width: 5;
+  }
+
+  .keyframes svg path.hint {
+    fill: none;
+  }
+
+  .keyframes svg path.hint:hover {
+    stroke-opacity: 1;
+  }
+
+  .keyframes svg rect.hint {
+    fill-opacity: .1;
+  }
+  /* End New in Firefox 58 **********/
 
   .animation-detail {
     position: relative;

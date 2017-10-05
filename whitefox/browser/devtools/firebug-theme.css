@@ -75,8 +75,8 @@
 .theme-firebug .cm-variable-3 {color: black;}
 .theme-firebug .cm-def {color: black;}
 
-.theme-firebug .cm-tag.cm-bracket,
-.theme-firebug .cm-tag.cm-bracket + .cm-tag {color: blue;}  /* For editing html */
+.theme-firebug .cm-tag.cm-bracket {color: blue;}  /* For editing html */
+.theme-firebug .cm-tag.cm-bracket + .cm-tag:not(.cm-bracket) {color: blue;font-weight:bold;}  /* For editing html */
 .theme-firebug .cm-attribute {color: #887ce6;} /* = var(--theme-highlight-purple) ** For editing html */
 
 .theme-firebug .cm-number {color: #04c;} /* Instead of darkblue */
@@ -97,6 +97,16 @@
 .theme-firebug .console-string {
   color: #FF183C;
 }
+
+
+
+
+.theme-firebug .cm-s-mozilla .cm-keyword {
+  color: var(--theme-highlight-blue);
+  font-weight: normal;
+}
+
+
 
 /* Variables View */
 
@@ -119,6 +129,7 @@
 /* , .theme-firebug .devtools-sidebar-tabs tabs */  {  /* This selector is now only needend in the next rule --johnGraciliano */
   background-image: linear-gradient(rgba(253, 253, 253, 0.2), rgba(253, 253, 253, 0));
 /*border-bottom: 1px solid rgb(170, 188, 207) !important;  *** Removed. light-theme.css & toolbars.css use corrected color in variables.css --johnGraciliano */
+  padding-inline-end: 4px;
 }
 
 .theme-firebug .tabs nav.tabs-navigation, /* Added for Firefox 54 */
@@ -164,21 +175,25 @@ div#toolbox-option-container /* Firefox 53+ */ {
  can move one pixel down to hide the bottom border of the parent. */
 .theme-firebug .devtools-sidebar-tabs tabs {
   overflow: visible;
+  background-clip: padding-box; /* This ensures transparent borders remain transparent */
 }
 
 .theme-firebug .devtools-tab:hover,
 .theme-firebug .devtools-sidebar-tabs tab:hover {
   border: 1px solid #C8C8C8 !important;
-  border-bottom: 1px solid transparent;
+  border-bottom-color: transparent !important;
 }
 
-.theme-firebug .devtools-tab[selected],
-.theme-firebug .devtools-tab.selected, /* Firefox 53+ */
-.theme-firebug .devtools-sidebar-tabs tab[selected] {
+.theme-firebug[class][class] .devtools-tab[selected], /* [class][class] was added to raise precedence.  !important clauses below *MAY* be unnecessary (NOT TESTED!).  --johnGraciliano */
+.theme-firebug[class][class] .devtools-tab.selected, /* Firefox 53+ */
+.theme-firebug[class][class] .devtools-sidebar-tabs tab[selected] {
   background-color: rgb(247, 251, 254);
   border: 1px solid rgb(170, 188, 207) !important;
+  /***
   border-bottom-width: 0 !important;
-  padding-bottom: 1px; /* This was 2px but 1px is the correct replacement for the bottom border width --johnGraciliano */
+  padding-bottom: 1px; /* This was 2px but 1px is the correct replacement for the bottom border width --johnGraciliano *./
+   ***/
+  border-bottom-color: rgb(247, 251, 254) !important; /* Just like the background */
   color: inherit;
 }
 
@@ -219,8 +234,8 @@ div#toolbox-option-container /* Firefox 53+ */ {
 /* Firebug theme support for the Option (panel) tab */
 
 .theme-firebug #toolbox-tab-options {
-  margin-inline-end: 4px;
-  background-color: var(--theme-body-background);
+  /* margin-inline-end: 2px; /* This was 4px *./ REMOVED ENTIRELY */
+  /* background-color: var(--theme-body-background); ** This is only when selected!!!! */
 }
 .theme-firebug button#toolbox-tab-options /* Firefox 53+ */ {
   padding-inline-start: 0;
@@ -229,7 +244,8 @@ div#toolbox-option-container /* Firefox 53+ */ {
 
 .theme-firebug #toolbox-tab-options[selected],
 .theme-firebug #toolbox-tab-options.selected /* Firefox 53+ */ {
-  padding-bottom: 1px; /* To keep the toolbar's height. --johnGraciliano */
+  /*  padding-bottom: 1px; /* To keep the toolbar's height. --johnGraciliano *./  REMOVED */
+  background-color: var(--theme-body-background);
 }
 
 .theme-firebug #toolbox-tab-options::before {
@@ -307,11 +323,6 @@ div#toolbox-option-container /* Firefox 53+ */ {
   min-width: 24px;
 }
 
-/* The tag 'button' specifies the 'Toolbox' button and prevents affecting the checkbox in the 'Options' tab --johnGraciliano */
-.theme-firebug :-moz-any(toolbarbutton,button)#command-button-frames {
-  min-width: 32px;
-}
-
 /* Move the Inspector button a bit down (looks better) */
 .theme-firebug #command-button-pick > image {
   margin-bottom: -4px;
@@ -353,6 +364,22 @@ div#toolbox-option-container /* Firefox 53+ */ {
 
 
 /* The next is for page `about:stylish-edit` from the *Stylish* extension */
-#errors.theme-toolbar {
+#stylish-edit #errors.theme-toolbar {
+  /**
   height: auto !important;
+  border-top: 1px solid var(--theme-splitter-color);
+   **/
+  color: #c02;
+}
+
+/* The following two rules are for the DOM tool */
+#content > .mainFrame > .toolbar {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+}
+#content > .mainFrame > .toolbar > .btn.refresh {
+  font-family: var(--proportional-font-family);
+  font-size: var(--theme-toolbar-font-size);
+}
+button#dom-refresh-button::before {
+  background-image: url("images/firebug/rerun.svg");
 }

@@ -137,14 +137,18 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
 
 /* Re-arrange elements panel for Firefox 56 */
 
-.help-button + .main-content {
+.help-button + .main-content > .pane-container, /* For Firefox 57 */
+.help-button + .main-content /* Firefox 56 & 57 */ {
   border: 0;
   padding: 0;
   overflow: hidden;
   border-radius: 0;
+  background-color: transparent; /* Firefox 57 ??? */
+  background-image: none; /* Firefox 57 ??? */
 }
 
-.help-button + .main-content > #mainPrefPane {
+.help-button + .main-content > #mainPrefPane, /* Firefox 56 */
+.help-button + .main-content > .pane-container > #mainPrefPane /* Firefox 57 */ {
   border: 1px solid var(--in-content-main-border-color);
   border-radius: 5px;
   background-color: var(--in-content-main-background-color);
@@ -162,13 +166,15 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
   right: 0;
 }
 
-.help-button + .main-content > #mainPrefPane > .content-box {
+.help-button + .main-content > .pane-container > #mainPrefPane > .content-box /* Firefox 57 */ ,
+.help-button + .main-content > #mainPrefPane > .content-box /* Firefox 56 */ {
   width: 800px;
   max-width: 100%;
   padding-top: 10px; /* + 15px (spacing at top of first contained element = 25px */
   padding-bottom: 40px;
 }
 
+.help-button + .main-content > .pane-container > #mainPrefPane > .content-box > .header /* Firefox 57 */ ,
 .help-button + .main-content > #mainPrefPane > .content-box > .header { /* These headers have no use here with Firefox 56 */
   display: none;
 }
@@ -258,11 +264,12 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
 }
 .help-button + .main-content:-moz-locale-dir(ltr)::before {
   right: 0;
-  content: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?>  <svg x="0" y="0" height="5" width="5" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">  <path d="M0,0 h5 v5 a5,5 0 0,0 -5,-5 z" stroke-width="0" fill="%23fdfdfd"/>  </svg>');
+  /* The "fill" color is "var(--incontend-frame-background) = #f8f8f8" */
+  content: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?>  <svg x="0" y="0" height="5" width="5" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">  <path d="M0,0 h5 v5 a5,5 0 0,0 -5,-5 z" stroke-width="0" fill="%23f8f8f8"/>  </svg>');
 }
 .help-button + .main-content:-moz-locale-dir(rtl)::before {
   left: 0;
-  content: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?>  <svg x="0" y="0" height="5" width="5" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">  <path d="M0,0 h5 a5,5 0 0,0 -5,5 v-5 z" stroke-width="0" fill="%23fdfdfd"/>  </svg>');
+  content: url('data:image/svg+xml,<?xml version="1.0" encoding="UTF-8" standalone="no"?>  <svg x="0" y="0" height="5" width="5" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">  <path d="M0,0 h5 a5,5 0 0,0 -5,5 v-5 z" stroke-width="0" fill="%23f8f8f8"/>  </svg>');
 }
 
 /* For Firefox 56 the round corners can be drawn with the following */
@@ -293,15 +300,63 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
 
 /* Search bar in Firefox 56 */
 
-.help-button + .main-content > hbox:first-child { /* This is the containter box for #searchInput */
+.pane-container > .search-container /* Firefox 57 */,
+.help-button + .main-content > hbox:first-child /* Firefox 56 */ { /* This is the containter box for #searchInput */
   max-width: unset;
   margin-inline-start: 49px;
   margin-inline-end: 30px;
 }
 
-.help-button + .main-content > hbox > #searchInput {
-  margin: 0;
+.main-content[align="start"] > .pane-container > .search-container:-moz-locale-dir(ltr) {
+  position: absolute;
+  right: 0;
 }
+.main-content[align="start"] > .pane-container > .search-container:-moz-locale-dir(rtl) {
+  position: absolute;
+  left: 0;
+}
+
+.pane-container > .search-container > #searchInput /* Firefox 57 */,
+.help-button + .main-content > hbox > #searchInput /* Firefox 56 */ {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+
+
+/* Firefox 57 */
+.face-sad,
+.face-smile { /* These decorations are unnecessary and the rule eliminated entirely! */
+  list-style-image: url(chrome://global/skin/icons/info-24.svg);
+  width: 24px;
+  height: 24px;
+  margin-inline-end: 8px;
+  margin-top: 1px;
+}
+/* #setDefaultPane */ .indent > .face-sad {
+  margin-inline-start: -32px;
+}
+
+#updateDeck > * > .update-throbber {
+  /**
+  list-style-image: url(chrome://browser/skin/syncProgress-horizontalbar.png); /* 16x16 *./
+  width: 16px;
+  height: 16px;
+  margin-inline-start: 4px;
+  margin-inline-end: 12px;
+  margin-top: 5px;
+  margin-bottom: 4px;
+   **/
+  list-style-image: url(chrome://global/skin/media/throbber.png); /* 36x36 */
+  height: 22px;
+  width: 22px;
+  margin-inline-start: 1px;
+  margin-inline-end: 9px;
+  margin-top: 2px;
+  margin-bottom: unset;
+}
+
+
 
 /* Search Results Pane */
 
@@ -331,6 +386,52 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
   position: relative;
 }
 
+
+
+
+
+
+
+
+
+
+/*********** TEST ***************************************************************
+#addressAutofill > checkbox::after {
+  content:"";
+  background-color: red;
+  opacity: 0.05;
+  height: 30px;
+  -moz-box-flex: 1000;
+  display: -moz-box;
+  -moz-binding: url(chrome://browser/skin/preferences/in-content/nullBinding.xml#emptyContent);
+}
+#addressAutofill > checkbox {
+  XXX-moz-binding: url(chrome://browser/skin/preferences/in-content/checkboxExt.xml#checkbox) !important;
+}
+ *********** TEST ***************************************************************/
+
+
+
+
+
+
+/*********** Firefox 57 *************************************************************** /
+checkbox,
+checkbox > hbox,
+checkbox > * {
+  background-color: #dfd !important;
+}
+
+radio,
+radio > hbox,
+radio > * {
+  background-color: #ede !important;
+}
+
+/*********** Firefox 57 ***************************************************************/
+
+
+
 /* header */
 
 #header-advanced {
@@ -338,7 +439,43 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
   padding-bottom: 0;
 }
 
+/*** Start Firefox 57 **********************/
+.subcategory {
+  margin-top: 12px;
+}
+.subcategory > [class].header-name {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: initial;
+  color: inherit;
+}
+.subcategory ~ groupbox {
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+/*** End Firefox 57 *************************/
+
 /* General Pane */
+
+/*** Start Firefox 57 **********************/
+@supports (ruby-position:over) { {} /* Only for Firefox 38 or later */
+  #startupGroup > .groupbox-body {
+    display: block;
+  }
+  #defaultBrowserBox {
+    -moz-box-align: start;
+  }
+  #setDefaultPane {
+    width: 800px;
+  }
+  #startupTable {
+    width: 100%;
+  }
+  #e10sAutoStart + #defaultBrowserBox {
+    margin-top: -2px;
+  }
+}
+/*** End Firefox 57 *************************/
 
 #startupTable {
   border-collapse: collapse;
@@ -377,6 +514,10 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
   flex-grow: 1;
 }
 
+vbox > #browserHomePage {
+  margin-inline-start: 0;
+}
+
 #separateProfileBox {
  -moz-box-align: start; /* Avoid extending labels into trailing space --johnGraciliano */
 }
@@ -400,10 +541,73 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
   margin-inline-start: 0;
 }
 
+
+/*** Start Firefox 57 **********************/
+#startupGroup + groupbox:not([id]), /*  (Tabs group) */
+#saveWhere {
+  -moz-box-align: start;
+}
+hbox#browserContainersbox, /* The hbox in the Tabs group. (Not the vbox in the Containers pane ) */
+#saveToRow {
+  width: 800px; /* Stretch this box */
+}
+/*** End Firefox 57 *************************/
+
+
+#performanceSettings { /* More specifically "#performanceGroup > #performanceSettings.indent" */
+  -moz-box-align: start;
+}
+
+XX#updateBox { /*************************  FOR TESTING ONLY ******************************************************************************************/
+  display: none; 
+}
+
+/*****  PROBLEMATIC *************************************************************/
+/* The following allows the box to shrink horizontally for better fitting */
+/* It may however be a bad idea, because it makes a dynamic width */
+#updateDeck:not([selectedIndex="0"]) > #checkForUpdates,
+#updateDeck:not([selectedIndex="1"]) > #downloadAndInstall,
+#updateDeck:not([selectedIndex="2"]) > #apply,
+#updateDeck:not([selectedIndex="3"]) > #checkingForUpdates,
+#updateDeck:not([selectedIndex="4"]) > #downloading,
+#updateDeck:not([selectedIndex="5"]) > #applying,
+#updateDeck:not([selectedIndex="6"]) > #downloadFailed,
+#updateDeck:not([selectedIndex="7"]) > #adminDisabled,
+#updateDeck:not([selectedIndex="8"]) > #noUpdatesFound,
+#updateDeck:not([selectedIndex="9"]) > #otherInstanceHandlingUpdates,
+#updateDeck:not([selectedIndex="10"]) > #manualUpdate,
+#updateDeck:not([selectedIndex="11"]) > #unsupportedSystem,
+#updateDeck:not([selectedIndex="12"]) > #restarting {
+  visibility: collapse;
+}
+#updateDeck[selectedIndex] > #checkForUpdates {
+  visibility: collapse;
+}
+#updateDeck[selectedIndex="0"] > #checkForUpdates,
+#updateDeck:not([selectedIndex]) > #checkForUpdates { /* Default */
+  visibility: visible;
+}
+/********************************************************************************/
+
+/* Search pane */
+
+/** Start Firefox 57 *******************************************/
+#defaultEngineGroup {
+  -moz-box-align: start;
+}
+/** End Firefox 57 *********************************************/
+
+
 /* Content pane */
 
-#drmGroup{
+#drmGroup,
+#languagesGroup /* Firefox 57 */ {
   -moz-box-align: start;
+}
+
+#languagesBox,    /* Firefox 57 */
+#translationBox { /* Firefox 57 */
+  width: 800px;
 }
 
 #playDRMContentRow > vbox { /* This rule may have been made for an early alpha and currently unnecessary --johnGraciliano */
@@ -421,6 +625,24 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
 #notificationsPolicyLearnMore {
   -moz-margin-start: 1.5em !important;
   margin-inline-start: 1.5em !important;
+}
+
+/************** THIS IS DONE DIFERENTLY ***************
+#notificationsPolicyButton {
+  -moz-margin-start: 1ex;
+  margin-inline-start: 1ex;
+}
+ *****************************************************/
+#notificationsDoNotDisturbDetails {
+  -moz-margin-start: 33px !important; /* the rule for ".indent" is missing "!important" */
+  font-weight: bold;
+}
+:not([checked="true"]) + #notificationsDoNotDisturbDetails {
+  opacity: .25;
+}
+#notificationsDoNotDisturbBox:not(:last-child) > #notificationsDoNotDisturbDetails, 
+#notificationsDoNotDisturbRow:not(:last-child) > vbox > #notificationsDoNotDisturbDetails /* This selector may be superfluous */ {
+  margin-bottom: 12px;
 }
 
 #defaultFontSizeLabel {
@@ -493,43 +715,123 @@ richlistbox#categories {  /* To undo inline css in Firefox 56 (55?) */
 }
 
 #trackingProtectionRadioGroup,
-#locationBarGroup .groupbox-body {
+#locationBarGroup {  /* .groupbox-body always inherits align! --johnGraciliano */
   -moz-box-align: start; /* Avoid extending labels into trailing space --johnGraciliano */
 }
 
-/* Collapse the non-active vboxes in decks to use only the height the
-   active vbox needs */
-#historyPane:not([selectedIndex="1"]) > #historyDontRememberPane,
-#historyPane:not([selectedIndex="2"]) > #historyCustomPane,
-#weavePrefsDeck:not([selectedIndex="1"]) > #hasAccount,
-#weavePrefsDeck:not([selectedIndex="2"]) > #needsUpdate,
-#weavePrefsDeck:not([selectedIndex="3"]) > #fxaDeterminingStatus, /* Firefox 41- */
-#weavePrefsDeck:not([selectedIndex="4"]) > #noFxaAccount:nth-child(+5), /* Firefox 41- */
-#weavePrefsDeck:not([selectedIndex="5"]) > #hasFxaAccount:nth-child(+6), /* Firefox 41- */
-#weavePrefsDeck:not([selectedIndex="3"]) > #noFxaAccount:nth-child(+4), /* Firefox 42+ */
-#weavePrefsDeck:not([selectedIndex="4"]) > #hasFxaAccount:nth-child(+5), /* Firefox 42+ */
-#fxaLoginStatus:not([selectedIndex="1"]) > #fxaLoginUnverified,
-#fxaLoginStatus:not([selectedIndex="2"]) > #fxaLoginRejected {
-  visibility: collapse;
+
+
+
+/** Start Firefox 57 *******************************************/
+
+#historyCustomPane > vbox,
+#historyCustomPane > vbox > .indent,
+#doNotTrackRadioGroup,
+#notificationsDoNotDisturbBox {
+  -moz-box-align: start;
+}
+#historyCustomPane > vbox > .indent > hbox {
+  width: 777px; /* = calc(800px - 33px); */
 }
 
-/* XXX This style is for bug 740213 and should be removed once that
-   bug has a solution. */
-description > html|a {
-  cursor: pointer;
+groupbox[data-category="panePrivacy"] > hbox > checkbox + hbox {
+  /* -background-color: #fee; ** The color is for debugging. */
+  -moz-box-flex: 1000;
+  -moz-box-pack: end;
+}
+groupbox[data-category="panePrivacy"] > * > hbox > checkbox + hbox {
+  /* -background-color: #ffd; */
+  -moz-box-flex: 1000;
+  -moz-box-pack: end;
+}
+groupbox[data-category="panePrivacy"] > hbox > checkbox + vbox {
+  /* -background-color: #fcc; */
+  -moz-box-flex: 1000;
+  -moz-box-align: end;
+}
+groupbox[data-category="panePrivacy"] > * > hbox > checkbox + vbox {
+  /* -background-color: #ffa; */
+  -moz-box-flex: 1000;
+  -moz-box-align: end;
 }
 
-#weavePrefsDeck > vbox > label,
-#weavePrefsDeck > vbox > groupbox,
-#weavePrefsDeck > vbox > description,
-#weavePrefsDeck > vbox > #pairDevice > label,
-#weavePrefsDeck > #needsUpdate > hbox > #loginError,
-#weavePrefsDeck > #hasFxaAccount > vbox > label,
-#weavePrefsDeck > #hasFxaAccount > hbox:not(#tosPP-normal):not(#tosPP-small) > label { /** CHECK! -johnGraciliano ***/
-  /* no margin-start for elements at the begin of a line */
-  -moz-margin-start: 0;
-  margin-inline-start: 0;
+#trackingProtectionAdvancedSettings {
+  -moz-box-align: end;
 }
+
+hbox + #doNotTrackLearnMoreBox {
+  margin-top: 12px;
+}
+
+.permission-icon {
+  height: 21.33px; /* = 64px / 3   -OR-   one third of the .png size! */
+  width: 21.33px;
+  margin-inline-start: 1px;
+  margin-inline-end: 6px;
+  margin-inline-start: 3px;
+  margin-inline-end: 8px;
+  vertical-align: -4px
+}
+.geo-icon {
+  list-style-image: url(chrome://browser/skin/Geolocation-16.png);
+  list-style-image: url(chrome://browser/skin/Geolocation-16.svg);
+  height: 18px;
+  width: 18px;
+  margin-inline-start: 2px;
+  margin-inline-end: 7px;
+  margin-inline-start: 4px;
+  margin-inline-end: 10px;
+  vertical-align: -3px;
+}
+.camera-icon {
+  list-style-image: url(chrome://browser/skin/webRTC-shareDevice-64.png);
+}
+.microphone-icon {
+  list-style-image: url(chrome://browser/skin/webRTC-shareMicrophone-64.png);
+}
+.desktop-notification-icon {
+  list-style-image: url(chrome://browser/skin/webRTC-shareScreen-64.png);
+}
+.permission-icon + separator {
+  display: none;
+}
+
+
+
+
+
+
+/** End Firefox 57 *********************************************/
+
+
+
+
+
+
+/* Security pane */
+
+.subcategory ~ #addonsPhishingGroup, /*************************** Firefox 57+ ONLY */
+#enableSafeBrowsing + .indent {
+  -moz-box-align: start;
+}
+
+
+
+/* Advanced pane */
+
+/*** Start Firefox 57 **********************/
+#cacheGroup,
+#updateApp,
+#updateRadioGroup,
+#browsingGroup {
+  -moz-box-align: start;
+}
+#cacheGroup > hbox[align="center"]:not(.indent),
+#updateApp > hbox,
+#updateBox {
+  width: 800px; /* Stretch this box */
+}
+/*** End Firefox 57 *************************/
 
 #tabsElement {
   -moz-margin-end: 4px; /* add the 4px end-margin of other elements */
@@ -542,6 +844,7 @@ description > html|a {
 }
 
 /* the following repeats settings from a rule in global/in-content/common.css using selectors needed for Firefox 55 */
+/***  THIS MAY NO LONGER BE NECESSARY OR IN USE (REMOVED FOR NOW)  ***************************************************
 #submitHealthReportBox,
 #submitTelemetryBox,
 #automaticallySubmitCrashesBox {
@@ -550,6 +853,7 @@ description > html|a {
   line-height: 22px;
   margin: 0 !important;
 }
+ *********************************************************************************************************************/
 
 #telemetryLearnMore,
 #FHRLearnMore,
@@ -572,8 +876,31 @@ label + #crashReporterLearnMore[flex="1"] {
   text-align: end;
 }
 
+groupbox[data-category="panePrivacy"] > vbox > description { /* groupbox#dataCollectionGroup */ /* Firefox 57+ */
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-inline-end: 0;
+}
+
+description > checkbox + .learnMore /*,
+groupbox[data-category="panePrivacy"] > vbox > description > #FHRLearnMore */  { /* Firefox 57+ */
+  /* vertical-align: calc(13px - .5em); /* This works for fontsizes 8px,...,19px */
+  vertical-align: calc(12px - .47em); /* This works for fontsizes 8px,...,19px */
+  margin-top: 0;
+  margin-bottom: 1px;
+}
+groupbox[data-category="panePrivacy"]  > hbox  > #crashReporterLearnMore { /* Firefox 57+ */
+  margin-top: 0;
+  margin-bottom: 1px;
+}
+
 #encryptionPanel {
  -moz-box-align: start; /* Avoid extending labels into trailing space --johnGraciliano */
+}
+
+#updateApp[data-category="paneGeneral"] > separator { /* Firefox 57 */
+  /* display: none; */
+  height: 12px;
 }
 
 radiogroup#certSelection { /* Element type radiogroup is to exclude groupbox#certSelection in Firefox 56 (55?) --johnGraciliano */
@@ -585,10 +912,84 @@ radiogroup#certSelection { /* Element type radiogroup is to exclude groupbox#cer
   margin-inline-end: 1.5em; /* Fix for Firefox 37 Only --johnGraciliano */
 }
 
-.indent {
-  -moz-margin-start: 33px;
-  margin-inline-start: 33px;
+#useService {
+  margin-top: 12px;
 }
+
+/** Start Firefox 57 *******************************************/
+#certSelection + hbox {
+  margin-top: 12px;
+}
+
+groupbox[data-category="panePrivacy"]:not([hidden="true"]) ~ 
+#offlineGroup[hidden] { /* This rule should not exists at all.  It is experimental. *******************************************/
+  display: -moz-groupbox;
+}
+groupbox[data-category="panePrivacy"]:not([hidden="true"]) ~ 
+#offlineGroup[hidden] > .groupbox-title::after { /* This rule should not exists at all.  It is experimental. *******************************************/
+  font-style: italic;
+  font-weight: 600;
+  opacity: .875;
+  content: "  (This section is experimental in Simple White X)";
+}
+groupbox[data-category="panePrivacy"]:not([hidden="true"]) ~ #offlineGroup
+#actualAppCacheSize:empty:not([value])::before { /* This rule should not exists at all.  It is experimental. *******************************************/
+  font-style: italic;
+  font-weight: 600;
+  opacity: .875;
+  content: "Current cache size value is missing.";
+}
+/** End Firefox 57 *********************************************/
+
+
+
+
+
+
+/* Collapse the non-active vboxes in decks to use only the height the
+   active vbox needs */
+#historyPane:not([selectedIndex="1"]) > #historyDontRememberPane,
+#historyPane:not([selectedIndex="2"]) > #historyCustomPane,
+#weavePrefsDeck:not([selectedIndex="1"]) > #hasAccount,
+#weavePrefsDeck:not([selectedIndex="2"]) > #needsUpdate,
+#weavePrefsDeck:not([selectedIndex="3"]) > #fxaDeterminingStatus, /* Firefox 41- */
+#weavePrefsDeck:not([selectedIndex="4"]) > #noFxaAccount:nth-child(+5), /* Firefox 41- */
+#weavePrefsDeck:not([selectedIndex="5"]) > #hasFxaAccount:nth-child(+6), /* Firefox 41- */
+#weavePrefsDeck:not([selectedIndex="3"]) > #noFxaAccount:nth-child(+4), /* Firefox 42+ */
+#weavePrefsDeck:not([selectedIndex="4"]) > #hasFxaAccount:nth-child(+5), /* Firefox 42+ */
+#weavePrefsDeck:not([selectedIndex="1"]) > #hasFxaAccount:nth-child(+2), /* Firefox 57 */
+#fxaLoginStatus:not([selectedIndex="1"]) > #fxaLoginUnverified,
+#fxaLoginStatus:not([selectedIndex="2"]) > #fxaLoginRejected {
+  visibility: collapse;
+}
+
+
+
+/* XXX This style is for bug 740213 and should be removed once that
+   bug has a solution. */
+description > html|a {
+  cursor: pointer;
+}
+
+#weavePrefsDeck > vbox > label,
+#weavePrefsDeck > vbox > groupbox,
+#weavePrefsDeck > vbox > description,
+#weavePrefsDeck > vbox > #pairDevice > label,
+#weavePrefsDeck > #needsUpdate > hbox > #loginError,
+#weavePrefsDeck > #hasFxaAccount > vbox > label,
+#weavePrefsDeck > #hasFxaAccount > hbox:not(#tosPP-normal):not(#tosPP-small) > label { /** CHECK! -johnGraciliano ***/
+  /* no margin-start for elements at the begin of a line */
+  -moz-margin-start: 0;
+  margin-inline-start: 0;
+}
+
+.indent {
+  -moz-margin-start: 32px;   /* This was 33px!? --johnGraciliano */
+  margin-inline-start: 32px; /* This was 33px!? --johnGraciliano */
+}
+
+
+/************************************************************/
 
 #trackingProtectionImage {
   width: 16px;
@@ -602,10 +1003,18 @@ radiogroup#certSelection { /* Element type radiogroup is to exclude groupbox#cer
   }
 }
 
+/***  I AM TEMPORARILY REMOVING THIS.  I THINK IT IS WRONG --johnGraciliano ********
 .text-link {
   margin-bottom: 0;
 }
+ ***********************************************************************************/
 
+checkbox + .text-link {
+  margin-bottom: 1px;
+}
+
+
+ 
 /*** This is no longer needed:
 #showUpdateHistory {
   -moz-margin-start: 0;
@@ -731,7 +1140,13 @@ radiogroup#certSelection { /* Element type radiogroup is to exclude groupbox#cer
  * Sync
  */
 
-#fxaProfileImage {
+
+#fxaSyncEngines > vbox {
+  -moz-box-align: start;
+}
+
+#fxaProfileImage,
+.fxaProfileImage {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -740,16 +1155,25 @@ radiogroup#certSelection { /* Element type radiogroup is to exclude groupbox#cer
   margin-inline-end: 15px;
 }
 
-#fxaProfileImage.actionable {
+#fxaProfileImage.actionable,
+.fxaProfileImage.actionable {
   cursor: pointer;
 }
 
-#fxaProfileImage.actionable:hover {
+#fxaProfileImage.actionable:hover,
+.fxaProfileImage.actionable:hover {
   box-shadow: 0px 0px 0px 1px #0095DD;
 }
 
-#fxaProfileImage.actionable:hover:active {
+#fxaProfileImage.actionable:hover:active,
+.fxaProfileImage.actionable:hover:active {
   box-shadow: 0px 0px 0px 1px #ff9500;
+}
+
+#noFxaAccount .fxaProfileImage {
+  background-image: url(chrome://browser/skin/fxa/logo.png);
+  width: 64px;
+  height: 64px;
 }
 
 #noFxaAccount {
@@ -908,6 +1332,29 @@ radiogroup#certSelection { /* Element type radiogroup is to exclude groupbox#cer
   list-style-image: url(chrome://browser/skin/fxa/sync-illustration.svg)
 }
 
+#fxaContentWrapper[flex="1"]:only-child {
+  padding-inline-end: 246px;
+  background-image: url(chrome://browser/skin/fxa/sync-illustration.svg);
+  background-size: 231px auto;
+  background-repeat: no-repeat;
+  background-position: right 12px;
+}
+#fxaContentWrapper[flex="1"]:only-child:-moz-locale-dir(rtl) {
+  background-position: left 12px;
+}
+
+groupbox#noFxaAccount hbox:not([id]) > vbox[flex="1"] + vbox {
+  height: 2em;
+  max-height: 2em;
+  min-height: 2em;
+  width: 246px;
+  -moz-box-align: end;
+  overflow: visible;
+}
+groupbox#noFxaAccount hbox:not([id]) > vbox[flex="1"] + vbox  > .fxaSyncIllustration {
+  margin-top: 12px;
+}
+
 #syncOptions caption {
   margin-bottom: 11px;
 }
@@ -925,11 +1372,46 @@ spacer.separator + groupbox #fxaDeviceName{ /* Only for Firefox 42+ */
   border-bottom: 1px solid var(--in-content-header-border-color);
 }
 
+groupbox#noFxaAccount #fxaNoLoginStatus,
+:-moz-any(#fxaLoginVerified,
+#fxaLoginUnverified,
+#fxaLoginRejected):not([class]),
 .fxaAccountBox {
   border: 1px solid #D1D2D3;
   border-radius: 5px;
-  padding: 14px 20px 14px 14px;
+  padding: 14px;
+  -moz-padding-end: 20px;
+  padding-inline-end: 20px;
 }
+
+/******************************************
+:-moz-any(#fxaLoginVerified,
+#fxaLoginUnverified,
+#fxaLoginRejected):not([class]) {
+  padding: 14px;
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #D1D2D3;
+}
+ ******************************************/
+
+groupbox#noFxaAccount #fxaNoLoginStatus {
+  /* padding: 14px; */
+  margin: 20px 0 60px;
+  margin-inline-end: 246px;
+  /***
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #D1D2D3;
+   ***/
+}
+
+groupbox#noFxaAccount #fxaNoLoginStatus #noFxaSignIn {
+  margin-inline-start: 1em;
+}
+
 
 #signedOutAccountBoxTitle {
   font-weight: bold;
@@ -975,10 +1457,17 @@ spacer.separator + groupbox #fxaDeviceName{ /* Only for Firefox 42+ */
   margin-bottom: 14px;
 }
 
-#fxaLoginRejectedWarning {
+#fxaLoginStatus > hbox > vbox:nth-child(+2)[flex="1"][pack="center"] > hbox {
+  -moz-box-align: start;
+}
+
+#fxaLoginRejectedWarning,
+.fxaLoginRejectedWarning {
   list-style-image: url(chrome://browser/skin/warning.svg);
   filter: drop-shadow(0 1px 0 hsla(206, 50%, 10%, .15));
-  margin: 4px 8px 0px 0px;
+  margin: 4px 0 0;
+  -moz-margin-end: 8px;
+  margin-inline-end: 8px;
 }
 
 #syncOptions {
@@ -1025,6 +1514,9 @@ spacer.separator + groupbox #fxaDeviceName{ /* Only for Firefox 42+ */
 @media (min-resolution: 1.1dppx) {
   .fxaFirefoxLogo {
     list-style-image: url(chrome://browser/skin/fxa/logo@2x.png);
+  }
+  #noFxaAccount .fxaProfileImage {
+    background-image: url(chrome://browser/skin/fxa/logo@2x.png);
   }
   .androidLogo {
     list-style-image: url(chrome://browser/skin/fxa/android@2x.png);

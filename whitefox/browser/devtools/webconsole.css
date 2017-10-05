@@ -183,7 +183,8 @@ a.message-location { /* Firefox <= 49 */
   display: flex;
 }
 
-.message-body > * {
+/*  .message-body > *    ** This Selector was replaced by the one following. */
+.message-body {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -557,6 +558,15 @@ a.message-location { /* Firefox <= 49 */
 }
 
 /* JSTerm Styles */
+
+html #jsterm-wrapper,
+html .jsterm-stack-node,
+html .jsterm-input-node-html,
+html #webconsole-notificationbox {
+  flex: 0;
+  width: 100vw;
+}
+
 .jsterm-input-container {
   background-color: var(--theme-tab-toolbar-background);
   border-top: 1px solid var(--theme-splitter-color);
@@ -747,10 +757,11 @@ a.message-location { /* Firefox <= 49 */
 }
 
 /*Do not mirror the twisty because container force to ltr */
-.message .theme-twisty:dir(rtl) {
+.message .theme-twisty:-moz-dir(rtl),
+.message .theme-twisty:-moz-locale-dir(rtl) {
   transform: none;
 }
-.message .theme-twisty:-moz-dir(rtl),
+.message .theme-twisty:dir(rtl),
 .message .theme-twisty:-moz-locale-dir(rtl) {
   transform: none;
 }
@@ -970,18 +981,68 @@ a.learn-more-link.webconsole-learn-more-link {
   display: flex;
 }
 
+
+
+
+/*****************************************************************************************************/
+.theme-firebug .devtools-toolbar.webconsole-filterbar-secondary {
+  height: initial;
+}
+/*****************************************************************************************************/
+
+
+
+
 .webconsole-filterbar-primary .devtools-plaininput {
   flex: 1 1 100%;
 }
 
+.webconsole-filterbar-secondary > .devtools-separator {
+  opacity: 0;
+  /* border-inline-width: 0; ????   ****/
+  margin-inline-start: 0;
+}
+
 .theme-firebug .webconsole-filterbar-secondary > .devtools-separator {
-  margin-top: -2px;
+  opacity: 1;
+  margin-inline-start: 2px;
+  margin-inline-end: 3px;
+  /*** border-inline-start-width: 1px; ***/
+  margin-top: -2px; /* This is to undo padding. */
   margin-bottom: -2px;
+}
+
+.webconsole-output-wrapper .message-flex-body > .message-body {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.webconsole-output-wrapper .message-body > * {
+  flex-shrink: 0;
 }
 
 .webconsole-output.hideTimestamps > .message > .timestamp {
   display: none;
 }
+
+
+
+/*****************************************************************************************************/
+.message.startGroup .message-body > .objectBox-string,
+.message.startGroupCollapsed .message-body > .objectBox-string {
+  color: var(--theme-body-color);
+  font-weight: bold;
+}
+
+.webconsole-output-wrapper .message > .icon {
+  margin: 3px 0 0 0;
+  padding: 0 0 0 6px;
+}
+/*****************************************************************************************************/
+
+
+
 
 .message.error > .icon::before {
   background-position: -12px -36px;
@@ -998,6 +1059,51 @@ a.learn-more-link.webconsole-learn-more-link {
 .message.network .method {
   margin-inline-end: 5px;
 }
+
+
+
+
+/*****************************************************************************************************/
+/********   ADDITIONAL CODE                       ****************************************************/
+/*****************************************************************************************************/
+.network .message-flex-body > .message-body {
+  display: flex;
+}
+
+.webconsole-output-wrapper .message .indent {
+  display: inline-block;
+  border-inline-end: solid 1px var(--theme-splitter-color);
+}
+.webconsole-output-wrapper .message .indent[data-indent="0"] {
+  border-inline-end: none;
+}
+
+.message.startGroup .indent,
+.message.startGroupCollapsed .indent {
+  border-inline-end-color: transparent;
+  margin-inline-end: 5px;
+}
+
+.message.startGroup .icon,
+.message.startGroupCollapsed .icon {
+  display: none;
+}
+
+/*
+ * Open DOMNode in inspector button. Style need to be reset in the new
+ * console since its style is already defined in reps.css .
+ */
+.webconsole-output-wrapper .open-inspector {
+  background: unset;
+  padding-left: unset;
+  margin-left: unset;
+  cursor: unset;
+}
+/*****************************************************************************************************/
+
+
+
+
 
 /* console.table() */
 .new-consoletable {
@@ -1073,3 +1179,54 @@ a.learn-more-link.webconsole-learn-more-link {
   background-color: rgba(24, 29, 32, 1);
   color: rgba(184, 200, 217, 1);
 }
+
+
+
+
+
+
+
+
+
+/***************************************************************************************/
+/* Layout */
+
+.webconsole-output {
+  flex: 1;
+  direction: ltr;
+  overflow: auto;
+  -moz-user-select: text;
+  position: relative;
+}
+
+html,
+body,
+#app-wrapper {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+#app-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body #output-container {
+  flex: 1;
+  overflow: hidden;
+}
+
+.webconsole-output-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Object Inspector */
+/***************************************************************************************/

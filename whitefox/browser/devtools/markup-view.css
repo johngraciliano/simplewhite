@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* --markup-outline is not used here (it's from the default/classic) */
+/* for that reason, the following rules may be removed ***************
 :root {
   --markup-outline: var(--theme-splitter-color);
 }
@@ -9,6 +11,7 @@
 .theme-dark:root {
   --markup-outline: var(--theme-highlight-pink);
 }
+ *********************************************************************/
 
 * {
   padding: 0;
@@ -181,6 +184,12 @@ ul.children + .tag-line::before {
   z-index: 0;
 }
 
+/* In Firefox 57 the class ".theme-bg-darker" is absent, the following rule replaces the rule for that class defined in other light/dark-theme.css */
+.tag-line .tag-hover:not(.theme-selected) {
+  background: var(--theme-selection-background-semitransparent); /* In the default this is var(--theme-selection-background-hover) --jG*/
+  z-index: -1;
+}
+
 .expander {
   display: inline-block;
   margin-left: -14px;
@@ -268,6 +277,12 @@ ul.children + .tag-line::before {
   z-index: 1;
 }
 
+/**** New style in Late Firefox 57 ***************/
+.editor.comment:not(.doctype) {
+  color: var(--theme-comment); /* The value used in the default theme is  var(--theme-highlight-green), but this matches .theme-comment used before. --jG */
+}
+/**** NOT READY TO BE ADOPTED ********************/
+
 .editor.text {
   display: inline-block;
 }
@@ -276,6 +291,66 @@ ul.children + .tag-line::before {
 .editor.comment pre {
   font: inherit;
 }
+
+/**** New style in Late Firefox 57 **************
+.theme-dark .editor.text pre {
+  color: var(--theme-content-color1);
+}
+ *** NOT READY TO BE ADOPTED ********************/
+
+/* Whitespace only text nodes are sometimes shown in the markup-view, and when they do
+   they get a greyed-out whitespace symbol so users know what they are */
+.editor.text .whitespace {
+  padding: 0 .5em;
+}
+
+.editor.text .whitespace::before {
+  /* black circle (full) character */
+/***
+  content: "\25cf";
+  display: inline-block;
+  width: 12px;
+  height: 8px;
+  margin: 0 2px;
+  line-height: 7px;
+  font-size: 0.6em;
+  color: var(--theme-body-color-inactive);
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  text-align: center;
+  vertical-align: middle;
+ ***/
+
+  content: ".";
+  display: inline-block;
+  margin: 0 4px;
+  vertical-align: middle;
+  box-sizing: content-box;
+  font-size: 1.25em;
+  height: 0.7em;
+  line-height: 0.2em;
+  width: 0.8em;
+  color: var(--theme-body-color);
+  text-shadow: 1px 1px 2px  var(--theme-body-color-inactive), -1px -1px 2px  var(--theme-body-color-inactive), 1px -1px 2px  var(--theme-body-color-inactive), -1px 1px 2px  var(--theme-body-color-inactive);
+}
+.tag-line[selected] .editor.text .whitespace::before {
+/***
+  color: white;
+ ***/
+
+  text-shadow: none;
+  color:  var(--theme-selection-color);
+
+}
+
+
+
+
+
+
+
+
 
 .more-nodes {
   padding-left: 16px;
@@ -322,7 +397,7 @@ ul.children + .tag-line::before {
 /* Selected nodes in the tree should have light selected text.
    theme-selected doesn't work in this case since the text is a
    sibling of the class, not a child. */
-.theme-selected ~ .editor,
+.theme-selected ~ .editor[class], /* "[class]" is added to raise the precedence to include comment lines --jG. */
 .theme-selected ~ .editor .theme-fg-color1,
 .theme-selected ~ .editor .theme-fg-color2,
 .theme-selected ~ .editor .theme-fg-color3,
@@ -339,6 +414,7 @@ ul.children + .tag-line::before {
 }
 
 /* Make sure even text nodes are white when selected in the Inspector panel. */
+.theme-firebug .theme-selected ~ .doctype, /* This additional selector overrides the next rule when applicable. --johnGraciliano */
 .theme-firebug .theme-selected ~ .editor .open,
 .theme-firebug .theme-selected ~ .editor .close {
   color: var(--theme-selection-color);

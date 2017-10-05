@@ -184,6 +184,7 @@ div#sidebar-panel-fontinspector {  /* Firefox >= 50 */
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 5px;
+  direction: ltr;
 }
 
 .theme-light .font-css-code,

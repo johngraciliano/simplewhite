@@ -53,7 +53,8 @@
   --identity-icon-color: #7a2f7a;
 }
 
-@supports (not (text-justify: auto)) { /* Before Firefox 55 */
+/************************************************************************************
+@supports (not (text-justify: auto)) { /* Before Firefox 55 *./
   [data-identity-icon="fingerprint"] {
     --identity-icon: url("chrome://browser/content/usercontext.svg#fingerprint");
   }
@@ -75,7 +76,7 @@
   }
 }
 
-@supports (text-justify: auto) { /* Firefox 55 and later */
+@supports (text-justify: auto) { /* Firefox 55 and later *./
   [data-identity-icon="fingerprint"] {
     --identity-icon: url("chrome://browser/content/usercontext-fingerprint.svg");
   }
@@ -96,6 +97,72 @@
     --identity-icon: url("chrome://browser/content/usercontext-circle.svg");
   }
 }
+ ************************************************************************************/
+
+
+
+
+
+
+
+  [data-identity-icon="fingerprint"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#fingerprint");
+  }
+
+  [data-identity-icon="briefcase"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#briefcase");
+  }
+
+  [data-identity-icon="dollar"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#dollar");
+  }
+
+  [data-identity-icon="cart"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#cart");
+  }
+
+  [data-identity-icon="circle"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#circle");
+  }
+
+  [data-identity-icon="vacation"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#vacation");
+  }
+
+  [data-identity-icon="gift"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#gift");
+  }
+
+  [data-identity-icon="food"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#food");
+  }
+
+  [data-identity-icon="fruit"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#fruit");
+  }
+
+  [data-identity-icon="pet"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#pet");
+  }
+
+  [data-identity-icon="tree"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#tree");
+  }
+
+  [data-identity-icon="chill"] {
+    --identity-icon: url("chrome://browser/skin/usercontext.svg#chill");
+  }
+
+
+
+
+
+
+
+
+
+
+
 
 #userContext-indicator {
   height: 16px;

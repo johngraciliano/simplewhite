@@ -48,9 +48,10 @@ override  chrome://devtools/skin/app-manager/images/rocket.svg            chrome
 ## For Firefox 46.0a1 (for changes found by 2015.01.14)
 override  chrome://devtools/skin/computed.css     chrome://devtools/skin/computedview.css
 override  chrome://devtools/skin/fonts.css        chrome://devtools/skin/font-inspector.css
-override  chrome://devtools/skin/layout.css       chrome://devtools/skin/layoutview.css
+override  chrome://devtools/skin/layout.css       chrome://devtools/skin/layoutview.css           appversion<52.0
 override  chrome://devtools/skin/markup.css       chrome://devtools/skin/markup-view.css
 override  chrome://devtools/skin/rules.css        chrome://devtools/skin/ruleview.css
+## Note: layout.css is different for newer Firefox. The file equivalent to layoutview.css is boxmodel.css
 
 ## For Firefox 47.0a1
 override  chrome://devtools/skin/floating-scrollbars-responsive-design.css        chrome://devtools/skin/floating-scrollbars.css
@@ -66,3 +67,5 @@ override  chrome://browser/skin/preferences/in-content-new/search.css        chr
 override  chrome://browser/skin/preferences/in-content-new/favicon.ico       chrome://browser/skin/preferences/in-content/favicon.ico       appversion>=56.0a1
 
 override  chrome://browser/skin/sidebar/close.svg       chrome://browser/skin/devtools/images/close.svg       appversion>=56.0a1
+
+override  chrome://devtools/skin/tooltips.css           chrome://devtools/skin/tooltipsContainer.css              appversion>=56.0a1

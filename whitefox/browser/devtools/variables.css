@@ -190,4 +190,7 @@
   --theme-focus-box-shadow-textbox: 0 0 0 1px var(--theme-textbox-box-shadow);
   --theme-focus-box-shadow-inset-bottom: 0 -2px 1px var(--theme-textbox-box-shadow) inset,
     0px -2px var(--theme-highlight-blue) inset;
+
+  /* Madness in Firefox 57 makes this alias needed (for now) */
+  --theme-selection-background-hover: var(--theme-selection-background-semitransparent);
 }

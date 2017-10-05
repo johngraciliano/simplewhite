@@ -239,6 +239,10 @@ body {
   background-color: var(--theme-toolbar-background);
   border-color: hsla(210,8%,5%,.6);
 }
+/* For the Scratchpad Tool: */
+[id]#sp-toolbar {
+  border-bottom-color: hsla(210,8%,5%,.6);
+}
 
 .theme-fg-contrast { /* To be used for text on theme-bg-contrast */
   color: black;
@@ -247,8 +251,10 @@ body {
 .ruleview-colorswatch,
 .ruleview-bezierswatch,
 .ruleview-swatch,
+.computed-colorswatch,
 .computedview-colorswatch {
-  box-shadow: 0 0 0 1px #818181;
+  box-shadow: 0 0 1px #818181, 0 0 0 1px #818181, 0 0 0 1px #818181; /* This was simply  "0 0 0 1px #818181", but this is clearer --johnGraciliano */
+  /* This shadow may be replaced by a border in the future*/
 }
 
 /* CodeMirror specific styles.
@@ -511,6 +517,9 @@ div.CodeMirror span.eval-text {
 .theme-dark select:-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) {
   background-position: 4px calc(50% - 1px);
 }
+.theme-dark select:-moz-any(:dir(rtl),:-moz-locale-dir(rtl)) {
+  background-position: 4px calc(50% - 1px);
+}
 
 .theme-dark menulist > dropmarker {
   display: none;
@@ -723,6 +732,11 @@ div.CodeMirror span.eval-text {
   left: unset;
   right: -16px;
 }
+.theme-dark label > input[type="radio"] + span:dir(rtl)::before,
+.theme-dark label > input[type="checkbox"] + span:dir(rtl)::before {
+  left: unset;
+  right: -16px;
+}
 
 .theme-dark label > input[type="radio"]:checked + span::before {
   content: url(images/selection-dark.svg);
@@ -820,6 +834,10 @@ div.CodeMirror span.eval-text {
   left: unset;
   right: 4px;
 }
+.theme-dark #pseudo-class-panel > label:-moz-any(:dir(rtl),:-moz-locale-dir(rtl))::after {
+  left: unset;
+  right: 4px;
+}
 .theme-dark input#browser-style-checkbox + label#browser-style-checkbox-label::after {  /* In Firefox 52 the input precedes the label */
   left: -13px;
   background-color: #181d20;
@@ -845,7 +863,7 @@ div.CodeMirror span.eval-text {
 /*************************************************************************************************************************/
 
 @supports (display: flow-root) { {} /* Firefox 53+ */
-  /* .theme-dark input[type=checkbox] */
+  .theme-dark input[type=checkbox], /* This selector was a comment */
   .theme-dark input#browser-style-checkbox,
   .theme-dark #pseudo-class-panel > label > input,
   .theme-dark #ruleview-class-panel > .classes > label > input /* Firefox 55 */ {
@@ -857,18 +875,23 @@ div.CodeMirror span.eval-text {
     border-style: solid;
     border-color: #666;
   }
-  /* .theme-dark input[type=checkbox]:checked */
+  .theme-dark input[type=checkbox]:checked, /* This selector was a comment */
   .theme-dark input#browser-style-checkbox:checked,
   .theme-dark #pseudo-class-panel > label > input:checked,
   .theme-dark #ruleview-class-panel > .classes > label > input:checked /* Firefox 55 */ {
     background-image: url(images/checkmark-dark-small.svg);
     background-position: center center;
   }
-  /*.theme-dark label:hover > input[type=checkbox] */
+  .theme-dark input[type=checkbox]:hover, /* This selector was a comment */
+  /*.theme-dark label:hover > input[type=checkbox], /* This selector was a comment */
   .theme-dark input#browser-style-checkbox:hover,
   .theme-dark #pseudo-class-panel > label > input:hover,
   .theme-dark #ruleview-class-panel > .classes > label > input:hover /* Firefox 55 */ {
     border-color: #3896D6;
     background-color: #1a2329;
+  }
+  .theme-dark label > input[type="checkbox"] + span::before {
+    content: none;
+    display: none;
   }
 }

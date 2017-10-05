@@ -542,13 +542,6 @@
 }
 
 .legacy-warning {
-  /*
-  background-color: #FFE900;
-  color: #3E2800;
-  padding: 4px 5px 3px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  */
   font-size: .66667em;
   font-weight: 600;
   margin-bottom: calc(2px + .5em);
@@ -556,13 +549,11 @@
 }
 
 #detail-view .legacy-warning {
-  /* margin-top: 0.78rem; */
-  font-size: 1.4rem;
-  font-weight: 500;
   margin-top: .4rem;
   margin-bottom: 2px;
-  
+  font-size: 1.4rem;
   font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .disabled-postfix, .update-postfix {
@@ -976,6 +967,7 @@ setting {
                                     rgba(135, 135, 135, 0));
 }
 
+.inline-options-browser,
 setting[first-row="true"] {
   margin-top: 2em;
 }

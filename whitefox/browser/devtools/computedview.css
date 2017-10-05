@@ -21,7 +21,7 @@ body {
 #sidebar-panel-computedview {
   box-sizing: border-box;
   margin: 0;
-  display : flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   /* Bug 1243598 - Reduce the container height by the tab height to make room
@@ -49,10 +49,12 @@ div#sidebar-panel-computedview {  /* Firefox >= 50 */
   height: 23px !important; /* To override 28px setting in firebug-theme.css --johnGraciliano */
 }
 
+#computed-container,
 #computedview-container { /* Firefox >= 50 */
   overflow: auto;
   height: calc(100% - 24px);
 }
+.theme-firebug #computed-container,
 .theme-firebug #computedview-container {
   height: calc(100% - 30px);
 }
@@ -62,9 +64,16 @@ div#sidebar-panel-computedview {  /* Firefox >= 50 */
    is focused and therefore can handle shortcuts.
    However, for accessibility reasons, tabindex is set to -1 to avoid having to tab
    through it, and the outline is hidden. */
+#computed-container-focusable,
 #computedview-container-focusable {
   height: 100%;
   outline: none;
+}
+
+#computed-container-focusable > #boxmodel-wrapper {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: var(--theme-splitter-color);
 }
 
 #browser-style-checkbox {
@@ -91,6 +100,7 @@ div#sidebar-panel-computedview {  /* Firefox >= 50 */
 }
 
 /* Make the space between the box and the text usable for pointer events (in Firefox 52) --johnGraciliano */
+#computed-toolbar > input#browser-style-checkbox,
 #computedview-toolbar > input#browser-style-checkbox {
   margin-inline-end: 0;
 }
@@ -98,6 +108,7 @@ div#sidebar-panel-computedview {  /* Firefox >= 50 */
   padding-inline-start: 4px;
 }
 
+#computed-property-container,
 #propertyContainer {
   -moz-user-select: text;
   overflow-y: auto;
@@ -113,11 +124,13 @@ body > #propertyContainer { /* Firefox < 47 */
   background: var(--theme-body-background);
 }
 
+.computed-property-hidden,
 .property-view-hidden,
 .property-content-hidden {
   display: none;
 }
 
+.computed-property-view,
 .property-view {
   padding: 2px 0;
   -moz-padding-start: 17px;
@@ -126,38 +139,46 @@ body > #propertyContainer { /* Firefox < 47 */
 body > #propertyContainer > .property-view { /* Firefox <= 46 */
   clear: both;
 }
+.computed-property-view,
 :not(body) > #propertyContainer > .property-view { /* Firefox >= 47 */
   display: flex;
   flex-wrap: wrap;
 }
 
+.computed-property-name-container,
 .property-name-container {
   box-sizing: border-box;
   width: 202px;
 }
 
+.computed-property-value-container,
 .property-value-container {
   display: flex;
   flex: 1 1 168px;
   overflow: hidden;
 }
 
+.computed-property-name-container > *,
+.computed-property-value-container > *,
 .property-name-container > *,
 .property-value-container > * {
   display: inline-block;
   vertical-align: middle;
 }
 
+/* body > #computed-property-container > .computed-property-view > *, ******************************/
 body > #propertyContainer > .property-view > * {
   display: inline-block;
   vertical-align: middle;
 }
 
+:not(.computed-property-name-container) > .computed-property-name,
 :not(.property-name-container) > .property-name {
   box-sizing: border-box;
   /* -12px is so the expander triangle isn't pushed up above the property */
   width: calc(100% - 12px);
 }
+.computed-property-name,
 .property-name {
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -165,6 +186,7 @@ body > #propertyContainer > .property-view > * {
   outline: 0;
 }
 
+.computed-property-value, .computed-other-property-value,
 .property-value, .other-property-value {
   background-image: url(images/arrow-e.png);
   background-repeat: no-repeat;
@@ -172,15 +194,18 @@ body > #propertyContainer > .property-view > * {
 }
 
 @media (min-resolution: 1.1dppx) {
+  .computed-property-value, .computed-other-property-value,
   .property-value, .other-property-value {
     background-image: url(images/arrow-e@2x.png);
   }
 }
 
+:not(.computed-property-value-container) > .computed-property-value,
 :not(.property-value-container) > .property-value {
   box-sizing: border-box;
   width: 100%;
 }
+.computed-property-value,
 .property-value {
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -191,6 +216,7 @@ body > #propertyContainer > .property-view > * {
   position: relative; /* This is to make .computedview-colorswatch::before visible through semi-transparent colors. --johnGraciliano */
   z-index: 0; /* This is to make .computedview-colorswatch::before visible through semi-transparent colors. --johnGraciliano */
 }
+:-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > .computed-property-value,
 :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > .property-value {
   direction: ltr;
   text-align: right;
@@ -198,6 +224,7 @@ body > #propertyContainer > .property-view > * {
   padding-right: 0;
   background-image: none;  /* url(images/arrow-w@2x.png) */
 }
+:-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > .computed-property-value::after,
 :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > .property-value::after {
   content: "";
   display: inline-block;
@@ -212,11 +239,13 @@ body > #propertyContainer > .property-view > * {
   margin-right: 2px;
 }
 @media (min-resolution: 1.1dppx) {
+  :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > .computed-property-value::after,
   :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > .property-value::after {
     background-image: url(images/arrow-e@2x.png);
   }
 }
 
+.computed-other-property-value,
 .other-property-value {
   background-position: left center;
   -moz-padding-start: 8px; /** padding-left: 8px;  --johnGraciliano **/
@@ -225,13 +254,19 @@ body > #propertyContainer > .property-view > * {
   margin-inline-start: 4px;
   position: relative; /* This is to make .computedview-colorswatch::before visible through semi-transparent colors. --johnGraciliano */
   z-index: 0; /* This is to make .computedview-colorswatch::before visible through semi-transparent colors. --johnGraciliano */
+/**
+  background-color: pink;
+  width: 140px;
+ **/
 }
 
+:-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > * > .computed-other-property-value,
 :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > * > .other-property-value {
   background-image: none;
   -moz-padding-start: 0;
   padding-inline-start: 0;
 }
+:-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > * > .computed-other-property-value::before,
 :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > * > .other-property-value::before {
   content: "";
   display: inline-block;
@@ -244,50 +279,73 @@ body > #propertyContainer > .property-view > * {
   margin-right: 4px;
 }
 @media (min-resolution: 1.1dppx) {
+  :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > * > .computed-other-property-value::before,
   :-moz-any(:-moz-dir(rtl),:-moz-locale-dir(rtl)) > * > .other-property-value::before {
     background-image: url(images/arrow-e@2x.png);
   }
 }
 
 @media (min-width: 400px) {
+  :not(.computed-property-name-container) > .computed-property-name,
   :not(.property-name-container) > .property-name {
     width: 200px;
   }
+  :not(.computed-property-value-container) > .computed-property-value,
   :not(.property-value-container) > .property-value {
-    /* -212px is accounting for the 200px property-name and the 12px triangle */
-    width: calc(100% - 212px);
-    width: calc(100% - 202px); /* 204px = 200 (property-name) + 2px (= 14px [expander width] - 14px [expander negative magin]) */
+    width: calc(100% - 202px); /* 202px = 200 (property-name) + 2px (= 14px [expander width] - 12px [expander negative magin]) */
   }
 }
 
+.computed-property-content,
 .property-content {
   -moz-padding-start: 17px;  /* padding-left: 17px;  --johnGraciliano */
   padding-inline-start: 17px;
 }
 
+.theme-firebug .computed-property-view,
+.theme-firebug .computed-property-content,
 .theme-firebug .property-view,
 .theme-firebug .property-content {
   font-family: var(--proportional-font-family);
 }
 
+.theme-firebug .computed-property-view ~ .computed-property-view,
 .theme-firebug .property-view ~ .property-view { /* Lines before the next property --johnGraciliano */
   border-top:  1px solid rgba(0, 0, 0, 0.0625);
 }
 
+.theme-firebug .computed-property-value,
+.theme-firebug .computed-other-property-value,
 .theme-firebug .property-value,
-.theme-firebug .other-property-value{
+.theme-firebug .other-property-value {
   color: #000;
 }
-.theme-firebug .property-name{
+.theme-firebug .computed-property-name,
+.theme-firebug .property-name {
   font-weight: bold;
   color: #000;
 }
-.theme-firebug span.rule-text{
+.theme-firebug span.rule-text {
   font-weight: normal;
   color: #000;
 }
 
+/* Bug 1360238 - getSelection displays an extra "\n" on multiple sibling block elements.
+   We rely on this behavior to add an extra "\n" between matched selectors (Bug 1222737).
+   Therefore we use <div> elements around matched selectors and need this class
+   to keep them inline. We do that to avoid doing any formatting logic in JS.
+   Once Bug 1360238 will be fixed, we'll probably have to change the behavior
+   and remove this class. */
+.fix-get-selection {
+  display: inline;
+}
+
+.visually-hidden {
+  opacity: 0;
+}
+
 /* From skin */
+.computed-expander,
 .expander {
   visibility: hidden;
   -moz-margin-start: -12px !important;
@@ -297,10 +355,12 @@ body > #propertyContainer > .property-view > * {
 :root:not(.theme-firebug) .expander:not([open]):-moz-locale-dir(rtl) {
   transform: scaleX(-1);
 }
+:root:not(.theme-firebug) .computed-expander:not([open]):dir(rtl),
 :root:not(.theme-firebug) .expander:not([open]):dir(rtl) {
   transform: scaleX(-1);
 }
 
+.computed-expandable,
 .expandable {
   visibility: visible;
 }
@@ -311,15 +371,14 @@ body > #propertyContainer > .property-view > * {
 
 .matchedselectors > p {
   clear: both;
-  margin: 0 2px 0 0;
+  margin: 0;
+  -moz-margin-end: 2px;
+  margin-inline-end: 2px;
   padding: 2px;
   overflow-x: hidden;
   border-style: dotted;
   border-color: rgba(128,128,128,0.4);
   border-width: 1px 1px 0 1px;
-}
-.matchedselectors > p:-moz-locale-dir(rtl) {
-  margin: 0 0 0 2px;
 }
 
 .theme-firebug .matchedselectors > p {
@@ -374,6 +433,7 @@ body > #propertyContainer > .property-view > * {
   border-top-width: 1px;
 }
 
+.computed-link,
 .link {
   padding: 0 3px;
   cursor: pointer;
@@ -383,6 +443,7 @@ body > #propertyContainer > .property-view > * {
 .link:-moz-locale-dir(rtl) {
   float: left;
 }
+.computed-link:dir(rtl),
 .link:dir(rtl) {
   float: left;
 }
@@ -390,11 +451,15 @@ body > #propertyContainer > .property-view > * {
 /* Take away these two :visited rules to get a core dumper     */
 /* See https://bugzilla.mozilla.org/show_bug.cgi?id=575675#c30 */
 
+.computed-link,
+.computed-link:visited,
 .link,
 .link:visited {
   color: #0091ff;
 }
 
+.computed-link,
+.computed-link:visited,
 .link,
 .helplink,
 .link:visited,
@@ -402,10 +467,12 @@ body > #propertyContainer > .property-view > * {
   text-decoration: none;
 }
 
+.computed-link:hover,
 .link:hover {
   text-decoration: underline;
 }
 
+.theme-firebug .rule-link > .computed-link,
 .theme-firebug .rule-link > .link {
   font-family: Lucida Grande, sans-serif;
   font-weight: bold;
@@ -418,6 +485,7 @@ body > #propertyContainer > .property-view > * {
 }
 %*******************************************************/
 
+.computed-colorswatch,
 .computedview-colorswatch {
   box-sizing: border-box;
   border-radius: 50%;
@@ -430,6 +498,7 @@ body > #propertyContainer > .property-view > * {
   position: relative;
 }
 
+.computed-colorswatch::before,
 .computedview-colorswatch::before {
   content: '';
   background-color: transparent;

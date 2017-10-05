@@ -276,19 +276,14 @@ xul|menulist {
   background-color: var(--in-content-page-background);
 }
 
-hbox > button:first-child {
-  -moz-margin-start: 0;
-  margin-inline-start: 0;
-}
-
-html|button:enabled:hover,
+html|button:not(.category):enabled:hover,
 xul|button:not([disabled="true"]):hover,
 xul|colorpicker[type="button"]:not([disabled="true"]):hover,
 xul|menulist:not([disabled="true"]):hover {
   background-color: var(--in-content-box-background-hover);
 }
 
-html|button:enabled:hover:active,
+html|button:not(.category):enabled:hover:active,
 xul|button:not([disabled="true"]):hover:active,
 xul|colorpicker[type="button"]:not([disabled="true"]):hover:active,
 xul|menulist[open="true"]:not([disabled="true"]) {
@@ -538,11 +533,11 @@ html|textarea,
 *|textbox {
   -moz-appearance: none;
   box-sizing: border-box;
-  height: 30px;
+  height: 30px; /* These may only be for xul|textbox */
   color: var(--in-content-text-color);
-  line-height: 20px;
-  padding-right: 10px;
-  padding-left: 10px;
+  line-height: 20px; /* These may only be for xul|textbox */
+  padding-right: 10px;  /* These may only be for xul|textbox */
+  padding-left: 10px;  /* These may only be for xul|textbox */
   border: 1px solid var(--in-content-box-border-color);
   -moz-border-top-colors: none !important;
   -moz-border-right-colors: none !important;
@@ -550,6 +545,12 @@ html|textarea,
   -moz-border-left-colors: none !important;
   border-radius: 2px;
   background-color: var(--in-content-box-background);
+}
+
+xul|textbox {
+  min-height: 30px; /* Possibly, this should be part of the rule above */
+  /* padding-right: 10px; ** These are applied above */
+  /* padding-left: 10px; ** These are applied above */
 }
 
 html|input[type="text"],
@@ -732,6 +733,12 @@ xul|*.radio-label-box {
   overflow: hidden;
   transition: background-color 150ms;
 }
+button.category { /* With tag "button" to override chrome://devtools/content/aboutdebugging/aboutdebugging.css in Firefox 57 */
+  border-width: 1px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 *|*.category:-moz-locale-dir(ltr) {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -974,6 +981,18 @@ xul|treechildren::-moz-tree-cell-text(selected) {
     margin: 2px 4px;
   }
 
+  /* The start margin should get clear at the beginning of a line */
+  hbox > xul|button:first-child {
+    -moz-margin-start: 0;
+    margin-inline-start: 0;
+  }
+  /* Not in this special cases */
+  hbox > vbox > hbox > xul|button:first-child,
+  :-moz-any(row, hbox) > hbox > xul|button:first-child {
+    -moz-margin-start: 4px;
+    margin-inline-start: 4px;
+  }
+
   xul|menulist:not([editable="true"]) > xul|*.menulist-dropmarker {
     margin-top: 1px;
     margin-bottom: 1px;
@@ -1110,6 +1129,18 @@ xul|treechildren::-moz-tree-cell-text(selected) {
     /* use the same margin of other elements for the alignment */
     margin-left: 4px;
     margin-right: 4px;
+  }
+
+  /* The start margin should get clear at the beginning of a line */
+  hbox > xul|button:first-child {
+    -moz-margin-start: 0;
+    margin-inline-start: 0;
+  }
+  /* Not in this special cases */
+  hbox > vbox > hbox > xul|button:first-child,
+  :-moz-any(row, hbox) > hbox > xul|button:first-child {
+    -moz-margin-start: 4px;
+    margin-inline-start: 4px;
   }
 
   xul|caption {

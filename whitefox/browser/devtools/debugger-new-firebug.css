@@ -159,6 +159,8 @@ div.source-footer {
   padding-inline-start: 1px;
 }
 
+input.breakpoint-checkbox,
+input.breakpoints-toggle,
 button,
 .accordion .header-buttons button[class],
 .source-footer > .commands > button.action,
@@ -175,6 +177,8 @@ button,
 }
 
 
+.breakpoint-checkbox:hover,
+.breakpoints-toggle:hover,
 /* button:not(.disabled):hover, */
 .accordion .header-buttons button[class]:not(.disabled):hover,
 .source-footer > .commands > button:not(.disabled):hover,
@@ -186,6 +190,8 @@ button,
       0 0 2px rgba(0, 0, 0, 0.05);
 }
 
+.breakpoint-checkbox:hover:active,
+.breakpoints-toggle:hover:active,
 /* button:hover:active, */
 .accordion .header-buttons button[class]:not(.disabled):hover:active,
 .source-footer > .commands > button:not(.disabled):hover:active,
@@ -231,7 +237,7 @@ i.arrow.expanded::after{
 }
 
 i.plus > svg {
-  display: none;
+  display: none !important; /* The !important clause was neccessary for Firefox 57 alpha (Nightly) */
 }
 i.plus::after{
   display: inline-block;
@@ -266,12 +272,15 @@ i.togglePanes::after {
 
 
 
+html div.command-bar > button:disabled {
+  opacity: 0.5;
+}
 
 
-i:-moz-any(.pause,.resume,.stepOver,.stepIn,.stepOut,.disableBreakpoints,.toggleBreakpoints,.pause-exceptions,.prettyPrint) > svg {
+i:-moz-any(.pause,.resume,.stepOver,.stepIn,.stepOut,.disableBreakpoints,.toggleBreakpoints,.pause-exceptions,.prettyPrint,.blackBox) > svg {
   display: none;
 }
-i:-moz-any(.pause,.resume,.stepOver,.stepIn,.stepOut,.disableBreakpoints,.toggleBreakpoints,.pause-exceptions,.prettyPrint)::after {
+i:-moz-any(.pause,.resume,.stepOver,.stepIn,.stepOut,.disableBreakpoints,.toggleBreakpoints,.pause-exceptions,.prettyPrint,.blackBox)::after {
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -336,6 +345,56 @@ i.pause-exceptions[title="Pause on uncaught exceptions"]::after {
 
 i.prettyPrint::after {
   background-image: url(images/firebug/debugger-prettyprint.svg);
+}
+
+i.blackBox::after {
+  background-image: url(images/firebug/debugger-blackbox.svg);
+}
+
+.source-tab > i.blackBox,
+.blackboxed > i.blackBox {
+  opacity: .5;
+}
+
+.breakpoint-checkbox,
+.breakpoints-toggle {
+  -moz-appearance: none;
+  box-sizing: content-box;
+  height: 16px;
+  width: 16px;
+}
+.breakpoint-checkbox::after,
+.breakpoints-toggle::after {
+  content: "";
+  display: inline-block;
+  -moz-appearance: none;
+  background-image: url(images/firebug/debugger-toggleBreakpoints.svg);
+  height: 16px;
+  width: 16px;
+}
+
+.breakpoints-toggle:not(:checked)::after {
+  background-image: url(images/firebug/breakOn/breakOnError.svg),
+                    url(images/firebug/breakOn/breakOnError.svg),
+                    url(images/firebug/debugger-toggleBreakpoints.svg#DIM);
+  background-size: 16px, 16px, 14px;
+  background-position: 0 0, 0 0, 0 0;
+  background-repeat: no-repeat;
+}
+.breakpoints-toggle:not(:checked)[title="Disable Breakpoints"]::after {
+  background-image: url(images/firebug/breakOn/breakOnMutate.svg),
+                    url(images/firebug/breakOn/breakOnMutate.svg),
+                    url(images/firebug/debugger-toggleBreakpoints.svg#DIM);
+  background-size: 16px, 16px, 14px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+
+
+
+
+.breakpoint-checkbox:not(:checked)::after {
+  opacity: .5;
 }
 
 .debugger div.CodeMirror {

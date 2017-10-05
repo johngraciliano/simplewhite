@@ -215,3 +215,46 @@ toolbarbutton.bookmark-item > menupopup {
     font-size: 12px;
   }
 }
+
+
+/*************  START FOR FIREFOX 56+  *******************************************************************/
+/* Adapted from chrome://global/skin/panel.css :  */
+
+#customization-panelWrapper > .panel-arrowbox + .panel-arrowcontent {
+  -moz-appearance: none;
+  background: #ffffff;
+  border-radius: 5px;
+  color: #333;
+  border: none;
+  /**
+  padding: 16px;
+  margin: 1px;
+   **/
+
+  /* From chrome://browser/content/browser.css : */
+  padding: 0;
+
+  /* The 1px margin is changed here for a 1px border (!?) --johnGraciliano */
+  margin: 0;
+  border: 1px solid rgba(0,0,0,.2);
+  background-clip: padding-box;
+}
+  
+#customization-panelWrapper > .panel-arrowbox {
+  height: 14px;
+}
+
+#customization-panelWrapper > .panel-arrowbox > .panel-arrow {
+  list-style-image: url("chrome://ostarget/skin/global/arrow/panelarrow-light-vertical.png");
+  margin-inline-end: 6px;
+  margin-bottom: -2px;
+}
+
+@media (min-resolution: 1.2dppx) {
+  #customization-panelWrapper > .panel-arrowbox > .panel-arrow {
+    list-style-image: url("chrome://ostarget/skin/global/arrow/panelarrow-light-vertical@2x.png");
+    width: 39px;
+    height: 16px;
+  }
+}
+/*************   END FOR FIREFOX 56+   *******************************************************************/

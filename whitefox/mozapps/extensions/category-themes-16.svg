@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0"
+     y="0"
+     width="16"
+     height="16"
+     viewBox="0 0 16 16">
+  <style>
+    path {
+      stroke-width: 1.0325;
+      stroke: #000;
+      fill: none;
+    }
+  </style>
+
+	<path d="M 1.5,15.25   l 3.25,-3.25   c .75,-.75 .75,-.75 .25,-1.375   l -3,-5.25   c -.5,-.875 -.5,-.875 0.25,-1.625   l 1.25,-1.25   a 1 1 0 0,1 1.5,.5"/>
+	<path d="M 5.25,3   l 1,-1   a 1.06,1.06 0 0,1 1.5,0   l 7,7   a 1.06,1.06 0 0,1 0,1.5   l -1.75,1.75
+                             a 1.06,1.06 0 0,1 -1.5,0   l -7,-7   a 1.06,1.06 0 0,1 0,-1.5   l .75,-.75   z"/>
+
+</svg>

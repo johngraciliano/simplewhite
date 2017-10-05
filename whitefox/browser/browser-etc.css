@@ -17,6 +17,10 @@ toolbarpaletteitem[place="palette"] > toolbarbutton#tabGroups-tabview-button {
   -moz-image-region: rect(0px, 608px, 32px, 576px);
 }
 
+#widget-overflow-fixed-list #tabGroups-tabview-button > .toolbarbutton-icon {
+	max-width: unset;
+}
+
 /* Chatzilla */
 #tb-chatzilla-open[cui-areatype="menu-panel"],
 toolbarpaletteitem[place="palette"] > #tb-chatzilla-open {
