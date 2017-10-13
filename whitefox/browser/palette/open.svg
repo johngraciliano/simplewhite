@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0" y="0" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    g {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.0325;
+    }
+  </style>
+	<g>
+	  <path d="M 2.5,5.5   v 21   a 3,3 0 0,0 3,3   h 21   a 3,3 0 0,0 3,-3   v -17   
+                 a 3,3 0 0,0 -3,-3   h -11   v -1   a 3,3 0 0,0 -3,-3   h -7   a 3,3 0 0,0 -3,3   Z
+	           M 2.5,14.8   a 4.3,4.3 0 0,1 4.3,-4.3   h 18.4   a 4.3,4.3 0 0,1 4.3,4.3"/>
+	</g>
+</svg>

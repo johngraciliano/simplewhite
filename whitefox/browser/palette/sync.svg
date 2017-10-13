@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0" y="0" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    g {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.0325;
+    }
+  </style>
+	<g>
+	  <path  d="M 19.5,19.5   v 8   h 8"  transform="rotate(20,19.5,27.5)"/>
+	  <path  d="M 5.5,4.5   h 8  v 8"  transform="rotate(20,13.5,4.5)"/>
+	  <path  d="M 13.5,4.5   a 14,12 0 0,0 -1,23
+	            M 20.5,5.5   a 14,12 0 0,1 -1,22"/>
+	</g>
+</svg>

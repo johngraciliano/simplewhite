@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0" y="0" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    g {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.0325;
+    }
+    #highlight:target + g {
+      stroke: #fff;
+    }
+  </style>
+  <g id="highlight"/>
+	<!--g id="n-12-shape-OK">
+	  <circle cx="5" cy="27" r="2.5"/>
+	  <path  d="M 2.5,4.5   a 25,25 0 0,1 25,25   M 2.5,14.5   a 15,15 0 0,1 15,15"/>
+	</g-->
+	<g>
+	  <!--circle cx="5" cy="27" r="2.6"/-->
+	  <circle cx="5" cy="27" r="2.55"/>
+ <!--path  d="M 2.5,4.5   a 25,25 0 0,1 25,25   M 2.5,14.5   a 15,15 0 0,1 15,15"/-->
+ <!--path  d="M 2,4   a 25.5,25.5 0 0,1 25.5,25.5   M 2,14   a 15.5,15.5 0 0,1 15.5,15.5"/-->
+	  <!--path  d="M 2,4.5   a 25.5,25 0 0,1 25.5,25   M 2,14.5   a 15.5,15 0 0,1 15.5,15"/-->
+    <path  d="M 2,4.5 a 25.5,25.5 0 0,1 25.5,25.5   M 2,14.5 a 15.5,15.5 0 0,1 15.5,15.5"/>
+	</g>
+</svg>

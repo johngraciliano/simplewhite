@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0" y="0" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    g {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.0325;
+    }
+    #hihglighttext:target + g {
+      stroke: #fff;
+    }
+    #highlight:target ~ g {
+      stroke: #0082f0;
+    }
+    #highlight:target ~ g > rect {
+      fill: #bcf5ff;
+    }
+  </style>
+  <g id="highlight"/>
+  <g id="highlighttext"/>
+	<g>
+	  <rect x="3.5" y="21.5" width="24" height="8"  rx="3" ry="3"/>
+	  <path d="M 19,25.5 h4"/>
+	  <path d="M 15.5,2 v16   M 8,11   l 7.5,7.5   l 7.5,-7.5"/>
+	</g>
+</svg>

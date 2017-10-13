@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0" y="0" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    g {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.0325;
+    }
+  </style>
+	<g>
+	  <path d="M 1.5,27.5   h 28   v -19.7   a 4.3,4.3 0 0,0 -4.3,-4.3   h -19.4   a 4.3,4.3 0 0,0 -4.3,4.3   v 19.7   Z
+	           M 15.5,9   v 13   M 9,15.5   h 13"/>
+	</g>
+</svg>

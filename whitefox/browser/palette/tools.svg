@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0" y="0" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    g {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.0325;
+    }
+    #highlight:target + g {
+      stroke: #fff;
+    }
+  </style>
+  <g id="highlight"/>
+	<g>
+	  <path d="M 18.686, 18.814   a 7.75,7.75 0 0,0 9.588,-10.588   l -4.274,4.274   h -3.5   v -3.75   l 4.193,-4.193
+               a 7.75,7.75 0 0,0 -10.619,9.869   l -9.524,9.524   a 3.182,3.182 0 0,0 4.5,4.5   l 9.636,-9.636   Z"/>
+	</g>
+</svg>

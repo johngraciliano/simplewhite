@@ -84,7 +84,7 @@
 
 
 /*** notification icons ***/
-
+/***
 .warning-icon {
   list-style-image: url("chrome://mozapps/skin/extensions/alerticon-warning.png");
   width: 16px;
@@ -114,7 +114,31 @@
   height: 15px;
   margin: 3px 0;
 }
+ ***/
 
+.warning-icon,
+.error-icon,
+.pending-icon {
+  list-style-image: url("chrome://browser/skin/warningStencil.svg");
+  width: 16px;
+  height: 16px;
+  margin: 0px -3px 0px 3px;
+  /***
+  -moz-context-properties: fill, stroke;
+  fill: currentColor;
+  stroke: none;
+  filter: drop-shadow(0 1px 0 hsla(206, 50%, 10%, .15));
+   ***/
+  filter: url(chrome://global/skin/filters.svg#fill) drop-shadow(0 1px 0 hsla(206, 50%, 10%, .15));
+  fill: currentColor;
+  opacity: .8;
+}
+
+.addon-view[pending="enable"] .pending-icon {
+  list-style-image: url("chrome://global/skin/in-content/check.svg#check");
+  -moz-image-region: rect(2px,18px,18px,2px);
+  opacity: 1;
+}
 
 /*** view alert boxes ***/
 
@@ -171,6 +195,12 @@
 #nav-header + #categories{ /* Only for Firefox 40+ with a different value -johngraciliano */
   /* margin-top: 54px; /*Edited by SW1FT (from 31px to 54px)*/
   margin-top: 74px;
+}
+
+@supports (scroll-snap-type:none) and (not (-moz-text-decoration-style:inherit)) { /* Firefox 40 and later */
+  #categories { /* Only for Firefox 40+ with a different value -johngraciliano */
+    margin-top: 74px;
+  }
 }
 
 .category {

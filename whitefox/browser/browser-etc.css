@@ -5,11 +5,11 @@
 
 /* Tab Groups */
 toolbarbutton#tabGroups-tabview-button {
-  list-style-image: url("chrome://browser/skin/Toolbar.png");
-  -moz-image-region: rect(0, 648px, 18px, 630px);
+  list-style-image: url("chrome://browser/skin/toolbar/tabView.svg");
+  -moz-image-region: initial;
 }
 toolbar[brighttext] toolbarbutton#tabGroups-tabview-button {
-  list-style-image: url("chrome://browser/skin/Toolbar-inverted.png");
+  list-style-image: url("chrome://browser/skin/toolbar/tabView.svg#brighttext");
 }
 toolbarbutton#tabGroups-tabview-button[cui-areatype="menu-panel"],
 toolbarpaletteitem[place="palette"] > toolbarbutton#tabGroups-tabview-button {

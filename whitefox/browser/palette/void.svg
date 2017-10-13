@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0" y="0" width="32" height="32" viewBox="0 0 32 32">
+  <style>
+    g {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.0325;
+    }
+  </style>
+	<g>
+	  <rect x="7.5" y="7.5" width="17" height="17"/>
+	  <line x1="7.5" y1="7.5" x2="24.5" y2="24.5"/>
+	  <line x1="7.5" y1="24.5" x2="24.5" y2="7.5"/>
+	</g>
+</svg>
